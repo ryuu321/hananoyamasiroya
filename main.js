@@ -25,10 +25,10 @@ const COLORS = [
 ];
 
 let cart = [];
-let currentPurpose = null;
+let currentPurpose = 'offering'; // Default to offering for initial view
 let currentProduct = null;
 let currentColor = null;
-let currentStep = 1;
+let currentStep = 2; // Default to step 2 (Products) when entering shop
 
 // --- STEP NAVIGATION ---
 function updateStepper() {
@@ -51,12 +51,35 @@ function updateStepper() {
 function showScreen(screenId) {
     document.getElementById('landing-screen').classList.add('hidden');
     document.getElementById('order-screen').classList.remove('hidden');
+    
+    // Auto show Step 2 (Products)
+    document.getElementById('step-1-area').classList.remove('hidden-content');
+    document.getElementById('step-2-area').classList.remove('hidden-content');
+    currentStep = 2;
     updateStepper();
+    renderProducts();
 }
 
 function renderProducts() {
     const container = document.getElementById('product-list');
     container.innerHTML = '';
+    
+    // Add Purpose Toggle at top of list
+    const filterDiv = document.createElement('div');
+    filterDiv.className = "flex justify-center gap-4 mb-12";
+    filterDiv.innerHTML = `
+        <button class="filter-btn px-8 py-3 rounded-full font-bold transition-all ${currentPurpose === 'offering' ? 'bg-primary text-white shadow-lg' : 'bg-surface-container-high'}" data-p="offering">お供え・お悔やみ</button>
+        <button class="filter-btn px-8 py-3 rounded-full font-bold transition-all ${currentPurpose === 'celebration' ? 'bg-primary text-white shadow-lg' : 'bg-surface-container-high'}" data-p="celebration">お祝い・ギフト</button>
+    `;
+    container.appendChild(filterDiv);
+    
+    filterDiv.querySelectorAll('.filter-btn').forEach(btn => {
+        btn.onclick = () => {
+            currentPurpose = btn.dataset.p;
+            renderProducts();
+        };
+    });
+
     PRODUCTS.forEach(cat => {
         const div = document.createElement('div');
         div.innerHTML = `
@@ -105,14 +128,11 @@ function renderColors() {
 function selectProduct(item) {
     currentProduct = item;
     renderProducts();
-    // Step Indirection: Induction to Color
     document.getElementById('step-3-area').classList.remove('hidden-content');
     currentStep = 3;
     updateStepper();
     renderColors();
     document.getElementById('context-selection').innerText = `選んだお花: ${item.name}`;
-    
-    // Auto induction (Smooth scroll)
     const target = document.getElementById('step-3-area');
     window.scrollTo({ top: target.offsetTop - 120, behavior: 'smooth' });
 }
@@ -139,7 +159,7 @@ function addToCart() {
         });
     }
     updateCartUI();
-    toggleCart(true); // show cart
+    toggleCart(true); 
 }
 
 function updateCartUI() {
@@ -197,18 +217,6 @@ document.getElementById('start-shopping').onclick = () => {
     showScreen('order');
 };
 
-document.querySelectorAll('.purpose-card').forEach(card => {
-    card.onclick = () => {
-        currentPurpose = card.dataset.purpose;
-        document.getElementById('step-2-area').classList.remove('hidden-content');
-        currentStep = 2;
-        updateStepper();
-        renderProducts();
-        // Smooth induction to Products
-        window.scrollTo({ top: document.getElementById('step-2-area').offsetTop - 120, behavior: 'smooth' });
-    };
-});
-
 document.getElementById('add-to-cart-btn').onclick = addToCart;
 document.getElementById('cart-icon-btn').onclick = () => toggleCart(true);
 document.getElementById('close-cart').onclick = () => toggleCart(false);
@@ -221,8 +229,9 @@ document.getElementById('go-to-step-4').onclick = () => {
     window.scrollTo({ top: document.getElementById('step-4-area').offsetTop - 120, behavior: 'smooth' });
 };
 
-document.getElementById('logo-link').onclick = () => {
-    location.reload(); // Simplest reset for session
+document.getElementById('logo-link').onclick = (e) => {
+    e.preventDefault();
+    location.reload(); 
 };
 
 // --- INITIALIZE ---

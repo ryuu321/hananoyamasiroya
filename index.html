@@ -52,7 +52,7 @@
 </head>
 <body class="bg-surface text-on-surface font-body selection:bg-primary-container selection:text-on-primary">
 
-<!-- Intro/Transitions (Omitted same structure but assumed present in logic) -->
+<!-- Intro Overlay -->
 <div id="intro-overlay" class="fixed inset-0 z-[100] flex items-center justify-center bg-white pointer-events-none transition-opacity duration-1000 opacity-0 hidden overflow-hidden">
     <div class="relative w-full h-full flex items-center justify-center">
       <div id="intro-image-container" class="absolute inset-0 flex items-center justify-center scale-90 opacity-0 transition-all duration-[3000ms] ease-out">
@@ -69,9 +69,9 @@
   <div class="flex justify-between items-center px-8 py-6 max-w-screen-2xl mx-auto">
     <a href="#" class="text-3xl font-bold text-[#7d2d00] italic font-headline hover:scale-105 transition-transform" id="logo-link">Yamashiroya</a>
     <nav class="hidden md:flex items-center space-x-12">
-      <a class="nav-link font-medium tracking-wide text-primary border-b-2 border-primary pb-1" href="#" data-screen="landing">Home</a>
+      <a class="nav-link font-medium tracking-wide opacity-60 hover:opacity-100 transition-opacity" href="#" data-screen="landing" id="nav-home">Home</a>
+      <a class="nav-link font-medium tracking-wide text-primary border-b-2 border-primary pb-1" href="#" id="nav-shop">Shop</a>
       <a class="nav-link font-medium tracking-wide opacity-60 hover:opacity-100 transition-opacity" href="#">History</a>
-      <a class="nav-link font-medium tracking-wide opacity-60 hover:opacity-100 transition-opacity" href="#">Contact</a>
     </nav>
     <div class="flex items-center">
       <button id="cart-icon-btn" class="p-2 text-primary relative group">
@@ -88,84 +88,61 @@
     <section class="relative h-[921px] w-full flex items-center justify-center overflow-hidden">
       <div class="absolute inset-0 bg-hero-pattern"></div>
       <div class="relative z-10 text-center px-6 max-w-4xl">
-        <h1 class="font-headline text-4xl md:text-6xl font-bold text-white mb-12 transform transition-all duration-1000">
+        <h1 class="font-headline text-4xl md:text-6xl font-bold text-white mb-12">
           小樽の思い出に、<br/>色鮮やかなお花を。
         </h1>
-        <button id="start-shopping" class="px-12 py-5 bg-gradient-to-br from-[#7d2d00] to-[#a14009] text-white font-headline text-2xl rounded-lg shadow-2xl hover:translate-y-[-4px] active:scale-95 transition-all">
+        <button id="start-shopping" class="px-12 py-5 bg-gradient-to-br from-[#7d2d00] to-[#a14009] text-white font-headline text-2xl rounded-lg shadow-2xl hover:translate-y-[-4px] transition-all">
           商品を選び、購入する
         </button>
       </div>
     </section>
   </div>
 
-  <!-- ORDER/DYNAMIC SCREEN -->
+  <!-- ORDER SCREEN (Step 2, 3, 4) -->
   <div id="order-screen" class="transition-content hidden-content py-16">
     <div class="max-w-screen-xl mx-auto px-6">
       
-      <!-- 4 Stepper Component -->
-      <div class="mb-16 flex justify-between items-center max-w-4xl mx-auto sticky top-24 z-40 bg-surface/80 backdrop-blur-sm py-4 rounded-xl px-6 border border-outline-variant/10 shadow-sm" id="stepper">
-        <div class="flex flex-col items-center gap-2 step-node" data-step="1">
-          <div id="step-c-1" class="w-10 h-10 rounded-full flex items-center justify-center font-bold text-sm transition-all shadow-sm">1</div>
-          <span class="text-[10px] uppercase tracking-tighter opacity-70">Purpose</span>
+      <!-- Stepper Omitted for brevity in Step 1/2 fusion but kept structure -->
+      <div class="mb-16 flex justify-between items-center max-w-4xl mx-auto sticky top-24 z-40 bg-surface/80 backdrop-blur-sm py-4 rounded-xl px-6" id="stepper">
+        <div class="flex flex-col items-center gap-2" data-step="2">
+          <div id="step-c-2" class="w-10 h-10 rounded-full flex items-center justify-center font-bold text-sm bg-primary text-white">2</div>
+          <span class="text-[10px] uppercase font-bold text-primary">Catalog</span>
         </div>
         <div class="flex-grow h-px bg-outline-variant/30 mx-2"></div>
-        <div class="flex flex-col items-center gap-2 step-node" data-step="2">
-          <div id="step-c-2" class="w-10 h-10 rounded-full flex items-center justify-center font-bold text-sm transition-all shadow-sm">2</div>
-          <span class="text-[10px] uppercase tracking-tighter opacity-70">Flower</span>
+        <div class="flex flex-col items-center gap-2" data-step="3">
+          <div id="step-c-3" class="w-10 h-10 rounded-full flex items-center justify-center font-bold text-sm bg-surface-container">3</div>
+          <span class="text-[10px] uppercase opacity-40">Color</span>
         </div>
         <div class="flex-grow h-px bg-outline-variant/30 mx-2"></div>
-        <div class="flex flex-col items-center gap-2 step-node" data-step="3">
-          <div id="step-c-3" class="w-10 h-10 rounded-full flex items-center justify-center font-bold text-sm transition-all shadow-sm">3</div>
-          <span class="text-[10px] uppercase tracking-tighter opacity-70">Color</span>
-        </div>
-        <div class="flex-grow h-px bg-outline-variant/30 mx-2"></div>
-        <div class="flex flex-col items-center gap-2 step-node" data-step="4">
-          <div id="step-c-4" class="w-10 h-10 rounded-full flex items-center justify-center font-bold text-sm transition-all shadow-sm">4</div>
-          <span class="text-[10px] uppercase tracking-tighter opacity-70">Details</span>
+        <div class="flex flex-col items-center gap-2" data-step="4">
+          <div id="step-c-4" class="w-10 h-10 rounded-full flex items-center justify-center font-bold text-sm bg-surface-container">4</div>
+          <span class="text-[10px] uppercase opacity-40">Details</span>
         </div>
       </div>
 
-      <!-- Step 1: Purpose -->
-      <section id="step-1-area" class="step-view mb-24">
-        <div class="text-center mb-12"><h2 class="text-3xl font-headline font-bold text-primary">用途をお選びください</h2></div>
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-3xl mx-auto">
-          <button class="purpose-card p-12 bg-white rounded-3xl shadow-sm hover:shadow-xl transition-all text-center border border-primary/5 active:scale-95" data-purpose="offering">
-            <span class="material-symbols-outlined text-6xl text-primary/40 block mb-4" data-icon="church">church</span>
-            <span class="text-2xl font-bold">お供え・お悔やみ</span>
-          </button>
-          <button class="purpose-card p-12 bg-white rounded-3xl shadow-sm hover:shadow-xl transition-all text-center border border-primary/5 active:scale-95" data-purpose="celebration">
-            <span class="material-symbols-outlined text-6xl text-primary/40 block mb-4" data-icon="card_giftcard">card_giftcard</span>
-            <span class="text-2xl font-bold">お祝い・ギフト</span>
-          </button>
-        </div>
-      </section>
-
-      <!-- Step 2: Flower (Product) -->
-      <section id="step-2-area" class="step-view hidden-content mb-24">
-        <div class="text-center mb-12"><h2 class="text-3xl font-headline font-bold text-primary">お花をお選びください</h2></div>
+      <!-- Combined Content Area (Step 2 and 3) -->
+      <section id="step-1-area" class="hidden"></section> <!-- Unified into Step 2 -->
+      
+      <section id="step-2-area" class="step-view mb-24">
         <div id="product-list" class="space-y-16">
-            <!-- Dynamic products -->
+            <!-- Includes Purpose Toggle + Products -->
         </div>
       </section>
 
-      <!-- Step 3: Tone (Color) -->
       <section id="step-3-area" class="step-view hidden-content mb-32 pt-24 border-t border-primary/5">
         <div class="text-center mb-12">
             <h2 class="text-3xl font-headline font-bold text-primary mb-2">色味をお選びください</h2>
             <p id="context-selection" class="text-on-surface-variant italic"></p>
         </div>
-        <div class="grid grid-cols-2 gap-6 max-w-4xl mx-auto" id="color-grid">
-            <!-- Created in JS -->
-        </div>
+        <div class="grid grid-cols-2 gap-6 max-w-4xl mx-auto" id="color-grid"></div>
         
         <div id="add-to-cart-bar" class="mt-20 flex justify-center opacity-0 transform translate-y-8 transition-all duration-500 pointer-events-none">
-            <button id="add-to-cart-btn" class="px-16 py-6 bg-primary text-white rounded-full font-bold text-xl shadow-2xl hover:scale-105 active:scale-95 transition-all">
+            <button id="add-to-cart-btn" class="px-16 py-6 bg-primary text-white rounded-full font-bold text-xl shadow-2xl hover:scale-105 transition-all">
                 カートに追加する
             </button>
         </div>
       </section>
 
-      <!-- Step 4: Details (Form) -->
       <section id="step-4-area" class="step-view hidden-content max-w-2xl mx-auto py-12">
           <form class="space-y-10 bg-white p-12 rounded-3xl shadow-xl border border-outline-variant/10">
               <h2 class="text-3xl font-headline font-bold text-primary border-b border-primary/10 pb-4">注文情報の入力</h2>
@@ -179,7 +156,7 @@
                   <textarea class="w-full bg-surface-container border-0 rounded-xl p-4 focus:ring-2 focus:ring-primary h-32" placeholder="想いをメッセージに。"></textarea>
                 </div>
               </div>
-              <button type="submit" class="w-full py-5 bg-gradient-to-br from-primary to-primary-container text-white rounded-full font-bold text-xl shadow-xl hover:scale-[1.02] transition-all">
+              <button type="submit" class="w-full py-5 bg-gradient-to-br from-primary to-primary-container text-white rounded-full font-bold text-xl shadow-xl transition-all">
                 この内容で注文を確定する
               </button>
           </form>
@@ -189,52 +166,20 @@
   </div>
 
   <!-- CART OVERLAY -->
-  <div id="cart-screen" class="fixed inset-0 z-[60] bg-surface/95 backdrop-blur-xl translate-x-full transition-transform duration-500 ease-[cubic-bezier(0.23,1,0.32,1)] flex flex-col pt-24 px-8 overflow-y-auto">
-      <button id="close-cart" class="absolute top-8 right-8 text-primary active:scale-90 transition-transform">
-          <span class="material-symbols-outlined text-4xl">close</span>
-      </button>
+  <div id="cart-screen" class="fixed inset-0 z-[60] bg-surface/95 backdrop-blur-xl translate-x-full transition-transform duration-500 flex flex-col pt-24 px-8 overflow-y-auto">
+      <button id="close-cart" class="absolute top-8 right-8 text-primary active:scale-90 transition-transform"><span class="material-symbols-outlined text-4xl">close</span></button>
       <div class="max-w-2xl mx-auto w-full pb-32">
           <h2 class="text-4xl font-headline font-bold text-primary mb-12">カートの中身</h2>
-          <div id="cart-items" class="space-y-12">
-              <!-- Cart Items list -->
-          </div>
-          
-          <div id="empty-cart-msg" class="text-center py-24 hidden">
-              <span class="material-symbols-outlined text-7xl text-primary/10 block mb-6">shopping_bag</span>
-              <p class="text-xl text-on-surface-variant font-medium">カートは空です</p>
-          </div>
-
+          <div id="cart-items" class="space-y-12"></div>
+          <div id="empty-cart-msg" class="text-center py-24 hidden"><p class="text-xl text-on-surface-variant font-medium">カートは空です</p></div>
           <div id="cart-footer" class="mt-20 border-t border-primary/10 pt-12">
-              <div class="flex items-center justify-between mb-12">
-                  <span class="text-lg text-on-surface-variant">合計</span>
-                  <span id="cart-total-price" class="text-4xl font-bold font-label text-primary">¥0</span>
-              </div>
-              <button id="go-to-step-4" class="w-full py-6 bg-primary text-white rounded-full font-bold text-2xl shadow-2xl hover:translate-y-[-4px] active:scale-95 transition-all">
-                  詳細の入力へ進む
-              </button>
+              <div class="flex items-center justify-between mb-12"><span class="text-lg">合計</span><span id="cart-total-price" class="text-4xl font-bold text-primary">¥0</span></div>
+              <button id="go-to-step-4" class="w-full py-6 bg-primary text-white rounded-full font-bold text-2xl shadow-2xl">詳細の入力へ進む</button>
           </div>
       </div>
   </div>
 
 </main>
-
-<footer class="bg-[#f5f4e8] py-20 px-12 mt-auto">
-  <div class="max-w-screen-2xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-12">
-      <div>
-          <div class="text-2xl font-bold text-primary font-headline mb-4">Yamashiroya</div>
-          <p class="opacity-60 text-sm">小樽の歴史と共に歩む花屋。大正創業。</p>
-      </div>
-      <div>
-          <p class="text-xs uppercase tracking-widest mb-4 opacity-40 italic">Otaru, Hokkaido</p>
-          <p class="text-lg font-medium">〒047-0031 小樽市色内 1-2-3</p>
-          <p class="text-lg">Tel: 0134-2X-XXXX</p>
-      </div>
-      <div class="md:text-right">
-          <p class="opacity-40 text-xs mt-12">© Yamashiroya Florist Otaru.</p>
-      </div>
-  </div>
-</footer>
-
 <script type="module" src="./main.js"></script>
 </body>
 </html>
