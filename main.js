@@ -46,126 +46,116 @@ const PRODUCTS = [
         img: 'https://lh3.googleusercontent.com/aida-public/AB6AXuCLIzk4UYU9mRyz4SVL3gzGcHIpR6c3APM3sMFyTz9bd1oNew1RK29VodqvTnKqnbSAoTkuzibK2YfsbcTeJVkkWUbsSvOeRoc78LtxdQce8pWUorhBX1gpLmP3IMidML_BDVUe_I6cZAqA94DkTnmD5q-ZZbSYJcWusZnK5UTSGrfaheBYE7HBoPohJrgwmGYWe76gR2ZaGJdM5J6y8hBundTh1x0WuN7OncihCF8WeKFUEKodKWc8Wf5OJzN3MfIkxzQqMLVYUg'
       }
     ]
-  },
-  {
-      id: 'pets',
-      title: 'ペット用 (For Pets)',
-      items: [
-          {
-              id: 'rainbow-bridge',
-              name: '虹の橋アレンジメント',
-              price: '¥3,850',
-              img: 'https://lh3.googleusercontent.com/aida-public/AB6AXuB-iKgizyG3VHi7uUnVnWxQLhvzchHsqm7WOa4DMSS81ixojlgMNwm2oMzAG3oSpmIqxiUt8cKqgV_ynmf30ThOf4u4hbJI72gDV8pLxCQLHfij18XIPou8LySaKsjNHAcMIurDoBy_wAaX_djtIVh25mitMl8DzYiMZ63YweGm2k1G4cA2RMgPzJwa4cs2yP4vWeW-fYhZ2MfSE_EdlP0M9gb2-bs8rTjTuJS6mKjEur7UTHkdaQhI7OvkrmFXyeS0jMRUrMVhXA'
-          },
-          {
-              id: 'angel-bouquet',
-              name: '天使の小花束',
-              price: '¥2,750',
-              img: 'https://lh3.googleusercontent.com/aida-public/AB6AXuCy0Wk5n0JQkL3I_od6tEDcHoc-73NQpWo7hScdbbAo-4SFEUYb2pDlZU_Uohk88QVhjYpw8OBXMss9fro3iOFT_lqiWPH_z47DYHvhUTsci83G3SIjEsrb92Q1TRsCbZ6gBJDgNrH409uweHte-Ns9eyEbwnthXXVCokb9yDRPG8rpV4a4ZUTp_lur--koCXqV1bAm3z9UjKFchapgFsYoC36fjoA4JzzLybpmsohTW84F49ZZOmc0qvLr-Y5kv9ALbcc1Jhm8WQ'
-          }
-      ]
   }
 ];
 
+let currentScreen = 'landing'; // 'landing' or 'order'
 let currentStep = 1;
 let selectedProduct = null;
 
-const screens = [
-  document.getElementById('step-1-screen'),
-  document.getElementById('step-2-screen'),
-  document.getElementById('step-3-screen')
-];
+function updateUI() {
+  const landing = document.getElementById('landing-screen');
+  const order = document.getElementById('order-screen');
+  const footerNav = document.getElementById('footer-nav');
+
+  if (currentScreen === 'landing') {
+    landing.classList.remove('hidden');
+    order.classList.add('hidden');
+    footerNav.classList.add('hidden');
+    window.scrollTo({ top: 0, behavior: 'instant' });
+  } else {
+    landing.classList.add('hidden');
+    order.classList.remove('hidden');
+    // Footer nav only visible in step 2
+    footerNav.classList.toggle('hidden', currentStep !== 2);
+    updateStepUI();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+}
 
 function updateStepUI() {
-  screens.forEach((screen, i) => {
+  const contents = [
+    document.getElementById('step-1-content'),
+    document.getElementById('step-2-content'),
+    document.getElementById('step-3-content')
+  ];
+
+  contents.forEach((el, i) => {
+    el.classList.toggle('hidden', i + 1 !== currentStep);
     if (i + 1 === currentStep) {
-      screen.classList.remove('hidden');
-      screen.style.opacity = '1';
-      screen.style.transform = 'translateY(0)';
-    } else {
-      screen.classList.add('hidden');
-      screen.style.opacity = '0';
-      screen.style.transform = 'translateY(20px)';
+        el.style.opacity = '0';
+        setTimeout(() => { el.style.opacity = '1'; }, 50);
     }
   });
 
-  // Update Stepper Nodes
+  // Stepper Visuals
   for (let i = 1; i <= 3; i++) {
     const circle = document.getElementById(`step-circle-${i}`);
     const label = document.getElementById(`step-label-${i}`);
     
     if (i < currentStep) {
       circle.innerHTML = '<span class="material-symbols-outlined">check</span>';
-      circle.className = 'w-12 h-12 rounded-full flex items-center justify-center font-bold text-xl transition-all duration-300 bg-secondary-container text-secondary';
-      label.className = 'font-medium text-secondary';
+      circle.className = 'w-12 h-12 rounded-full flex items-center justify-center font-bold text-xl transition-all duration-300 bg-secondary-fixed text-primary';
+      label.className = 'text-sm font-medium opacity-100 text-primary';
     } else if (i === currentStep) {
       circle.innerText = i;
-      circle.className = 'w-12 h-12 rounded-full flex items-center justify-center font-bold text-xl transition-all duration-300 bg-primary-container text-on-primary ring-8 ring-primary-container/10';
-      label.className = 'font-bold text-primary';
+      circle.className = 'w-12 h-12 rounded-full flex items-center justify-center font-bold text-xl transition-all duration-300 bg-primary-container text-white shadow-xl ring-8 ring-primary-container/10';
+      label.className = 'text-sm font-bold text-primary';
     } else {
       circle.innerText = i;
-      circle.className = 'w-12 h-12 rounded-full flex items-center justify-center font-bold text-xl transition-all duration-300 bg-surface-container-highest text-on-surface-variant';
-      label.className = 'opacity-60 text-on-surface-variant';
+      circle.className = 'w-12 h-12 rounded-full flex items-center justify-center font-bold text-xl transition-all duration-300 bg-surface-container-highest text-on-surface-variant opacity-60';
+      label.className = 'text-sm font-medium opacity-40';
     }
   }
 
-  // Footer Button State
-  const nextBtn = document.getElementById('next-step-button');
-  if (currentStep === 1) {
-      nextBtn.disabled = true;
-      document.getElementById('footer-nav').style.opacity = '0';
-      document.getElementById('footer-nav').style.pointerEvents = 'none';
-  } else if (currentStep === 2) {
-      document.getElementById('footer-nav').style.opacity = '1';
-      document.getElementById('footer-nav').style.pointerEvents = 'auto';
-      nextBtn.disabled = !selectedProduct;
-      document.getElementById('selected-items-label').innerText = selectedProduct ? selectedProduct.name : '未選択';
+  // Update Cart Widget Label
+  const badge = document.getElementById('cart-badge');
+  if (selectedProduct) {
+      badge.classList.remove('hidden');
+      badge.innerText = '1';
+      document.getElementById('selected-items-label').innerText = 'Next';
+      document.getElementById('next-step-button').disabled = false;
   } else {
-    document.getElementById('footer-nav').classList.add('hidden');
+      badge.classList.add('hidden');
+      document.getElementById('next-step-button').disabled = true;
   }
-
-  window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
 function renderProducts() {
   const container = document.getElementById('product-sections');
+  if (!container) return;
   container.innerHTML = '';
 
   PRODUCTS.forEach(category => {
     const section = document.createElement('section');
     section.innerHTML = `
-      <div class="flex items-center justify-between mb-8">
-        <h2 class="text-2xl md:text-3xl font-headline font-bold text-on-surface">${category.title}</h2>
-        <a class="text-primary font-bold text-lg flex items-center hover:underline decoration-primary underline-offset-8 transition-all" href="#">
-          すべて表示
-          <span class="material-symbols-outlined ml-2" data-icon="arrow_forward">arrow_forward</span>
+      <div class="flex items-center justify-between mb-8 border-b border-primary/10 pb-4">
+        <h2 class="text-3xl font-headline font-bold text-primary">${category.title}</h2>
+        <a class="text-primary font-bold text-lg flex items-center hover:opacity-70 transition-opacity" href="#">
+          View All <span class="material-symbols-outlined ml-2">arrow_forward</span>
         </a>
       </div>
-      <div class="flex overflow-x-auto no-scrollbar gap-8 pb-4 -mx-6 px-6 md:mx-0 md:px-0" id="cat-${category.id}">
-      </div>
+      <div class="flex overflow-x-auto no-scrollbar gap-8 pb-4" id="cat-list-${category.id}"></div>
     `;
     container.appendChild(section);
 
-    const list = document.getElementById(`cat-${category.id}`);
+    const list = document.getElementById(`cat-list-${category.id}`);
     category.items.forEach(item => {
-      const card = document.createElement('div');
       const isSelected = selectedProduct?.id === item.id;
-      
-      card.className = `min-w-[320px] bg-surface-container-lowest rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-all cursor-pointer group border-2 ${isSelected ? 'border-primary ring-4 ring-primary/10' : 'border-transparent'}`;
+      const card = document.createElement('div');
+      card.className = `min-w-[340px] bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-2xl transition-all duration-500 cursor-pointer group border-2 ${isSelected ? 'border-primary-container ring-4 ring-primary-container/10' : 'border-transparent'}`;
       card.innerHTML = `
-        <div class="aspect-[4/5] bg-surface-variant relative overflow-hidden">
-          <img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" src="${item.img}" alt="${item.name}"/>
-          ${item.recommended ? '<div class="absolute top-4 left-4 bg-primary text-on-primary px-3 py-1 rounded-lg text-sm font-label font-bold">Recommended</div>' : ''}
-          ${isSelected ? '<div class="absolute inset-0 bg-primary/20 flex items-center justify-center"><span class="material-symbols-outlined text-6xl text-white drop-shadow-lg">check_circle</span></div>' : ''}
+        <div class="aspect-[4/5] relative overflow-hidden bg-primary/5">
+          <img src="${item.img}" alt="${item.name}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-1000"/>
+          ${item.recommended ? '<div class="absolute top-4 left-4 bg-primary text-white px-3 py-1 rounded text-xs font-bold tracking-widest font-label uppercase">Recommended</div>' : ''}
+          ${isSelected ? '<div class="absolute inset-0 bg-primary-container/20 backdrop-blur-[2px] flex items-center justify-center"><span class="material-symbols-outlined text-7xl text-white drop-shadow-2xl">check_circle</span></div>' : ''}
         </div>
-        <div class="p-6">
-          <h3 class="text-2xl font-headline font-bold mb-2">${item.name}</h3>
-          <p class="text-on-surface-variant text-lg mb-4">${item.desc || ''}</p>
-          <div class="flex items-center justify-between">
-            <p class="text-2xl font-bold text-primary font-label">${item.price} <span class="text-sm font-normal text-on-surface-variant">(税込)</span></p>
-            <button class="w-10 h-10 rounded-full ${isSelected ? 'bg-primary text-on-primary' : 'bg-surface-container-highest text-primary'} flex items-center justify-center transition-colors">
-                 <span class="material-symbols-outlined">${isSelected ? 'check' : 'add_shopping_cart'}</span>
-            </button>
+        <div class="p-8">
+          <h3 class="text-2xl font-headline font-bold mb-2 group-hover:text-primary transition-colors">${item.name}</h3>
+          <p class="text-on-surface-variant mb-6 h-12 overflow-hidden text-sm leading-relaxed">${item.desc}</p>
+          <div class="flex items-center justify-between mt-auto">
+            <span class="text-2xl font-bold font-label text-primary">${item.price}</span>
+            <span class="material-symbols-outlined ${isSelected ? 'text-primary' : 'text-on-surface-variant/30'}">shopping_cart_checkout</span>
           </div>
         </div>
       `;
@@ -179,28 +169,11 @@ function renderProducts() {
   });
 }
 
-// Event Listeners
-document.querySelectorAll('.purpose-card').forEach(card => {
-    card.onclick = () => {
-        currentStep = 2;
-        updateStepUI();
-        renderProducts();
-    };
-});
-
-document.getElementById('next-step-button').onclick = () => {
-    currentStep = 3;
-    updateStepUI();
-};
-
-// --- Animation Logic ---
-
+// Intro Logic
 function playIntro(callback) {
   const overlay = document.getElementById('intro-overlay');
   const container = document.getElementById('intro-image-container');
   const text = document.getElementById('intro-text');
-  
-  // Mark as played for this session
   sessionStorage.setItem('yamashiroya_intro_played', 'true');
   
   overlay.classList.remove('hidden');
@@ -224,34 +197,56 @@ function playIntro(callback) {
   }, 5000);
 }
 
-// Event Listeners for Intro & Navigation
-document.querySelectorAll('a[href="#"], .text-2xl.font-bold').forEach(el => {
-  el.addEventListener('click', (e) => {
-    e.preventDefault();
-    // Immediate return to home for clicks (No re-play intro)
-    currentStep = 1;
-    selectedProduct = null;
+// Initial Launch
+function init() {
+  const introPlayed = sessionStorage.getItem('yamashiroya_intro_played');
+  if (!introPlayed) {
+    playIntro(() => {
+      currentScreen = 'landing';
+      updateUI();
+    });
+  } else {
+    currentScreen = 'landing';
+    updateUI();
+  }
+}
+
+// Event Listeners
+document.getElementById('start-shopping').addEventListener('click', () => {
+  currentScreen = 'order';
+  currentStep = 1;
+  updateUI();
+  renderProducts();
+});
+
+document.getElementById('logo-link').addEventListener('click', (e) => {
+  e.preventDefault();
+  currentScreen = 'landing';
+  updateUI();
+});
+
+document.querySelectorAll('.nav-link').forEach(link => {
+  link.addEventListener('click', (e) => {
+    if (link.dataset.screen === 'landing') {
+        e.preventDefault();
+        currentScreen = 'landing';
+        updateUI();
+    }
+  });
+});
+
+document.querySelectorAll('.purpose-card').forEach(card => {
+  card.addEventListener('click', () => {
+    currentStep = 2;
     updateStepUI();
     renderProducts();
   });
 });
 
-// Initial Flow logic
-function initApp() {
-  const introPlayed = sessionStorage.getItem('yamashiroya_intro_played');
-  
-  if (!introPlayed) {
-    // First time visit in this session
-    playIntro(() => {
-      currentStep = 1;
-      updateStepUI();
-    });
-  } else {
-    // Return visit
-    currentStep = 1;
-    updateStepUI();
-  }
-}
+document.getElementById('next-step-button').addEventListener('click', () => {
+  currentStep = 3;
+  updateStepUI();
+});
 
-initApp();
+init();
 renderProducts();
