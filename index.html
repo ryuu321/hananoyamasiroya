@@ -163,8 +163,14 @@
           </div>
           <div class="grid grid-cols-2 lg:grid-cols-4 gap-8 max-w-5xl mx-auto" id="color-grid"></div>
           
-          <div id="add-to-cart-container" class="mt-24 flex justify-center opacity-0 transition-opacity">
-              <button id="add-to-cart-btn" class="px-20 py-6 bg-primary text-white rounded-full font-bold text-xl shadow-2xl hover:scale-105 active:scale-95 transition-all">カートに追加する</button>
+          <div id="add-to-cart-container" class="mt-24 flex flex-col items-center opacity-0 transition-opacity">
+              <button id="add-to-cart-btn" class="px-20 py-6 bg-primary text-white rounded-full font-headline font-bold text-xl shadow-2xl hover:scale-105 active:scale-95 transition-all mb-8">
+                  この色味でお仕立てする
+              </button>
+              <p class="text-primary/60 font-medium flex items-center gap-2">
+                <span class="material-symbols-outlined text-xl">info</span>
+                お選びのお花は右上の「花かご」に追加されます。内容をご確認の上、ご注文へお進みください。
+              </p>
           </div>
       </section>
 
@@ -197,7 +203,10 @@
   <div id="cart-screen" class="fixed inset-0 z-[60] bg-surface/95 backdrop-blur-2xl translate-x-full transition-transform duration-500 overflow-y-auto px-8 py-24">
       <button id="close-cart" class="absolute top-10 right-10 text-primary"><span class="material-symbols-outlined text-4xl">close</span></button>
       <div class="max-w-2xl mx-auto w-full">
-          <h2 class="text-4xl font-headline font-bold text-primary mb-12">カートの中身</h2>
+          <h2 class="text-4xl font-headline font-bold text-primary mb-12 flex items-center gap-4">
+            <span class="material-symbols-outlined text-4xl">local_florist</span>
+            花かごの中（お選びの商品）
+          </h2>
           <div id="cart-items-list" class="space-y-10"></div>
           <div id="cart-footer" class="mt-20 border-t pt-12">
               <div class="flex justify-between items-center mb-10"><span class="text-xl">合計金額</span><span id="cart-total-display" class="text-4xl font-bold text-primary">¥0</span></div>
