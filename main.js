@@ -1,7 +1,7 @@
 const PRODUCTS = [
   {
     id: 'bouquets',
-    title: '花束 (Bouquets)',
+    title: '花束 (ブーケ)',
     purposes: ['celebration', 'offering'],
     items: [
       { id: 'YH-F001-7-01', name: 'お祝い用花束', price: 7000, img: 'https://yamashiroya.easy-myshop.jp/item-image/YH-F001-7-01.jpg', desc: '門出を祝う華やかなブーケ。' },
@@ -10,7 +10,7 @@ const PRODUCTS = [
   },
   {
     id: 'arrangement',
-    title: 'アレンジメント (Arrangements)',
+    title: 'アレンジメント',
     purposes: ['celebration', 'offering'],
     items: [
       { id: 'YH-F002-4-01', name: 'お祝い用アレンジ (S)', price: 4000, img: 'https://yamashiroya.easy-myshop.jp/item-image/YH-F002-4-01.jpg', desc: '飾りやすいサイズのギフト。' },
@@ -21,7 +21,7 @@ const PRODUCTS = [
   },
   {
     id: 'standing',
-    title: 'スタンド花 (Standing Flowers)',
+    title: 'スタンド花',
     purposes: ['offering'],
     items: [
       { id: '12S-121', name: '供花スタンド(1段)', price: 16500, img: 'https://yamashiroya.easy-myshop.jp/item-image/12S-121.jpg', desc: 'お通夜・ご葬儀の会場へ。' },
@@ -30,7 +30,7 @@ const PRODUCTS = [
   },
   {
     id: 'preserved',
-    title: 'プリザーブド・造花 (Preserved/Silk)',
+    title: 'プリザーブドフラワー・造花',
     purposes: ['celebration', 'offering'],
     items: [
       { id: 'YH-Z008-5-01', name: 'プリザーブド入り造花', price: 5000, img: 'https://yamashiroya.easy-myshop.jp/item-image/YH-Z008-5-01.jpg', desc: '長く飾れるメモリアルギフト。' },
@@ -40,7 +40,7 @@ const PRODUCTS = [
   },
   {
       id: 'pet',
-      title: 'ペット用 (For Pets)',
+      title: 'ペット用供花',
       purposes: ['offering'],
       items: [
           { id: '16P-301', name: 'ペット用アレンジ(S)', price: 3850, img: 'https://yamashiroya.easy-myshop.jp/item-image/16P-301.jpg', desc: '愛した家族へのお供えに。' },
@@ -79,6 +79,7 @@ function showStep(step) {
   currentStep = step;
   document.getElementById('landing-screen').classList.add('layer-hidden');
   document.getElementById('order-screen').classList.remove('layer-hidden');
+
   [1, 2, 3, 4].forEach(num => {
     const el = document.getElementById(`step-${num}-area`);
     if (!el) return;
@@ -87,6 +88,7 @@ function showStep(step) {
       el.animate([{ opacity: 0, transform: `translateX(${step > prevStep ? 30 : -30}px)` }, { opacity: 1, transform: 'translateX(0)' }], { duration: 450, easing: 'ease-out' });
     } else el.classList.add('layer-hidden');
   });
+
   if (step === 2) renderProducts();
   if (step === 3) renderColors();
   updateStepper();
@@ -101,7 +103,9 @@ function updateStepper() {
     const n = document.querySelector(`.step-node[data-step="${i}"]`);
     if (!c || !n) continue;
     const label = n.querySelector('span');
+
     n.onclick = () => { if (i < currentStep || (i === 2 && currentPurpose) || (i === 3 && currentProduct)) showStep(i); };
+
     if (i < currentStep) {
       c.innerHTML = '<span class="material-symbols-outlined text-[16px]">check</span>';
       c.className = 'w-10 h-10 rounded-full flex items-center justify-center bg-secondary text-white shadow-sm';
@@ -177,7 +181,7 @@ function renderColors() {
     const grid = document.getElementById('color-grid');
     const summ = document.getElementById('selection-summary');
     if(!grid) return;
-    if(summ && currentProduct) summ.innerText = `${currentProduct.name} を選択中`;
+    if(summ && currentProduct) summ.innerText = `「${currentProduct.name}」を選択しています。`;
     grid.innerHTML = '';
     COLORS.forEach(color => {
         const card = document.createElement('div');

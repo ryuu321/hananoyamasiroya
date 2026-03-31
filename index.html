@@ -70,9 +70,9 @@
       <img src="https://yamashiroya.easy-myshop.jp/c-fimg?fp=logo" alt="Hananoyamashiroya Logo" class="h-full w-auto object-contain"/>
     </a>
     <nav class="hidden md:flex items-center space-x-12">
-      <a class="nav-link font-medium tracking-wide opacity-60 hover:opacity-100 transition-opacity" href="#" id="nav-home">Home</a>
-      <a class="nav-link font-medium tracking-wide opacity-60 hover:opacity-100 transition-opacity" href="#" id="nav-shop">Shop</a>
-      <a class="nav-link font-medium tracking-wide opacity-60 hover:opacity-100 transition-opacity" href="#">History</a>
+      <a class="nav-link font-medium tracking-wide opacity-60 hover:opacity-100 transition-opacity" href="#" id="nav-home">ホーム</a>
+      <a class="nav-link font-medium tracking-wide opacity-60 hover:opacity-100 transition-opacity" href="#" id="nav-shop">ショップ</a>
+      <a class="nav-link font-medium tracking-wide opacity-60 hover:opacity-100 transition-opacity" href="#">当店のあゆみ</a>
     </nav>
     <div class="flex items-center">
       <button id="cart-icon-btn" class="p-2 text-primary relative">
@@ -154,7 +154,7 @@
               <span class="font-bold underline underline-offset-4">お花を選び直す</span>
           </button>
           <div class="text-center mb-16">
-              <h2 class="text-4xl font-headline font-bold text-primary mb-4">色味をお選びください</h2>
+              <h2 class="text-4xl font-headline font-bold text-primary mb-4 tracking-widest">想いを込めて、色を選ぶ。</h2>
               <p id="selection-summary" class="text-primary/60 font-bold"></p>
           </div>
           <div class="grid grid-cols-2 lg:grid-cols-4 gap-8 max-w-5xl mx-auto" id="color-grid"></div>
@@ -171,10 +171,16 @@
               <span class="font-bold underline underline-offset-4">お色味の選択に戻る</span>
           </button>
           <form class="space-y-12 bg-white p-12 rounded-3xl shadow-xl">
-              <h2 class="text-3xl font-headline font-bold text-primary border-b pb-6">お届け情報の入力</h2>
+              <h2 class="text-3xl font-headline font-bold text-primary border-b pb-6">ご注文情報の入力</h2>
               <div class="space-y-8">
-                  <div><label class="block text-xs font-bold uppercase tracking-widest text-primary/50 mb-3">お名前</label><input type="text" class="w-full bg-surface-container border-0 rounded-2xl p-4 h-14" placeholder="山田 太郎"/></div>
-                  <div><label class="block text-xs font-bold uppercase tracking-widest text-primary/50 mb-3">想い（メッセージ）</label><textarea class="w-full bg-surface-container border-0 rounded-2xl p-4 h-40" placeholder="心のこもったメッセージを。"></textarea></div>
+                  <div>
+                    <label class="block text-sm font-bold tracking-widest text-primary/70 mb-3 ml-1">ご注文主様のお名前</label>
+                    <input type="text" class="w-full bg-surface-container border-0 rounded-2xl p-4 h-14" placeholder="（例）小樽 花子"/>
+                  </div>
+                  <div>
+                    <label class="block text-sm font-bold tracking-widest text-primary/70 mb-3 ml-1">大切な方へのメッセージ（カードに記載します）</label>
+                    <textarea class="w-full bg-surface-container border-0 rounded-2xl p-4 h-40" placeholder="心をこめたメッセージを。"></textarea>
+                  </div>
               </div>
               <button type="submit" class="w-full py-6 bg-primary text-white rounded-full font-bold text-2xl shadow-xl hover:scale-[1.02] active:scale-95 transition-all">注文を確定する</button>
           </form>
