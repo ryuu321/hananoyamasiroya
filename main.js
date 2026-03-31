@@ -2,19 +2,50 @@ const PRODUCTS = [
   {
     id: 'bouquets',
     title: '花束 (Bouquets)',
-    purposes: ['offering', 'celebration'],
+    purposes: ['celebration', 'offering'],
     items: [
-      { id: '101', name: '白百合のメモリアル', price: 8800, img: 'https://lh3.googleusercontent.com/aida-public/AB6AXuB6UBR-PvP6XGHqMmJwNOu4mseTA_n6occ46d0RcbCDDBhtvLtrEL4jQluReXDBwW2MRb1BsYGaTIGE4ftLVU7XNrYMQhshhuHjXO44hyo9IeISVefpGFwq_Edz4pZLPHW4Lx5yzoxEnEJW5Fj0kehlLDQ63q75AAzkl3V8wxS1fGZ5JfA3O7yWGGpv9pnNgCmjOVAWQl13yxaKxJPoMImsJEkLYn5xgsetNJZXvQBD2LHHdQxMNjas4Y_a3rxn-A70uIq1SkqRqg', desc: '気品ある白百合の正統派。' },
-      { id: '102', name: '季節の供花（淡色）', price: 5500, img: 'https://lh3.googleusercontent.com/aida-public/AB6AXuDYhHYOD220ToezOAmPQKdfGJEBsgwrcLnIwTLMMOXynyBi7Z0op84jyKpcqi_hFY_tZHxLuwHXUGeLr5Wih58Ocjk0wCjBifImrwPk8mqWx3Jku5gilZ8i3AZPl4yphtgyF0B_soH9gfTKTHspOEw_mBhUu5qeoi14QN8WOoNaRR-TvDlKcBH1BJcHbnun4-VxDU4sOosQMz17eeQy-Jvtmc6atrCkTLR30YLqEIvEdXAPpmNS8JNI95oGWne8xtvv31MiTjqgcg', desc: '穏やかな季節の花々の共鳴。' }
+      { id: 'YH-F001-7-01', name: 'お祝い用花束', price: 7000, img: 'https://yamashiroya.easy-myshop.jp/item-image/YH-F001-7-01.jpg', desc: '門出を祝う華やかなブーケ。' },
+      { id: '16B-501', name: '季節の花束', price: 5500, img: 'https://yamashiroya.easy-myshop.jp/item-image/16B-501.jpg', desc: '旬の花材をあしらった花束。' }
     ]
   },
   {
-    id: 'gift',
-    title: 'ギフト作品 (Gifts)',
-    purposes: ['celebration'],
+    id: 'arrangement',
+    title: 'アレンジメント (Arrangements)',
+    purposes: ['celebration', 'offering'],
     items: [
-      { id: '301', name: 'ハピネス・ブーケ', price: 12000, img: 'https://lh3.googleusercontent.com/aida-public/AB6AXuCLIzk4UYU9mRyz4SVL3gzGcHIpR6c3APM3sMFyTz9bd1oNew1RK29VodqvTnKqnbSAoTkuzibK2YfsbcTeJVkkWUbsSvOeRoc78LtxdQce8pWUorhBX1gpLmP3IMidML_BDVUe_I6cZAqA94DkTnmD5q-ZZbSYJcWusZnK5UTSGrfaheBYE7HBoPohJrgwmGYWe76gR2ZaGJdM5J6y8hBundTh1x0WuN7OncihCF8WeKFUEKodKWc8Wf5OJzN3MfIkxzQqMLVYUg', desc: '門出を祝う色彩のパレード。' }
+      { id: 'YH-F002-4-01', name: 'お祝い用アレンジ (S)', price: 4000, img: 'https://yamashiroya.easy-myshop.jp/item-image/YH-F002-4-01.jpg', desc: '飾りやすいサイズのギフト。' },
+      { id: 'YH-F003-11-01', name: 'お祝い用アレンジ (L)', price: 11000, img: 'https://yamashiroya.easy-myshop.jp/item-image/YH-F003-11-01.jpg', desc: '豪華な贈り物として。' },
+      { id: 'YH-F004-11-01', name: '開店祝アレンジ', price: 11000, img: 'https://yamashiroya.easy-myshop.jp/item-image/YH-F004-11-01.jpg', desc: '店舗の成功を願って。' },
+      { id: 'YH-F012-7-01', name: 'お供えアレンジ', price: 7000, img: 'https://yamashiroya.easy-myshop.jp/item-image/YH-F012-7-01.jpg', desc: 'しめやかな法要の場に。' }
     ]
+  },
+  {
+    id: 'standing',
+    title: 'スタンド花 (Standing Flowers)',
+    purposes: ['offering'],
+    items: [
+      { id: '12S-121', name: '供花スタンド(1段)', price: 16500, img: 'https://yamashiroya.easy-myshop.jp/item-image/12S-121.jpg', desc: 'お通夜・ご葬儀の会場へ。' },
+      { id: '12S-201', name: '供花スタンド(2段)', price: 22000, img: 'https://yamashiroya.easy-myshop.jp/item-image/12S-201.jpg', desc: '最高位の弔いの場に。' }
+    ]
+  },
+  {
+    id: 'preserved',
+    title: 'プリザーブド・造花 (Preserved/Silk)',
+    purposes: ['celebration', 'offering'],
+    items: [
+      { id: 'YH-Z008-5-01', name: 'プリザーブド入り造花', price: 5000, img: 'https://yamashiroya.easy-myshop.jp/item-image/YH-Z008-5-01.jpg', desc: '長く飾れるメモリアルギフト。' },
+      { id: 'YH-Z011-4-01', name: 'BOX プリザーブド造花', price: 4000, img: 'https://yamashiroya.easy-myshop.jp/item-image/YH-Z011-4-01.jpg', desc: 'インテリアに馴染むボックス。' },
+      { id: 'YH-Z013-3-01', name: '念珠付きアレンジ', price: 3000, img: 'https://yamashiroya.easy-myshop.jp/item-image/YH-Z013-3-01.jpg', desc: '心のこもった供え物。' }
+    ]
+  },
+  {
+      id: 'pet',
+      title: 'ペット用 (For Pets)',
+      purposes: ['offering'],
+      items: [
+          { id: '16P-301', name: 'ペット用アレンジ(S)', price: 3850, img: 'https://yamashiroya.easy-myshop.jp/item-image/16P-301.jpg', desc: '愛した家族へのお供えに。' },
+          { id: '16P-401', name: 'ペット用アレンジ(M)', price: 4400, img: 'https://yamashiroya.easy-myshop.jp/item-image/16P-401.jpg', desc: '優しかった日々を彩る花。' }
+      ]
   }
 ];
 
@@ -36,16 +67,11 @@ function updateNavUI() {
     const isLanding = !document.getElementById('landing-screen').classList.contains('layer-hidden');
     const homeNav = document.getElementById('nav-home');
     const shopNav = document.getElementById('nav-shop');
-    
     const active = "nav-link font-medium tracking-wide text-primary border-b-2 border-primary pb-1";
     const inactive = "nav-link font-medium tracking-wide opacity-60 hover:opacity-100 transition-opacity";
-
-    if (isLanding) {
-        homeNav.className = active;
-        shopNav.className = inactive;
-    } else {
-        homeNav.className = inactive;
-        shopNav.className = active;
+    if (homeNav && shopNav) {
+        if (isLanding) { homeNav.className = active; shopNav.className = inactive; } 
+        else { homeNav.className = inactive; shopNav.className = active; }
     }
 }
 
@@ -60,12 +86,12 @@ function showStep(step) {
     if (num === step) {
       el.classList.remove('layer-hidden');
       el.animate([{ opacity: 0, transform: `translateX(${step > prevStep ? 40 : -40}px)` }, { opacity: 1, transform: 'translateX(0)' }], { duration: 500, easing: 'cubic-bezier(0.22, 1, 0.36, 1)' });
-    } else { el.classList.add('layer-hidden'); }
+    } else { if(el) el.classList.add('layer-hidden'); }
   });
   if (step === 2) renderProducts();
   if (step === 3) renderColors();
   updateStepper();
-  updateNavUI(); // NEW
+  updateNavUI();
   window.scrollTo({ top: 0, behavior: 'instant' });
 }
 
@@ -96,7 +122,6 @@ function spawnPetals(selectedTheme) {
     const fromR = fromBtn.getBoundingClientRect();
     const toR = toIcon.getBoundingClientRect();
     const count = 12;
-
     for (let i = 0; i < count; i++) {
         const p = document.createElement('div');
         p.className = "fixed pointer-events-none z-[1000] rotate-45";
@@ -105,29 +130,23 @@ function spawnPetals(selectedTheme) {
         p.style.borderRadius = "100% 15% 100% 15%";
         p.style.left = `${fromR.left + fromR.width / 2}px`;
         p.style.top = `${fromR.top + fromR.height / 2}px`;
-        if (selectedTheme.mode === 'gradient') {
-            p.style.background = `linear-gradient(135deg, ${selectedTheme.colors[0]}, ${selectedTheme.colors[1]})`;
-        } else {
-            p.style.backgroundColor = selectedTheme.colors[i % selectedTheme.colors.length];
-        }
+        if (selectedTheme.mode === 'gradient') { p.style.background = `linear-gradient(135deg, ${selectedTheme.colors[0]}, ${selectedTheme.colors[1]})`; } 
+        else { p.style.backgroundColor = selectedTheme.colors[i % selectedTheme.colors.length]; }
         p.style.boxShadow = `0 0 10px rgba(255,255,255,0.7), 0 0 2px rgba(0,0,0,0.2)`;
         p.style.border = `1px solid rgba(255,255,255,0.2)`;
         document.body.appendChild(p);
-
         const delay = i * 60;
-        const destX = (toR.left + toR.width/2) - (fromR.left + fromR.width/2);
-        const destY = (toR.top + toR.height/2) - (fromR.top + fromR.height/2);
-
+        const dx = (toR.left + toR.width/2) - (fromR.left + fromR.width/2);
+        const dy = (toR.top + toR.height/2) - (fromR.top + fromR.height/2);
         const anim = p.animate([
             { transform: 'translate(0, 0) rotate(0deg) scale(0)', opacity: 0 },
             { transform: `translate(${(Math.random()-0.5)*100}px, -60px) rotate(45deg) scale(1.5)`, opacity: 1, offset: 0.1 },
-            { transform: `translate(${destX / 2}px, -150px) rotate(180deg) scale(1.8)`, opacity: 1, offset: 0.4 },
-            { transform: `translate(${destX - 40}px, ${destY - 20}px) rotate(360deg) scale(1.5)`, opacity: 1, offset: 0.7 },
-            { transform: `translate(${destX + 40}px, ${destY - 40}px) rotate(540deg) scale(1.5)`, opacity: 1, offset: 0.85 },
-            { transform: `translate(${destX}px, ${destY - 80}px) rotate(630deg) scale(1.2)`, opacity: 1, offset: 0.92 },
-            { transform: `translate(${destX}px, ${destY}px) rotate(720deg) scale(0.1)`, opacity: 0, offset: 1 }
+            { transform: `translate(${dx / 2}px, -150px) rotate(180deg) scale(1.8)`, opacity: 1, offset: 0.4 },
+            { transform: `translate(${dx - 40}px, ${dy - 20}px) rotate(360deg) scale(1.5)`, opacity: 1, offset: 0.7 },
+            { transform: `translate(${dx + 40}px, ${dy - 40}px) rotate(540deg) scale(1.5)`, opacity: 1, offset: 0.85 },
+            { transform: `translate(${dx}px, ${dy - 80}px) rotate(630deg) scale(1.2)`, opacity: 1, offset: 0.92 },
+            { transform: `translate(${dx}px, ${dy}px) rotate(720deg) scale(0.1)`, opacity: 0, offset: 1 }
         ], { duration: 2200, delay: delay, easing: 'cubic-bezier(0.25, 1, 0.5, 1)' });
-
         anim.onfinish = () => { p.remove(); if (i === count - 1) { toIcon.classList.add('animate-bounce'); setTimeout(() => toIcon.classList.remove('animate-bounce'), 800); updateCartUI(); } };
     }
 }
@@ -144,7 +163,7 @@ function renderProducts() {
     cat.items.forEach(item => {
         const card = document.createElement('div');
         card.className = "bg-white rounded-3xl overflow-hidden shadow-sm hover:shadow-2xl transition-all cursor-pointer group border border-primary/5";
-        card.innerHTML = `<div class="aspect-[4/5] overflow-hidden"><img src="${item.img}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"/></div><div class="p-8"><h5 class="text-2xl font-bold mb-2">${item.name}</h5><p class="text-2xl font-bold font-label text-primary">¥${item.price.toLocaleString()}</p></div>`;
+        card.innerHTML = `<div class="aspect-[4/5] overflow-hidden"><img src="${item.img}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" onerror="this.src='https://placehold.jp/101254/ffffff/400x500.png?text=Florist%20Yamashiroya'"/></div><div class="p-8"><h5 class="text-2xl font-bold mb-2">${item.name}</h5><p class="text-2xl font-bold font-label text-primary">¥${item.price.toLocaleString()}</p></div>`;
         card.onclick = () => { currentProduct = item; showStep(3); };
         document.getElementById(`cat-${cat.id}`).appendChild(card);
     });
@@ -213,5 +232,4 @@ document.getElementById('add-to-cart-btn').onclick = addToCart;
 document.getElementById('cart-icon-btn').onclick = () => toggleCart(true);
 document.getElementById('close-cart').onclick = () => toggleCart(false);
 document.getElementById('checkout-btn').onclick = () => { toggleCart(false); showStep(4); };
-
 updateStepper(); updateCartUI();
