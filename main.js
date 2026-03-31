@@ -217,6 +217,18 @@ document.getElementById('start-shopping').onclick = () => {
     showScreen('order');
 };
 
+document.getElementById('nav-shop').onclick = (e) => {
+    e.preventDefault();
+    showScreen('order');
+};
+
+document.getElementById('nav-home').onclick = (e) => {
+    e.preventDefault();
+    currentScreen = 'landing';
+    document.getElementById('order-screen').classList.add('hidden');
+    document.getElementById('landing-screen').classList.remove('hidden');
+};
+
 document.getElementById('add-to-cart-btn').onclick = addToCart;
 document.getElementById('cart-icon-btn').onclick = () => toggleCart(true);
 document.getElementById('close-cart').onclick = () => toggleCart(false);
@@ -231,7 +243,11 @@ document.getElementById('go-to-step-4').onclick = () => {
 
 document.getElementById('logo-link').onclick = (e) => {
     e.preventDefault();
-    location.reload(); 
+    // Soft reset to landing
+    currentScreen = 'landing';
+    document.getElementById('order-screen').classList.add('hidden');
+    document.getElementById('landing-screen').classList.remove('hidden');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
 };
 
 // --- INITIALIZE ---
