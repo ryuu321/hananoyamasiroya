@@ -13,16 +13,16 @@ const PRODUCTS = [
     title: 'ギフト作品 (Gifts)',
     purposes: ['celebration'],
     items: [
-      { id: '301', name: 'ハピネス・ブーケ', price: 12000, img: 'https://lh3.googleusercontent.com/aida-public/AB6AXuCLIzk4UYU9mRyz4SVL3gzGcHIpR6c3APM3sMFyTz9bd1oNew1RK29VodqvTnKqnbSAoTkuzibK2YfsbcTeJVkkWUbsSvOeRoc78LtxdQce8pWUorhBX1gpLmP3IMidML_BDVUe_I6cZAqA94DkTnmD5q-ZZbSYJcWusZnK5UTSGrfaheBYE7HBoPohJrgwmGYWe76gR2ZaGJdM5J5y8hBundTh1x0WuN7OncihCF8WeKFUEKodKWc8Wf5OJzN3MfIkxzQqMLVYUg', desc: '門出を祝う色彩のパレード。' }
+      { id: '301', name: 'ハピネス・ブーケ', price: 12000, img: 'https://lh3.googleusercontent.com/aida-public/AB6AXuCLIzk4UYU9mRyz4SVL3gzGcHIpR6c3APM3sMFyTz9bd1oNew1RK29VodqvTnKqnbSAoTkuzibK2YfsbcTeJVkkWUbsSvOeRoc78LtxdQce8pWUorhBX1gpLmP3IMidML_BDVUe_I6cZAqA94DkTnmD5q-ZZbSYJcWusZnK5UTSGrfaheBYE7HBoPohJrgwmGYWe76gR2ZaGJdM5J6y8hBundTh1x0WuN7OncihCF8WeKFUEKodKWc8Wf5OJzN3MfIkxzQqMLVYUg', desc: '門出を祝う色彩のパレード。' }
     ]
   }
 ];
 
 const COLORS = [
-  { id: 'c-white', name: '白・グリーン系', img: '/color_white.png', petalColor: '#2d5a27', glowColor: 'rgba(255,255,255,0.8)' }, // 深い緑 (コントラスト用)
-  { id: 'c-pink', name: 'ピンク・パステル系', img: '/color_pink.png', petalColor: '#d63384', glowColor: 'rgba(255,200,210,0.8)' }, // 濃いピンク
-  { id: 'c-red', name: '暖色・オレンジ系', img: '/color_red.png', petalColor: '#c62828', glowColor: 'rgba(255,160,120,0.8)' }, // 濃い赤
-  { id: 'c-purple', name: '紫・ブルー系', img: '/color_purple.png', petalColor: '#4a148c', glowColor: 'rgba(200,160,255,0.8)' }  // 濃い紫
+  { id: 'c-white', name: '白・グリーン系', img: '/color_white.png', petalColor: '#2d5a27', glowColor: 'rgba(255,255,255,0.9)' },
+  { id: 'c-pink', name: 'ピンク・パステル系', img: '/color_pink.png', petalColor: '#d63384', glowColor: 'rgba(255,180,200,0.9)' },
+  { id: 'c-red', name: '暖色・オレンジ系', img: '/color_red.png', petalColor: '#c62828', glowColor: 'rgba(255,140,80,0.9)' },
+  { id: 'c-purple', name: '紫・ブルー系', img: '/color_purple.png', petalColor: '#4a148c', glowColor: 'rgba(180,140,255,0.9)' }
 ];
 
 let cart = [];
@@ -42,7 +42,7 @@ function showStep(step) {
     const el = document.getElementById(`step-${num}-area`);
     if (num === step) {
       el.classList.remove('layer-hidden');
-      el.animate([{ opacity: 0, transform: `translateX(${step > prevStep ? 40 : -40}px)` }, { opacity: 1, transform: 'translateX(0)' }], { duration: 400, easing: 'ease-out' });
+      el.animate([{ opacity: 0, transform: `translateX(${step > prevStep ? 40 : -40}px)` }, { opacity: 1, transform: 'translateX(0)' }], { duration: 500, easing: 'cubic-bezier(0.22, 1, 0.36, 1)' });
     } else { el.classList.add('layer-hidden'); }
   });
 
@@ -60,53 +60,51 @@ function updateStepper() {
     n.onclick = () => { if (i < currentStep || (i === 2 && currentPurpose) || (i === 3 && currentProduct)) showStep(i); };
     if (i < currentStep) {
       c.innerHTML = '<span class="material-symbols-outlined text-[16px]">check</span>';
-      c.className = 'w-10 h-10 rounded-full flex items-center justify-center bg-secondary text-white shadow-sm';
+      c.className = 'w-10 h-10 rounded-full flex items-center justify-center bg-secondary text-white shadow-sm transition-all';
     } else if (i === currentStep) {
       c.innerText = i;
-      c.className = 'w-10 h-10 rounded-full flex items-center justify-center bg-primary text-white scale-110 shadow-xl ring-4 ring-primary/10';
+      c.className = 'w-10 h-10 rounded-full flex items-center justify-center bg-primary text-white scale-110 shadow-xl ring-4 ring-primary/10 transition-all';
     } else {
       c.innerText = i;
-      c.className = 'w-10 h-10 rounded-full flex items-center justify-center bg-surface-container-high text-on-surface-variant/30 text-sm';
+      c.className = 'w-10 h-10 rounded-full flex items-center justify-center bg-surface-container-high text-on-surface-variant/30 text-sm transition-all';
     }
   }
 }
 
-// --- CONTRASTIC PETAL ANIMATION ---
-function spawnPetals() {
+// --- PETAL FLIGHT ANIMATION ---
+function spawnPetals(selectedColor) {
   const fromBtn = document.getElementById('add-to-cart-btn');
   const toIcon = document.getElementById('cart-icon-btn');
-  if (!fromBtn || !toIcon || !currentColor) return;
+  if (!fromBtn || !toIcon || !selectedColor) return;
   const fromRect = fromBtn.getBoundingClientRect();
   const toRect = toIcon.getBoundingClientRect();
-  const count = 12; // 密度アップ
+  const count = 10;
 
   for (let i = 0; i < count; i++) {
-    const petal = document.createElement('div');
-    const color = currentColor.petalColor;
-    const glow = currentColor.glowColor;
-    petal.className = "fixed pointer-events-none z-[1000] rotate-45";
-    petal.style.width = `${Math.random() * 10 + 10}px`;
-    petal.style.height = `${Math.random() * 6 + 6}px`;
-    // Shape like a petal
-    petal.style.borderRadius = "100% 20%";
-    petal.style.backgroundColor = color;
-    petal.style.left = `${fromRect.left + fromRect.width / 2}px`;
-    petal.style.top = `${fromRect.top + fromRect.height / 2}px`;
-    // High contrast glow & outline
-    petal.style.boxShadow = `0 0 10px ${glow}, 0 0 2px rgba(0,0,0,0.4)`;
-    petal.style.border = `1px solid rgba(0,0,0,0.1)`;
-    document.body.appendChild(petal);
+    const p = document.createElement('div');
+    const color = selectedColor.petalColor;
+    const glow = selectedColor.glowColor;
+    p.className = "fixed pointer-events-none z-[1000] rotate-45";
+    p.style.width = `${Math.random() * 8 + 10}px`;
+    p.style.height = `${Math.random() * 5 + 5}px`;
+    p.style.borderRadius = "100% 20%";
+    p.style.backgroundColor = color;
+    p.style.left = `${fromRect.left + fromRect.width / 2}px`;
+    p.style.top = `${fromRect.top + fromRect.height / 2}px`;
+    p.style.boxShadow = `0 0 12px ${glow}, 0 0 3px rgba(0,0,0,0.4)`;
+    p.style.border = `1px solid rgba(255,255,255,0.2)`;
+    document.body.appendChild(p);
 
-    const delay = i * 60;
-    const anim = petal.animate([
-      { transform: `translate(0, 0) rotate(0deg) scale(1)`, opacity: 0 },
-      { transform: `translate(${Math.random()*40-20}px, -30px) rotate(45deg) scale(1.5)`, opacity: 1, offset: 0.1 },
-      { transform: `translate(${(Math.random()-0.5)*250}px, -150px) rotate(180deg) scale(1.8)`, opacity: 1, offset: 0.5 },
-      { transform: `translate(${(toRect.left+toRect.width/2)-(fromRect.left+fromRect.width/2)}px, ${(toRect.top+toRect.height/2)-(fromRect.top+fromRect.height/2)}px) rotate(720deg) scale(0.2)`, opacity: 0 }
-    ], { duration: 1800, delay: delay, easing: 'cubic-bezier(0.19, 1, 0.22, 1)' });
+    const delay = i * 50;
+    const anim = p.animate([
+      { transform: `translate(0, 0) rotate(0deg) scale(0)`, opacity: 0 },
+      { transform: `translate(${Math.random()*60-30}px, -40px) rotate(45deg) scale(1.5)`, opacity: 1, offset: 0.1 },
+      { transform: `translate(${(Math.random()-0.5)*300}px, -180px) rotate(180deg) scale(2)`, opacity: 1, offset: 0.5 },
+      { transform: `translate(${(toRect.left+toRect.width/2)-(fromRect.left+fromRect.width/2)}px, ${(toRect.top+toRect.height/2)-(fromRect.top+fromRect.height/2)}px) rotate(720deg) scale(0.1)`, opacity: 0 }
+    ], { duration: 1600, delay: delay, easing: 'cubic-bezier(0.16, 1, 0.3, 1)' });
 
     anim.onfinish = () => {
-      petal.remove();
+      p.remove();
       if (i === count - 1) {
         toIcon.classList.add('animate-bounce');
         setTimeout(() => toIcon.classList.remove('animate-bounce'), 800);
@@ -116,7 +114,7 @@ function spawnPetals() {
   }
 }
 
-// --- REMAINING RENDERING LOGIC (NO CHANGE IN CORE BUT UPDATED CLASS NAMES) ---
+// --- RENDERING ---
 function renderProducts() {
   const list = document.getElementById('product-list');
   list.innerHTML = '';
@@ -150,6 +148,20 @@ function renderColors() {
   });
 }
 
+function addToCart() {
+  if (!currentProduct || !currentColor) return;
+  const exists = cart.find(i => i.product.id === currentProduct.id && i.color.id === currentColor.id && i.purpose === currentPurpose);
+  if (exists) exists.quantity++; else cart.push({id:Date.now(),purpose:currentPurpose,product:{...currentProduct},color:{...currentColor},quantity:1});
+  
+  // Start animation immediately with current color
+  spawnPetals(currentColor);
+  
+  // Cleanup current choice for next one
+  const temp = currentColor;
+  currentColor = null;
+  document.getElementById('add-to-cart-container').classList.add('opacity-0');
+}
+
 function updateCartUI() {
   const list = document.getElementById('cart-items-list');
   const badge = document.getElementById('cart-badge-count');
@@ -162,7 +174,7 @@ function updateCartUI() {
     div.className = "flex items-center gap-8 bg-white p-6 rounded-3xl border border-primary/5";
     div.innerHTML = `<div class="flex gap-2 w-24 flex-shrink-0"><img src="${item.product.img}" class="w-12 h-12 rounded-xl object-cover"/><img src="${item.color.img}" class="w-12 h-12 rounded-xl object-cover border"/></div>
                     <div class="flex-grow"><h5 class="text-xl font-bold leading-tight">${item.product.name}</h5><p class="text-sm opacity-60">${item.color.name}</p></div>
-                    <div class="flex items-center gap-6"><div class="flex items-center bg-surface-container rounded-full p-1 border"><button class="w-8 h-8 flex items-center justify-center" onclick="changeQty(${index}, -1)">-</button><span class="w-8 text-center font-bold">${item.quantity}</span><button class="w-8 h-8 flex items-center justify-center" onclick="changeQty(${index}, 1)">+</button></div><p class="text-xl font-bold w-28 text-right">¥${(item.product.price * item.quantity).toLocaleString()}</p></div>`;
+                    <div class="flex items-center gap-6"><div class="flex items-center bg-surface-container rounded-full p-1 border"><button class="w-8 h-8 flex items-center justify-center font-bold" onclick="changeQty(${index}, -1)">-</button><span class="w-8 text-center font-bold">${item.quantity}</span><button class="w-8 h-8 flex items-center justify-center font-bold" onclick="changeQty(${index}, 1)">+</button></div><p class="text-xl font-bold w-28 text-right">¥${(item.product.price * item.quantity).toLocaleString()}</p></div>`;
     list.appendChild(div);
   });
   badge.innerText = cart.length; badge.classList.toggle('hidden', cart.length === 0);
@@ -172,7 +184,34 @@ function updateCartUI() {
 window.changeQty = (index, delta) => { cart[index].quantity += delta; if (cart[index].quantity <= 0) cart.splice(index, 1); updateCartUI(); };
 function toggleCart(open) { document.getElementById('cart-screen').style.transform = open ? 'translateX(0)' : 'translateX(100%)'; }
 
-// --- INIT ---
+// --- INITIALIZE & INTRO ---
+function playIntro(callback) {
+  const overlay = document.getElementById('intro-overlay');
+  if (!overlay) return;
+  sessionStorage.setItem('yamashiroya_intro_played', 'true');
+  overlay.classList.remove('hidden');
+  setTimeout(() => {
+    overlay.style.opacity = '1';
+    document.getElementById('intro-image-container').style.opacity = '1';
+    document.getElementById('intro-image-container').style.transform = 'scale(1.1)';
+    document.getElementById('intro-text').style.opacity = '1';
+    document.getElementById('intro-text').style.transform = 'translateY(0)';
+  }, 100);
+  setTimeout(() => {
+    overlay.style.opacity = '0';
+    setTimeout(() => {
+      overlay.classList.add('hidden');
+      if (callback) callback();
+    }, 1000);
+  }, 4500);
+}
+
+const introPlayed = sessionStorage.getItem('yamashiroya_intro_played');
+if (!introPlayed) {
+    playIntro();
+}
+
+// --- HANDLERS ---
 document.getElementById('start-shopping').onclick = () => showStep(1);
 document.getElementById('nav-shop').onclick = (e) => { e.preventDefault(); showStep(1); };
 document.getElementById('nav-home').onclick = (e) => { e.preventDefault(); location.reload(); };
