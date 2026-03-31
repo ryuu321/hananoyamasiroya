@@ -50,10 +50,10 @@ const PRODUCTS = [
 ];
 
 const COLORS = [
-  { id: 'c-white', name: '白・グリーン系', mode: 'gradient', colors: ['#ffffff', '#2e7d32'] },
-  { id: 'c-pink', name: 'ピンク・パステル系', mode: 'gradient', colors: ['#d63384', '#f8bbd0'] },
-  { id: 'c-red', name: '暖色・オレンジ系', mode: 'gradient', colors: ['#c62828', '#ff8a65'] },
-  { id: 'c-purple', name: '紫・ブルー系', mode: 'multi', colors: ['#2196F3', '#9C27B0', '#3F51B5', '#1A237E'] }
+  { id: 'c-white', name: '白・グリーン系', img: '/color_white.png', mode: 'gradient', colors: ['#ffffff', '#2e7d32'] },
+  { id: 'c-pink', name: 'ピンク・パステル系', img: '/color_pink.png', mode: 'gradient', colors: ['#d63384', '#f8bbd0'] },
+  { id: 'c-red', name: '暖色・オレンジ系', img: '/color_red.png', mode: 'gradient', colors: ['#c62828', '#ff8a65'] },
+  { id: 'c-purple', name: '紫・ブルー系', img: '/color_purple.png', mode: 'multi', colors: ['#2196F3', '#9C27B0', '#3F51B5', '#1A237E'] }
 ];
 
 let cart = [];
@@ -62,7 +62,7 @@ let currentProduct = null;
 let currentColor = null;
 let currentStep = 1;
 
-// --- UTILS ---
+// --- DYNAMIC NAVIGATION ---
 function updateNavUI() {
     const l = document.getElementById('landing-screen');
     const hN = document.getElementById('nav-home');
@@ -78,21 +78,16 @@ function updateNavUI() {
 function showStep(step) {
   const prevStep = currentStep;
   currentStep = step;
-  
-  // Toggle Parent Screens
   document.getElementById('landing-screen').classList.add('layer-hidden');
   document.getElementById('order-screen').classList.remove('layer-hidden');
 
-  // Navigate between layers
   [1, 2, 3, 4].forEach(num => {
     const el = document.getElementById(`step-${num}-area`);
     if (!el) return;
     if (num === step) {
       el.classList.remove('layer-hidden');
-      el.animate([{ opacity: 0, transform: `translateX(${step > prevStep ? 30 : -30}px)` }, { opacity: 1, transform: 'translateX(0)' }], { duration: 400, easing: 'ease-out' });
-    } else {
-      el.classList.add('layer-hidden');
-    }
+      el.animate([{ opacity: 0, transform: `translateX(${step > prevStep ? 30 : -30}px)` }, { opacity: 1, transform: 'translateX(0)' }], { duration: 450, easing: 'ease-out' });
+    } else el.classList.add('layer-hidden');
   });
 
   if (step === 2) renderProducts();
@@ -101,7 +96,7 @@ function showStep(step) {
   updateNavUI();
   window.scrollTo({ top: 0, behavior: 'instant' });
 }
-window.showStep = showStep; // EXPOSE TO GLOBAL for HTML onclick
+window.showStep = showStep;
 
 function updateStepper() {
   for (let i = 1; i <= 4; i++) {
@@ -128,32 +123,55 @@ function updateStepper() {
   }
 }
 
-function spawnPetals(theme) {
+// --- ADVANCED PETAL FLIGHT ---
+function spawnPetals(selectedTheme) {
     const fromBtn = document.getElementById('add-to-cart-btn');
     const toIcon = document.getElementById('cart-icon-btn');
-    if (!fromBtn || !toIcon || !theme) return;
+    if (!fromBtn || !toIcon || !selectedTheme) return;
     const fromR = fromBtn.getBoundingClientRect();
     const toR = toIcon.getBoundingClientRect();
-    const count = 10;
+    const count = 12;
+
     for (let i = 0; i < count; i++) {
         const p = document.createElement('div');
-        p.className = "fixed pointer-events-none z-[1000]";
-        p.style.width = '12px'; p.style.height = '14px'; p.style.borderRadius = "100% 20%";
-        p.style.left = `${fromR.left + fromR.width/2}px`; p.style.top = `${fromR.top}px`;
-        if (theme.mode==='gradient') p.style.background = `linear-gradient(135deg, ${theme.colors[0]}, ${theme.colors[1]})`;
-        else p.style.backgroundColor = theme.colors[i % theme.colors.length];
+        p.className = "fixed pointer-events-none z-[2000] rotate-45";
+        p.style.width = `${Math.random() * 8 + 12}px`;
+        p.style.height = `${Math.random() * 5 + 8}px`;
+        p.style.borderRadius = "100% 15% 100% 15%";
+        p.style.left = `${fromR.left + fromR.width / 2}px`;
+        p.style.top = `${fromR.top + fromR.height / 2}px`;
+
+        if (selectedTheme.mode === 'gradient') {
+            p.style.background = `linear-gradient(135deg, ${selectedTheme.colors[0]}, ${selectedTheme.colors[1]})`;
+        } else {
+            p.style.backgroundColor = selectedTheme.colors[i % selectedTheme.colors.length];
+        }
         p.style.boxShadow = `0 0 10px rgba(255,255,255,0.7), 0 0 2px rgba(0,0,0,0.2)`;
+        p.style.border = `1px solid rgba(255,255,255,0.2)`;
         document.body.appendChild(p);
+
+        const delay = i * 60;
         const dx = (toR.left + toR.width/2) - (fromR.left + fromR.width/2);
-        const dy = (toR.top + toR.height/2) - fromR.top;
+        const dy = (toR.top + toR.height/2) - (fromR.top + fromR.height/2);
+
         const anim = p.animate([
-            { transform: 'translate(0, 0) scale(0)', opacity: 0 },
-            { transform: `translate(${(Math.random()-0.5)*100}px, -40px) scale(1.5)`, opacity: 1, offset: 0.1 },
-            { transform: `translate(${dx/2}px, -150px) scale(1.8) rotate(180deg)`, opacity: 1, offset: 0.5 },
-            { transform: `translate(${dx}px, ${dy-60}px) scale(1.2) rotate(360deg)`, opacity: 1, offset: 0.8 },
-            { transform: `translate(${dx}px, ${dy}px) scale(0.1) rotate(720deg)`, opacity: 0 }
-        ], { duration: 2000, delay: i*60, easing: 'cubic-bezier(0.2, 1, 0.2, 1)' });
-        anim.onfinish = () => { p.remove(); if(i===count-1){ toIcon.classList.add('animate-bounce'); setTimeout(()=>toIcon.classList.remove('animate-bounce'),500); } };
+            { transform: 'translate(0, 0) rotate(0deg) scale(0)', opacity: 0 },
+            { transform: `translate(${(Math.random()-0.5)*120}px, -80px) rotate(45deg) scale(1.5)`, opacity: 1, offset: 0.1 },
+            { transform: `translate(${dx / 2}px, -200px) rotate(180deg) scale(1.8)`, opacity: 1, offset: 0.4 },
+            { transform: `translate(${dx - 40}px, ${dy - 20}px) rotate(360deg) scale(1.5)`, opacity: 1, offset: 0.7 },
+            { transform: `translate(${dx + 40}px, ${dy - 40}px) rotate(540deg) scale(1.5)`, opacity: 1, offset: 0.85 },
+            { transform: `translate(${dx}px, ${dy - 100}px) rotate(630deg) scale(1.2)`, opacity: 1, offset: 0.92 },
+            { transform: `translate(${dx}px, ${dy}px) rotate(720deg) scale(0.1)`, opacity: 0, offset: 1 }
+        ], { duration: 2200, delay: delay, easing: 'cubic-bezier(0.25, 1, 0.5, 1)' });
+
+        anim.onfinish = () => {
+            p.remove();
+            if (i === count - 1) {
+                toIcon.classList.add('animate-bounce');
+                setTimeout(() => toIcon.classList.remove('animate-bounce'), 800);
+                updateCartUI(); // Update UI after visual flight ends
+            }
+        };
     }
 }
 
@@ -171,7 +189,7 @@ function renderProducts() {
         cat.items.forEach(item => {
             const card = document.createElement('div');
             card.className = "bg-white rounded-3xl overflow-hidden shadow-sm hover:shadow-2xl transition-all cursor-pointer group border border-primary/5";
-            card.innerHTML = `<div class="aspect-[4/5] overflow-hidden"><img src="${item.img}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" onerror="this.src='https://placehold.jp/101254/ffffff/400x500.png?text=Floral%20Arrangement'"/></div><div class="p-8"><h5 class="text-2xl font-bold mb-2">${item.name}</h5><p class="text-xl font-bold font-label text-primary">¥${item.price.toLocaleString()}</p></div>`;
+            card.innerHTML = `<div class="aspect-[4/5] overflow-hidden"><img src="${item.img}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" onerror="this.src='https://placehold.jp/101254/ffffff/400x500.png?text=Florist%20Yamashiroya'"/></div><div class="p-8"><h5 class="text-2xl font-bold mb-2">${item.name}</h5><p class="text-xl font-bold font-label text-primary">¥${item.price.toLocaleString()}</p></div>`;
             card.onclick = (e) => { e.stopPropagation(); currentProduct = item; showStep(3); };
             const container = document.getElementById(`cat-${cat.id}`);
             if(container) container.appendChild(card);
@@ -190,7 +208,7 @@ function renderColors() {
         const isS = currentColor?.id === color.id;
         card.className = `p-6 bg-white rounded-[2rem] shadow-sm border-2 cursor-pointer transition-all ${isS ? 'border-primary ring-8 ring-primary/5' : 'border-transparent'}`;
         card.innerHTML = `<div class="aspect-square rounded-2xl overflow-hidden mb-6 shadow-inner"><img src="${color.img}" class="w-full h-full object-cover"/></div><p class="text-center font-bold text-lg">${color.name}</p>`;
-        card.onclick = () => { currentColor = color; renderColors(); document.getElementById('add-to-cart-container').classList.remove('opacity-0'); };
+        card.onclick = () => { currentColor = color; renderColors(); const ac = document.getElementById('add-to-cart-container'); if(ac) ac.classList.remove('opacity-0'); };
         grid.appendChild(card);
     });
 }
@@ -214,16 +232,15 @@ function updateCartUI() {
 }
 
 window.changeQty = (idx, d) => { cart[idx].quantity += d; if(cart[idx].quantity <= 0) cart.splice(idx, 1); updateCartUI(); };
-window.toggleCart = (open) => { document.getElementById('cart-screen').style.transform = open ? 'translateX(0)' : 'translateX(100%)'; };
+window.toggleCart = (open) => { const cs = document.getElementById('cart-screen'); if(cs) cs.style.transform = open ? 'translateX(0)' : 'translateX(100%)'; };
 
 // --- LISTENERS ---
 document.addEventListener('DOMContentLoaded', () => {
     const startBtn = document.getElementById('start-shopping');
     if(startBtn) startBtn.onclick = () => showStep(1);
 
-    document.querySelectorAll('.purpose-card').forEach(card => {
-        card.onclick = () => { currentPurpose = card.dataset.purpose; showStep(2); };
-    });
+    const cards = document.querySelectorAll('.purpose-card');
+    cards.forEach(card => card.onclick = () => { currentPurpose = card.dataset.purpose; showStep(2); });
 
     const addBtn = document.getElementById('add-to-cart-btn');
     if(addBtn) addBtn.onclick = () => {
@@ -231,8 +248,10 @@ document.addEventListener('DOMContentLoaded', () => {
         const e = cart.find(i=>i.product.id===currentProduct.id&&i.color.id===currentColor.id&&i.purpose===currentPurpose);
         if(e) e.quantity++; else cart.push({id:Date.now(),purpose:currentPurpose,product:{...currentProduct},color:{...currentColor},quantity:1});
         spawnPetals(currentColor);
-        currentColor = null;
-        document.getElementById('add-to-cart-container').classList.add('opacity-0');
+        // Do NOT clear currentColor immediately, allow anim to read it. (Cleared at next step/select)
+        const acc = document.getElementById('add-to-cart-container');
+        if(acc) acc.classList.add('opacity-0');
+        updateCartUI(); // Update count immediately
     };
 
     const cartOpen = document.getElementById('cart-icon-btn');
@@ -251,10 +270,7 @@ document.addEventListener('DOMContentLoaded', () => {
     };
     
     const navShop = document.getElementById('nav-shop');
-    if(navShop) navShop.onclick = (e) => {
-        e.preventDefault();
-        showStep(1);
-    };
+    if(navShop) navShop.onclick = (e) => { e.preventDefault(); showStep(1); };
 
     updateStepper(); updateCartUI(); updateNavUI();
 });
