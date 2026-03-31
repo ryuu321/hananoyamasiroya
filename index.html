@@ -36,6 +36,18 @@
     .layer-hidden { opacity: 0; pointer-events: none; transform: translateY(20px); position: absolute; width: 100%; top: 0; }
     #intro-overlay { backdrop-filter: blur(20px); transition: opacity 1s ease; }
     body.is-loading { overflow: hidden; }
+
+    /* BLOOMING NAVIGATION STYLES */
+    .nav-garden { position: absolute; bottom: -20px; left: 50%; transform: translateX(-50%); width: 80px; height: 30px; pointer-events: none; overflow: visible; }
+    .nav-link { position: relative; padding-bottom: 8px; transition: opacity 0.4s ease; }
+    
+    .soil-stroke { stroke-dasharray: 100; stroke-dashoffset: 100; transition: stroke-dashoffset 0.6s ease; }
+    .flower-stem { transform-origin: bottom center; transform: scaleY(0); transition: transform 0.6s 0.2s cubic-bezier(0.34, 1.56, 0.64, 1); }
+    .flower-petals { transform-origin: center center; transform: scale(0); opacity: 0; transition: transform 0.6s 0.5s cubic-bezier(0.17, 0.67, 0.83, 1.2), opacity 0.5s 0.5s; }
+
+    .nav-link.is-active .soil-stroke { stroke-dashoffset: 0; }
+    .nav-link.is-active .flower-stem { transform: scaleY(1); }
+    .nav-link.is-active .flower-petals { transform: scale(1); opacity: 1; }
   </style>
 </head>
 <body class="bg-surface text-primary font-headline overflow-x-hidden is-loading">
@@ -58,9 +70,48 @@
       <img src="https://yamashiroya.easy-myshop.jp/c-fimg?fp=logo" alt="Hananoyamashiroya Logo" class="h-full w-auto object-contain"/>
     </a>
     <nav class="hidden md:flex items-center space-x-12">
-      <a class="nav-link font-medium tracking-wide opacity-60 hover:opacity-100 transition-opacity" href="#" id="nav-home">ホーム</a>
-      <a class="nav-link font-medium tracking-wide opacity-60 hover:opacity-100 transition-opacity" href="#" id="nav-shop">ショップ</a>
-      <a class="nav-link font-medium tracking-wide opacity-60 hover:opacity-100 transition-opacity" href="#" id="nav-history">当店のあゆみ</a>
+      <a class="nav-link font-medium tracking-wide" href="#" id="nav-home">
+        ホーム
+        <div class="nav-garden">
+          <svg viewBox="0 0 100 40" class="w-full h-full">
+            <path class="soil-stroke" d="M10,35 Q50,30 90,35" stroke="#795548" stroke-width="3" fill="none" stroke-linecap="round"/>
+            <path class="flower-stem" d="M50,33 Q45,20 50,15" stroke="#4CAF50" stroke-width="2" fill="none"/>
+            <g class="flower-petals">
+              <circle cx="50" cy="12" r="5" fill="#f48fb1"/> <!-- Home: Soft Pink -->
+              <circle cx="53" cy="15" r="4" fill="#f06292"/>
+              <circle cx="47" cy="15" r="4" fill="#f06292"/>
+              <circle cx="50" cy="9" r="4" fill="#f06292"/>
+            </g>
+          </svg>
+        </div>
+      </a>
+      <a class="nav-link font-medium tracking-wide" href="#" id="nav-shop">
+        ショップ
+        <div class="nav-garden">
+          <svg viewBox="0 0 100 40" class="w-full h-full">
+            <path class="soil-stroke" d="M10,35 Q50,38 90,35" stroke="#8D6E63" stroke-width="3" fill="none" stroke-linecap="round"/>
+            <path class="flower-stem" d="M50,35 L50,18" stroke="#81C784" stroke-width="2" fill="none"/>
+            <g class="flower-petals">
+              <path d="M50,18 L55,10 L50,14 L45,10 Z" fill="#FFD54F"/> <!-- Shop: Sunny Yellow -->
+              <circle cx="50" cy="15" r="3" fill="#FBC02D"/>
+            </g>
+          </svg>
+        </div>
+      </a>
+      <a class="nav-link font-medium tracking-wide" href="#" id="nav-history">
+        当店のあゆみ
+        <div class="nav-garden">
+          <svg viewBox="0 0 100 40" class="w-full h-full">
+            <path class="soil-stroke" d="M15,36 Q50,32 85,36" stroke="#5D4037" stroke-width="3" fill="none" stroke-linecap="round"/>
+            <path class="flower-stem" d="M50,35 C55,25 45,20 50,12" stroke="#2E7D32" stroke-width="2" fill="none"/>
+            <g class="flower-petals">
+              <circle cx="46" cy="10" r="5" fill="#7986CB"/> <!-- History: Noble Blue -->
+              <circle cx="54" cy="10" r="5" fill="#9575CD"/>
+              <circle cx="50" cy="6" r="4" fill="#5C6BC0"/>
+            </g>
+          </svg>
+        </div>
+      </a>
     </nav>
     <div class="flex items-center gap-6">
       <div id="header-cart-total-container" class="hidden md:flex flex-col items-end opacity-60">

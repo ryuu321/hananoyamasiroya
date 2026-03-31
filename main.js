@@ -5,8 +5,7 @@ const PRODUCTS = [
   ]},
   { id: 'arrangement', title: 'アレンジメント', purposes: ['celebration', 'offering'], items: [
       { id: 'YH-F002-4-01', name: 'お祝い用アレンジ (S)', price: 4000, img: 'https://yamashiroya.easy-myshop.jp/item-image/YH-F002-4-01.jpg', desc: '飾りやすいサイズのギフト。' },
-      { id: 'YH-F004-11-01', name: '開店祝アレンジ', price: 11000, img: 'https://yamashiroya.easy-myshop.jp/item-image/YH-F004-11-01.jpg', desc: '店舗の成功を願って。' },
-      { id: 'YH-F012-7-01', name: 'お供えアレンジ', price: 7000, img: 'https://yamashiroya.easy-myshop.jp/item-image/YH-F012-7-01.jpg', desc: 'しめやかな法要の場に。' }
+      { id: 'YH-F004-11-01', name: '開店祝アレンジ', price: 11000, img: 'https://yamashiroya.easy-myshop.jp/item-image/YH-F004-11-01.jpg', desc: '店舗の成功を願って。' }
   ]}
 ];
 
@@ -20,9 +19,14 @@ let cart = []; let currentPurpose = 'celebration'; let currentProduct = null; le
 
 function updateNavUI(activeId) {
     const navs = ['nav-home', 'nav-shop', 'nav-history'];
-    const active = "nav-link font-medium tracking-wide text-primary border-b-2 border-primary pb-1";
-    const inactive = "nav-link font-medium tracking-wide opacity-60 hover:opacity-100 transition-opacity";
-    navs.forEach(id => { const el = document.getElementById(id); if (el) el.className = (id === activeId ? active : inactive); });
+    navs.forEach(id => { 
+        const el = document.getElementById(id); 
+        if (el) {
+            el.classList.toggle('is-active', id === activeId);
+            // Non-active ones stay elegant but semi-transparent
+            if(id !== activeId) el.classList.add('opacity-40'); else el.classList.remove('opacity-40');
+        }
+    });
 }
 
 function resetAllScreens() {
@@ -125,11 +129,8 @@ window.changeQty = (idx, d) => { cart[idx].quantity += d; if(cart[idx].quantity 
 window.toggleCart = (open) => { const cs = document.getElementById('cart-screen'); if(cs) cs.style.transform = open ? 'translateX(0)' : 'translateX(100%)'; };
 
 document.addEventListener('DOMContentLoaded', () => {
-    // Nav Mapping
     const map = { 'nav-home': showLanding, 'logo-link': showLanding, 'footer-logo-link': showLanding, 'nav-shop': () => showStep(1), 'start-shopping': () => showStep(1), 'footer-shop-link': () => showStep(1), 'nav-history': showHistory, 'footer-history-link': showHistory };
     Object.keys(map).forEach(id => { const el = document.getElementById(id); if (el) el.onclick = (e) => { e.preventDefault(); map[id](); }; });
-
-    // Internal Shop logic
     document.querySelectorAll('.purpose-card').forEach(card => card.onclick = () => { currentPurpose = card.dataset.purpose; showStep(2); });
     const addBtn = document.getElementById('add-to-cart-btn'); if(addBtn) addBtn.onclick = () => {
         if (!currentProduct || !currentColor) return;
@@ -140,14 +141,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const cartOpen = document.getElementById('cart-icon-btn'); if(cartOpen) cartOpen.onclick = () => window.toggleCart(true);
     const cartClose = document.getElementById('close-cart'); if(cartClose) cartClose.onclick = () => window.toggleCart(false);
     const checkout = document.getElementById('checkout-btn'); if(checkout) checkout.onclick = () => { window.toggleCart(false); showStep(4); };
-
-    // Intro Overlay (Wait for load)
     const overlay = document.getElementById('intro-overlay');
-    if (overlay) {
-        overlay.classList.remove('hidden');
-        setTimeout(() => { document.getElementById('intro-image-container').style.opacity = '1'; document.getElementById('intro-text').style.opacity = '1'; }, 100);
-        setTimeout(() => { overlay.style.opacity = '0'; setTimeout(() => { overlay.classList.add('hidden'); document.body.classList.remove('is-loading'); }, 1000); }, 3500);
-    }
-
+    if (overlay) { overlay.classList.remove('hidden'); setTimeout(() => { document.getElementById('intro-image-container').style.opacity = '1'; document.getElementById('intro-text').style.opacity = '1'; }, 100); setTimeout(() => { overlay.style.opacity = '0'; setTimeout(() => { overlay.classList.add('hidden'); document.body.classList.remove('is-loading'); }, 1000); }, 3500); }
     updateStepper(); updateCartUI(); updateNavUI('nav-home');
 });
