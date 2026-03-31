@@ -7,7 +7,7 @@
   <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
   <link href="https://fonts.googleapis.com" rel="preconnect"/>
   <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@400;500;700;900&family=Work+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@400;500;700;900&family=Work+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
   <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@100..700,FILL@0..1,GRAD@0,opsz@24" rel="stylesheet"/>
   <script id="tailwind-config">
     tailwind.config = {
@@ -15,53 +15,18 @@
       theme: {
         extend: {
           colors: {
-            "secondary-fixed": "#e2e4cc",
-            "primary-container": "#a14009",
-            "inverse-on-surface": "#f2f1e5",
-            "surface-container-lowest": "#ffffff",
-            "outline-variant": "#dec0b5",
-            "inverse-primary": "#ffb596",
-            "surface": "#fbfaee",
-            "on-error": "#ffffff",
-            "on-error-container": "#93000a",
-            "tertiary-container": "#7f534d",
-            "secondary-fixed-dim": "#c6c8b1",
-            "on-secondary-fixed-variant": "#454837",
-            "tertiary-fixed": "#ffdad5",
             "on-primary": "#ffffff",
-            "on-tertiary-fixed": "#31120e",
-            "on-secondary-container": "#616451",
-            "on-primary-fixed-variant": "#7d2d00",
-            "secondary": "#5d604d",
             "primary": "#7d2d00",
-            "error": "#ba1a1a",
-            "on-surface": "#1b1c15",
-            "surface-bright": "#fbfaee",
-            "secondary-container": "#dfe2ca",
-            "on-background": "#1b1c15",
-            "on-tertiary-fixed-variant": "#643c37",
-            "on-tertiary": "#ffffff",
-            "on-primary-container": "#ffceba",
-            "outline": "#8a7268",
-            "surface-container-high": "#e9e9dd",
+            "primary-container": "#a14009",
+            "secondary": "#5d604d",
+            "surface": "#fbfaee",
             "surface-container": "#efeee3",
-            "on-secondary-fixed": "#1a1d0e",
-            "on-primary-fixed": "#360f00",
-            "surface-tint": "#a14009",
-            "tertiary": "#643c37",
-            "primary-fixed-dim": "#ffb596",
-            "on-secondary": "#ffffff",
-            "surface-container-low": "#f5f4e8",
-            "surface-dim": "#dbdbcf",
-            "primary-fixed": "#ffdbcd",
-            "error-container": "#ffdad6",
-            "surface-container-highest": "#e4e3d7",
+            "surface-container-high": "#e9e9dd",
+            "on-surface": "#1b1c15",
             "on-surface-variant": "#57423a",
-            "tertiary-fixed-dim": "#f2b9b1",
-            "background": "#fbfaee",
-            "on-tertiary-container": "#ffcdc6",
-            "surface-variant": "#e4e3d7",
-            "inverse-surface": "#303129"
+            "outline": "#8a7268",
+            "outline-variant": "#dec0b5",
+            "background": "#fbfaee"
           },
           fontFamily: {
             "headline": ["Noto Serif JP", "serif"],
@@ -81,198 +46,194 @@
     }
     .no-scrollbar::-webkit-scrollbar { display: none; }
     .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
-    .page-screen { transition: opacity 0.5s ease-in-out, transform 0.5s ease-in-out; }
-    .page-screen.hidden { display: none; opacity: 0; transform: translateY(10px); }
+    .transition-content { transition: opacity 0.4s ease-out, transform 0.4s ease-out; }
+    .hidden-content { display: none; opacity: 0; transform: translateY(15px); }
   </style>
 </head>
-<body class="bg-surface text-on-surface font-body selection:bg-primary-container selection:text-on-primary-container">
+<body class="bg-surface text-on-surface font-body selection:bg-primary-container selection:text-on-primary">
 
-<!-- Intro Overlay -->
+<!-- Intro/Transitions (Omitted same structure but assumed present in logic) -->
 <div id="intro-overlay" class="fixed inset-0 z-[100] flex items-center justify-center bg-white pointer-events-none transition-opacity duration-1000 opacity-0 hidden overflow-hidden">
-  <div class="relative w-full h-full flex items-center justify-center">
-    <div id="intro-image-container" class="absolute inset-0 flex items-center justify-center scale-90 opacity-0 transition-all duration-[3000ms] ease-out">
-      <img src="/intro_watercolor.png" alt="" class="w-full h-full object-cover"/>
-      <div class="absolute inset-0 bg-[#fbfaee]/20 mix-blend-multiply"></div>
+    <div class="relative w-full h-full flex items-center justify-center">
+      <div id="intro-image-container" class="absolute inset-0 flex items-center justify-center scale-90 opacity-0 transition-all duration-[3000ms] ease-out">
+        <img src="/intro_watercolor.png" alt="" class="w-full h-full object-cover"/>
+        <div class="absolute inset-0 bg-[#fbfaee]/20 mix-blend-multiply"></div>
+      </div>
+      <div id="intro-text" class="absolute bottom-32 text-center opacity-0 transition-all duration-1000 delay-1000 translate-y-4">
+        <p class="text-3xl md:text-4xl font-headline text-stone-800 tracking-[0.4em] font-medium">想いを、花にのせて。</p>
+      </div>
     </div>
-    <div id="intro-text" class="absolute bottom-32 text-center opacity-0 transition-all duration-1000 delay-1000 translate-y-4">
-      <p class="text-3xl md:text-4xl font-headline text-stone-800 tracking-[0.4em] font-medium">想いを、花にのせて。</p>
-    </div>
-  </div>
 </div>
 
-<header class="w-full top-0 sticky z-50 bg-[#fbfaee]/90 backdrop-blur-md dark:bg-[#1b1c15]/90">
+<header class="w-full top-0 sticky z-50 bg-[#fbfaee]/90 backdrop-blur-md">
   <div class="flex justify-between items-center px-8 py-6 max-w-screen-2xl mx-auto">
-    <a href="#" class="text-3xl font-bold text-[#7d2d00] dark:text-[#dec0b5] italic font-headline transition-transform hover:scale-105 active:scale-95" id="logo-link">Yamashiroya</a>
+    <a href="#" class="text-3xl font-bold text-[#7d2d00] italic font-headline hover:scale-105 transition-transform" id="logo-link">Yamashiroya</a>
     <nav class="hidden md:flex items-center space-x-12">
-      <a class="nav-link font-['Noto_Serif_JP'] text-lg font-medium tracking-wide text-[#7d2d00] dark:text-[#ffffff] border-b-2 border-[#7d2d00] pb-1 hover:text-[#a14009] transition-colors duration-300" href="#" data-screen="landing">Home</a>
-      <a class="nav-link font-['Noto_Serif_JP'] text-lg font-medium tracking-wide text-[#1b1c15] dark:text-[#e4e3d7] opacity-80 hover:text-[#a14009] transition-colors duration-300" href="#">History</a>
-      <a class="nav-link font-['Noto_Serif_JP'] text-lg font-medium tracking-wide text-[#1b1c15] dark:text-[#e4e3d7] opacity-80 hover:text-[#a14009] transition-colors duration-300" href="#">Contact</a>
+      <a class="nav-link font-medium tracking-wide text-primary border-b-2 border-primary pb-1" href="#" data-screen="landing">Home</a>
+      <a class="nav-link font-medium tracking-wide opacity-60 hover:opacity-100 transition-opacity" href="#">History</a>
+      <a class="nav-link font-medium tracking-wide opacity-60 hover:opacity-100 transition-opacity" href="#">Contact</a>
     </nav>
-    <div class="flex items-center space-x-4">
-      <button id="cart-button" class="p-2 text-[#7d2d00] dark:text-[#dec0b5] active:scale-95 transition-all relative">
-        <span class="material-symbols-outlined" data-icon="shopping_bag">shopping_bag</span>
-        <span id="cart-badge" class="absolute top-1 right-1 bg-primary text-on-primary text-[10px] w-4 h-4 rounded-full flex items-center justify-center hidden">0</span>
+    <div class="flex items-center">
+      <button id="cart-icon-btn" class="p-2 text-primary relative group">
+        <span class="material-symbols-outlined text-3xl" data-icon="shopping_bag">shopping_bag</span>
+        <span id="cart-badge-count" class="absolute top-1 right-1 bg-primary text-white text-[10px] w-5 h-5 rounded-full flex items-center justify-center border-2 border-white font-bold hidden animate-bounce">0</span>
       </button>
     </div>
   </div>
 </header>
 
 <main id="main-content">
-  <!-- LANDING PAGE (Step 0) -->
-  <div id="landing-screen" class="page-screen">
+  <!-- LANDING -->
+  <div id="landing-screen" class="transition-content">
     <section class="relative h-[921px] w-full flex items-center justify-center overflow-hidden">
-      <div class="absolute inset-0 bg-hero-pattern" data-alt="scenic view of historic Otaru canal at sunset"></div>
+      <div class="absolute inset-0 bg-hero-pattern"></div>
       <div class="relative z-10 text-center px-6 max-w-4xl">
-        <h1 class="font-headline text-4xl md:text-6xl lg:text-7xl font-bold text-white mb-12 leading-tight tracking-tight">
+        <h1 class="font-headline text-4xl md:text-6xl font-bold text-white mb-12 transform transition-all duration-1000">
           小樽の思い出に、<br/>色鮮やかなお花を。
         </h1>
-        <div class="flex flex-col items-center gap-6">
-          <button id="start-shopping" class="min-h-[64px] px-12 py-4 bg-gradient-to-br from-[#7d2d00] to-[#a14009] text-white font-headline text-xl md:text-2xl rounded-lg shadow-2xl hover:translate-y-[-2px] active:scale-95 transition-all duration-300">
-            商品を選び、購入する
-          </button>
-          <p class="text-white/90 font-label text-sm tracking-[0.2em] uppercase">Est. 1928 Otaru, Hokkaido</p>
-        </div>
-      </div>
-      <div class="absolute bottom-12 left-1/2 -translate-x-1/2 flex flex-col items-center text-white/60">
-        <span class="text-xs font-label tracking-widest uppercase mb-2">Scroll</span>
-        <div class="w-px h-16 bg-gradient-to-b from-white/60 to-transparent"></div>
-      </div>
-    </section>
-    
-    <section class="py-32 px-8 max-w-screen-2xl mx-auto">
-      <div class="grid grid-cols-1 md:grid-cols-12 gap-12 items-end">
-        <div class="md:col-span-7">
-          <h2 class="font-headline text-3xl md:text-5xl font-medium text-primary mb-8">
-            歴史が息づく街で、<br/>心を届ける一輪。
-          </h2>
-          <p class="text-xl md:text-2xl leading-relaxed text-on-surface max-w-2xl opacity-90">
-            大正末期から続く山城屋。運河のほとりで、私たちは季節の移ろいをお花に託してきました。大切な人への贈り物、旅の思い出に。
-          </p>
-        </div>
-        <div class="md:col-span-5 aspect-[4/5] bg-surface-container-low overflow-hidden rounded-xl shadow-lg">
-          <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuDTNfm_35TzFN2fb0SwwYF7dqAg0M7c0vGZy_MZQf2skHfsnftrA3p8wsxUeO42XphBlaYRzuI0IxCzOA_MKq4SSS-Z-IVqVxw9eUrwpKjclam5OcnANBclnEva61RwkEjGKQhBXPVuEgk3mqJj8v3o9kGvxnwGkl5XohRhKqK3bfJOLmisC5L55vTYWHamUOPigT5tjC1WBsMPIk-dSz0odheeiyKAQryhSSf3mpkVUAfOCgu9HRxAdJzOhncLocDJZ-ucOOnKmw" alt="Floral Arrangement" class="w-full h-full object-cover hover:scale-105 transition-transform duration-1000"/>
-        </div>
-      </div>
-    </section>
-
-    <section class="bg-surface-container-low py-32 px-8">
-      <div class="max-w-screen-2xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-8">
-        <div class="space-y-6 flex flex-col justify-center">
-          <span class="font-label text-primary tracking-widest uppercase font-medium">Philosophy</span>
-          <h3 class="font-headline text-3xl font-bold">品質への拘り</h3>
-          <p class="text-lg leading-relaxed text-on-surface-variant">
-            北海道の厳しい寒さを耐え抜いた、力強くも繊細な草花。私たちは地元の生産者と歩み、最高品質の素材を厳選しています。
-          </p>
-        </div>
-        <div class="md:col-span-2 grid grid-cols-2 gap-8">
-          <div class="aspect-square rounded-xl overflow-hidden shadow-sm">
-            <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuBA-C-H7X3zkojte-oc5MYdbKIkdtBmDp1EfC7PiM3yg5o9dwVzoCqbf91RWic7d6wEgGOdWOFJ95hZnllDFTK7OqGyVlEKbNslaGhZRpDkOIAgn8OdHrjUYjSYfW4vfBf1DNVvyIRTfmhBFR4YvDNFzfeYU_r2-dytjXx9PmVtcDQWlpGmzqSTeDd-WJykUOvWI96jACja3RqqljuiikpDXdnO2XoDac24IwlDTnT2V8p4s_8Rom4r2iOJerYi1AbACVBiVXKgUA" alt="Shop Interior" class="w-full h-full object-cover"/>
-          </div>
-          <div class="aspect-square rounded-xl overflow-hidden shadow-sm mt-12">
-            <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuA79-9aJ3ooQHv2v2dNK9GitFGQqswSdGGGmRD1IjXQjxZ6JtokvH_LcR6HjZF3azkBA9oNPVdfAIY5HMkFUoXcPohH4Nq5ny0KRqG1UNDzGpYgZkUdbjauoXY8w7xMJvMuzWnffdY5GfVYUAQsWBU4eiqHMl8uPCnSOUtioFsiPRAc2YxFTwJG7PUP_bELfQeYjcwNFezZym0t-lqDzhx9i_231xnnoCozjD97u0JoZI-Ix_MSbaJ6HDM_kfYrq58nsblGNy1xQA" alt="Florist hands" class="w-full h-full object-cover"/>
-          </div>
-        </div>
+        <button id="start-shopping" class="px-12 py-5 bg-gradient-to-br from-[#7d2d00] to-[#a14009] text-white font-headline text-2xl rounded-lg shadow-2xl hover:translate-y-[-4px] active:scale-95 transition-all">
+          商品を選び、購入する
+        </button>
       </div>
     </section>
   </div>
 
-  <!-- ORDER FLOW (Step 1, 2, 3) -->
-  <div id="order-screen" class="page-screen hidden py-24">
-    <div class="max-w-screen-xl mx-auto px-6 md:px-12">
-      <!-- Stepper Component -->
-      <div class="mb-16 flex justify-between items-center max-w-3xl mx-auto" id="stepper">
-        <div class="flex flex-col items-center gap-3">
-          <div id="step-circle-1" class="w-12 h-12 rounded-full flex items-center justify-center font-bold text-xl transition-all">1</div>
-          <span id="step-label-1" class="text-sm font-medium">目的の選択</span>
+  <!-- ORDER/DYNAMIC SCREEN -->
+  <div id="order-screen" class="transition-content hidden-content py-16">
+    <div class="max-w-screen-xl mx-auto px-6">
+      
+      <!-- 4 Stepper Component -->
+      <div class="mb-16 flex justify-between items-center max-w-4xl mx-auto sticky top-24 z-40 bg-surface/80 backdrop-blur-sm py-4 rounded-xl px-6 border border-outline-variant/10 shadow-sm" id="stepper">
+        <div class="flex flex-col items-center gap-2 step-node" data-step="1">
+          <div id="step-c-1" class="w-10 h-10 rounded-full flex items-center justify-center font-bold text-sm transition-all shadow-sm">1</div>
+          <span class="text-[10px] uppercase tracking-tighter opacity-70">Purpose</span>
         </div>
-        <div class="flex-grow h-px bg-outline-variant/30 mx-4"></div>
-        <div class="flex flex-col items-center gap-3">
-          <div id="step-circle-2" class="w-12 h-12 rounded-full flex items-center justify-center font-bold text-xl transition-all">2</div>
-          <span id="step-label-2" class="text-sm font-medium">商品を選ぶ</span>
+        <div class="flex-grow h-px bg-outline-variant/30 mx-2"></div>
+        <div class="flex flex-col items-center gap-2 step-node" data-step="2">
+          <div id="step-c-2" class="w-10 h-10 rounded-full flex items-center justify-center font-bold text-sm transition-all shadow-sm">2</div>
+          <span class="text-[10px] uppercase tracking-tighter opacity-70">Flower</span>
         </div>
-        <div class="flex-grow h-px bg-outline-variant/30 mx-4"></div>
-        <div class="flex flex-col items-center gap-3">
-          <div id="step-circle-3" class="w-12 h-12 rounded-full flex items-center justify-center font-bold text-xl transition-all">3</div>
-          <span id="step-label-3" class="text-sm font-medium">詳細入力</span>
+        <div class="flex-grow h-px bg-outline-variant/30 mx-2"></div>
+        <div class="flex flex-col items-center gap-2 step-node" data-step="3">
+          <div id="step-c-3" class="w-10 h-10 rounded-full flex items-center justify-center font-bold text-sm transition-all shadow-sm">3</div>
+          <span class="text-[10px] uppercase tracking-tighter opacity-70">Color</span>
+        </div>
+        <div class="flex-grow h-px bg-outline-variant/30 mx-2"></div>
+        <div class="flex flex-col items-center gap-2 step-node" data-step="4">
+          <div id="step-c-4" class="w-10 h-10 rounded-full flex items-center justify-center font-bold text-sm transition-all shadow-sm">4</div>
+          <span class="text-[10px] uppercase tracking-tighter opacity-70">Details</span>
         </div>
       </div>
 
-      <!-- Step Content -->
-      <div id="step-1-content" class="hidden">
-        <div class="mb-16 text-center">
-            <h2 class="text-4xl font-headline font-bold text-primary mb-4">ご利用の目的をお選びください</h2>
-            <p class="text-on-surface-variant italic">その瞬間に最適な花を、私たちが提案します。</p>
+      <!-- Step 1: Purpose -->
+      <section id="step-1-area" class="step-view mb-24">
+        <div class="text-center mb-12"><h2 class="text-3xl font-headline font-bold text-primary">用途をお選びください</h2></div>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-3xl mx-auto">
+          <button class="purpose-card p-12 bg-white rounded-3xl shadow-sm hover:shadow-xl transition-all text-center border border-primary/5 active:scale-95" data-purpose="offering">
+            <span class="material-symbols-outlined text-6xl text-primary/40 block mb-4" data-icon="church">church</span>
+            <span class="text-2xl font-bold">お供え・お悔やみ</span>
+          </button>
+          <button class="purpose-card p-12 bg-white rounded-3xl shadow-sm hover:shadow-xl transition-all text-center border border-primary/5 active:scale-95" data-purpose="celebration">
+            <span class="material-symbols-outlined text-6xl text-primary/40 block mb-4" data-icon="card_giftcard">card_giftcard</span>
+            <span class="text-2xl font-bold">お祝い・ギフト</span>
+          </button>
         </div>
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-            <button class="purpose-card p-10 bg-surface-container rounded-2xl border-2 border-transparent hover:border-primary transition-all text-left shadow-sm hover:shadow-xl" data-purpose="offering">
-                <span class="material-symbols-outlined text-5xl text-primary mb-6" data-icon="auto_awesome">auto_awesome</span>
-                <h3 class="text-2xl font-bold mb-3">お供え・お悔やみ</h3>
-                <p class="text-on-surface-variant leading-relaxed text-lg">故人を想い、安らかな眠りを祈る静かな美しさを。</p>
+      </section>
+
+      <!-- Step 2: Flower (Product) -->
+      <section id="step-2-area" class="step-view hidden-content mb-24">
+        <div class="text-center mb-12"><h2 class="text-3xl font-headline font-bold text-primary">お花をお選びください</h2></div>
+        <div id="product-list" class="space-y-16">
+            <!-- Dynamic products -->
+        </div>
+      </section>
+
+      <!-- Step 3: Tone (Color) -->
+      <section id="step-3-area" class="step-view hidden-content mb-32 pt-24 border-t border-primary/5">
+        <div class="text-center mb-12">
+            <h2 class="text-3xl font-headline font-bold text-primary mb-2">色味をお選びください</h2>
+            <p id="context-selection" class="text-on-surface-variant italic"></p>
+        </div>
+        <div class="grid grid-cols-2 gap-6 max-w-4xl mx-auto" id="color-grid">
+            <!-- Created in JS -->
+        </div>
+        
+        <div id="add-to-cart-bar" class="mt-20 flex justify-center opacity-0 transform translate-y-8 transition-all duration-500 pointer-events-none">
+            <button id="add-to-cart-btn" class="px-16 py-6 bg-primary text-white rounded-full font-bold text-xl shadow-2xl hover:scale-105 active:scale-95 transition-all">
+                カートに追加する
             </button>
-            <button class="purpose-card p-10 bg-surface-container rounded-2xl border-2 border-transparent hover:border-primary transition-all text-left shadow-sm hover:shadow-xl" data-purpose="celebration">
-              <span class="material-symbols-outlined text-5xl text-primary mb-6" data-icon="card_giftcard">card_giftcard</span>
-              <h3 class="text-2xl font-bold mb-3">お祝い・ギフト</h3>
-              <p class="text-on-surface-variant leading-relaxed text-lg">大切な記念日や門出に、彩りと光を添えて。</p>
-          </button>
         </div>
-      </div>
+      </section>
 
-      <div id="step-2-content" class="hidden">
-        <div id="product-sections" class="space-y-24">
-          <!-- Dynamic products -->
-        </div>
-      </div>
+      <!-- Step 4: Details (Form) -->
+      <section id="step-4-area" class="step-view hidden-content max-w-2xl mx-auto py-12">
+          <form class="space-y-10 bg-white p-12 rounded-3xl shadow-xl border border-outline-variant/10">
+              <h2 class="text-3xl font-headline font-bold text-primary border-b border-primary/10 pb-4">注文情報の入力</h2>
+              <div class="space-y-6">
+                <div>
+                  <label class="block text-xs font-bold uppercase tracking-widest text-primary/60 mb-2">お名前</label>
+                  <input type="text" class="w-full bg-surface-container border-0 rounded-xl p-4 focus:ring-2 focus:ring-primary h-14" placeholder="山田 太郎"/>
+                </div>
+                <div>
+                  <label class="block text-xs font-bold uppercase tracking-widest text-primary/60 mb-2">メッセージカード</label>
+                  <textarea class="w-full bg-surface-container border-0 rounded-xl p-4 focus:ring-2 focus:ring-primary h-32" placeholder="想いをメッセージに。"></textarea>
+                </div>
+              </div>
+              <button type="submit" class="w-full py-5 bg-gradient-to-br from-primary to-primary-container text-white rounded-full font-bold text-xl shadow-xl hover:scale-[1.02] transition-all">
+                この内容で注文を確定する
+              </button>
+          </form>
+      </section>
 
-      <div id="step-3-content" class="hidden max-w-2xl mx-auto">
-        <form class="space-y-12 bg-surface-container-high p-12 rounded-3xl shadow-lg border border-outline-variant/10">
-          <h2 class="text-3xl font-headline font-bold text-primary border-b border-primary/20 pb-4">お届け先情報の入力</h2>
-          <div class="space-y-6">
-            <div>
-              <label class="block text-sm font-bold uppercase tracking-widest text-primary mb-3">お名前</label>
-              <input type="text" class="w-full bg-white border-0 rounded-xl p-4 shadow-inner focus:ring-2 focus:ring-primary h-14" placeholder="山田 太郎"/>
-            </div>
-            <div>
-              <label class="block text-sm font-bold uppercase tracking-widest text-primary mb-3">お届けメッセージ</label>
-              <textarea class="w-full bg-white border-0 rounded-xl p-4 shadow-inner focus:ring-2 focus:ring-primary h-40" placeholder="心を込めたメッセージをご入力ください"></textarea>
-            </div>
-          </div>
-          <button type="submit" class="w-full py-5 bg-gradient-to-br from-[#7d2d00] to-[#a14009] text-white rounded-full font-bold text-xl shadow-xl hover:scale-[1.02] active:scale-95 transition-all">
-            注文を決定する
-          </button>
-        </form>
-      </div>
     </div>
   </div>
+
+  <!-- CART OVERLAY -->
+  <div id="cart-screen" class="fixed inset-0 z-[60] bg-surface/95 backdrop-blur-xl translate-x-full transition-transform duration-500 ease-[cubic-bezier(0.23,1,0.32,1)] flex flex-col pt-24 px-8 overflow-y-auto">
+      <button id="close-cart" class="absolute top-8 right-8 text-primary active:scale-90 transition-transform">
+          <span class="material-symbols-outlined text-4xl">close</span>
+      </button>
+      <div class="max-w-2xl mx-auto w-full pb-32">
+          <h2 class="text-4xl font-headline font-bold text-primary mb-12">カートの中身</h2>
+          <div id="cart-items" class="space-y-12">
+              <!-- Cart Items list -->
+          </div>
+          
+          <div id="empty-cart-msg" class="text-center py-24 hidden">
+              <span class="material-symbols-outlined text-7xl text-primary/10 block mb-6">shopping_bag</span>
+              <p class="text-xl text-on-surface-variant font-medium">カートは空です</p>
+          </div>
+
+          <div id="cart-footer" class="mt-20 border-t border-primary/10 pt-12">
+              <div class="flex items-center justify-between mb-12">
+                  <span class="text-lg text-on-surface-variant">合計</span>
+                  <span id="cart-total-price" class="text-4xl font-bold font-label text-primary">¥0</span>
+              </div>
+              <button id="go-to-step-4" class="w-full py-6 bg-primary text-white rounded-full font-bold text-2xl shadow-2xl hover:translate-y-[-4px] active:scale-95 transition-all">
+                  詳細の入力へ進む
+              </button>
+          </div>
+      </div>
+  </div>
+
 </main>
 
-<footer class="w-full bg-[#f5f4e8] dark:bg-[#1b1c15] border-t border-[#dec0b5]/15 pt-20 pb-12">
-  <div class="grid grid-cols-1 md:grid-cols-3 gap-12 px-12 max-w-screen-2xl mx-auto">
-    <div class="space-y-6">
-      <div class="text-2xl font-bold text-[#1b1c15] dark:text-[#fbfaee] font-headline">Yamashiroya</div>
-      <p class="font-['Noto_Serif_JP'] text-xl leading-relaxed text-[#7d2d00] dark:text-[#dec0b5]">
-        © Yamashiroya Florist Otaru. All Rights Reserved.
-      </p>
-    </div>
-    <div class="space-y-4">
-      <p class="font-headline text-lg opacity-60">Location</p>
-      <div class="font-['Noto_Serif_JP'] text-xl leading-relaxed text-[#1b1c15] dark:text-[#e4e3d7]">Address: 1-2-3 Ironai, Otaru</div>
-      <div class="font-['Noto_Serif_JP'] text-xl leading-relaxed text-[#1b1c15] dark:text-[#e4e3d7]">Phone: 0134-XX-XXXX</div>
-    </div>
-    <div class="space-y-4">
-      <p class="font-headline text-lg opacity-60">Info</p>
-      <div class="font-['Noto_Serif_JP'] text-xl leading-relaxed text-[#1b1c15] dark:text-[#e4e3d7]">Business Hours: 09:00 - 18:00</div>
-      <a class="block font-['Noto_Serif_JP'] text-xl leading-relaxed text-[#7d2d00] underline hover:opacity-70 transition-opacity" href="#">Privacy Policy</a>
-    </div>
+<footer class="bg-[#f5f4e8] py-20 px-12 mt-auto">
+  <div class="max-w-screen-2xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-12">
+      <div>
+          <div class="text-2xl font-bold text-primary font-headline mb-4">Yamashiroya</div>
+          <p class="opacity-60 text-sm">小樽の歴史と共に歩む花屋。大正創業。</p>
+      </div>
+      <div>
+          <p class="text-xs uppercase tracking-widest mb-4 opacity-40 italic">Otaru, Hokkaido</p>
+          <p class="text-lg font-medium">〒047-0031 小樽市色内 1-2-3</p>
+          <p class="text-lg">Tel: 0134-2X-XXXX</p>
+      </div>
+      <div class="md:text-right">
+          <p class="opacity-40 text-xs mt-12">© Yamashiroya Florist Otaru.</p>
+      </div>
   </div>
 </footer>
-
-<!-- Floating Widget (Only Step 2) -->
-<div id="footer-nav" class="fixed bottom-8 right-8 z-50 hidden">
-  <button id="next-step-button" class="group flex flex-col items-center justify-center bg-gradient-to-br from-[#7d2d00] to-[#a14009] text-white rounded-full h-24 w-24 shadow-2xl hover:scale-110 active:scale-95 transition-all disabled:opacity-50 disabled:grayscale" disabled>
-    <span class="material-symbols-outlined text-3xl mb-1" data-icon="navigate_next">navigate_next</span>
-    <span class="font-label text-xs uppercase font-bold tracking-tighter" id="selected-items-label">Next</span>
-  </button>
-</div>
 
 <script type="module" src="./main.js"></script>
 </body>
