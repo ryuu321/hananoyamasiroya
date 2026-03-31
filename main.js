@@ -19,10 +19,10 @@ const PRODUCTS = [
 ];
 
 const COLORS = [
-  { id: 'c-white', name: '白・グリーン系', img: '/color_white.png' },
-  { id: 'c-pink', name: 'ピンク・パステル系', img: '/color_pink.png' },
-  { id: 'c-red', name: '暖色・オレンジ系', img: '/color_red.png' },
-  { id: 'c-purple', name: '紫・ブルー系', img: '/color_purple.png' }
+  { id: 'c-white', name: '白・グリーン系', img: '/color_white.png', desc: '静謐で清らかな祈りの色' },
+  { id: 'c-pink', name: 'ピンク・パステル系', img: '/color_pink.png', desc: '穏やかで優しい慈しみの色' },
+  { id: 'c-red', name: '暖色・オレンジ系', img: '/color_red.png', desc: '温かく活気に満ちた感謝の色' },
+  { id: 'c-purple', name: '紫・ブルー系', img: '/color_purple.png', desc: '凛として気高い尊敬の色' }
 ];
 
 let cart = [];
@@ -31,21 +31,22 @@ let currentProduct = null;
 let currentColor = null;
 let currentStep = 1;
 
-// --- STEP CONTROL ---
+// --- STEP CONTROL (LAYERED NAVIGATION) ---
 function updateStepper() {
     for (let i = 1; i <= 4; i++) {
         const circle = document.getElementById(`step-c-${i}`);
         const node = document.querySelector(`.step-node[data-step="${i}"]`);
         if (!circle) continue;
+        
         node.style.cursor = 'pointer';
-        node.onclick = () => { if (i !== currentStep) showStep(i); };
+        node.onclick = () => { if (i < currentStep || (i === 2 && currentPurpose) || (i === 3 && currentProduct)) showStep(i); };
 
         if (i < currentStep) {
             circle.innerHTML = '<span class="material-symbols-outlined text-[16px]">check</span>';
             circle.className = 'w-10 h-10 rounded-full flex items-center justify-center bg-secondary text-white shadow-sm';
         } else if (i === currentStep) {
             circle.innerText = i;
-            circle.className = 'w-10 h-10 rounded-full flex items-center justify-center bg-primary text-white scale-125 shadow-xl ring-8 ring-primary/5';
+            circle.className = 'w-10 h-10 rounded-full flex items-center justify-center bg-primary text-white scale-110 shadow-xl ring-4 ring-primary/10';
         } else {
             circle.innerText = i;
             circle.className = 'w-10 h-10 rounded-full flex items-center justify-center bg-surface-container-high text-on-surface-variant/30';
@@ -55,71 +56,63 @@ function updateStepper() {
 
 function showStep(step) {
     currentStep = step;
+    
+    // Switch Screen
     document.getElementById('landing-screen').classList.add('layer-hidden');
     document.getElementById('order-screen').classList.remove('layer-hidden');
-    document.querySelectorAll('.step-view').forEach(view => view.classList.add('layer-hidden'));
-    const target = document.getElementById(`step-${step}-area`);
-    if (target) target.classList.remove('layer-hidden');
+    
+    // Fully divide pages by hiding all sections
+    document.querySelectorAll('.step-view').forEach(view => {
+        view.classList.add('layer-hidden');
+    });
+
+    const targetArea = document.getElementById(`step-${step}-area`);
+    if (targetArea) {
+        targetArea.classList.remove('layer-hidden');
+    }
     
     updateStepper();
     if (step === 2) renderProducts();
     if (step === 3) renderColors();
-    window.scrollTo({ top: 100, behavior: 'smooth' });
+    window.scrollTo({ top: 0, behavior: 'instant' });
 }
 
-// --- FAIRY SUPREME ANIMATION ---
+// --- FAIRY ANIMATION ---
 function spawnFairy() {
     const fromBtn = document.getElementById('add-to-cart-btn');
     const toIcon = document.getElementById('cart-icon-btn');
     if (!fromBtn || !toIcon) return;
-
-    const fromRect = fromBtn.getBoundingClientRect();
-    const toRect = toIcon.getBoundingClientRect();
-
-    const fairy = document.createElement('div');
-    fairy.className = "fixed pointer-events-none z-[1000] text-[#ffb596]";
-    fairy.style.left = `${fromRect.left + fromRect.width / 2}px`;
-    fairy.style.top = `${fromRect.top}px`;
-    fairy.innerHTML = `<span class="material-symbols-outlined text-4xl drop-shadow-[0_0_15px_rgba(255,181,150,0.8)]" style="font-variation-settings: 'FILL' 1;">auto_awesome</span>`;
-    document.body.appendChild(fairy);
-
-    // Dynamic flight trajectory with quadratic ease
-    const player = fairy.animate([
-        { transform: 'translate(0, 0) scale(1) rotate(0deg)', opacity: 1 },
-        { transform: 'translate(-50px, -100px) scale(1.5) rotate(180deg)', opacity: 1, offset: 0.3 },
-        { transform: `translate(${(toRect.left + toRect.width/2) - (fromRect.left + fromRect.width/2)}px, ${(toRect.top + toRect.height/2) - fromRect.top}px) scale(0.2) rotate(720deg)`, opacity: 0 }
-    ], {
-        duration: 1500,
-        easing: 'cubic-bezier(0.25, 1, 0.5, 1)'
-    });
-
-    player.onfinish = () => {
-        fairy.remove();
-        toIcon.classList.add('animate-bounce');
-        setTimeout(() => toIcon.classList.remove('animate-bounce'), 800);
-        updateCartUI(); // Update display
-    };
+    const fromR = fromBtn.getBoundingClientRect();
+    const toR = toIcon.getBoundingClientRect();
+    const f = document.createElement('div');
+    f.className = "fixed pointer-events-none z-[1000] text-[#ffb596]";
+    f.style.left = `${fromR.left + fromR.width/2}px`; f.style.top = `${fromR.top}px`;
+    f.innerHTML = `<span class="material-symbols-outlined text-4xl drop-shadow-[0_0_20px_#ffb596]" style="font-variation-settings: 'FILL' 1;">auto_awesome</span>`;
+    document.body.appendChild(f);
+    const anim = f.animate([
+        { transform: 'translate(0, 0) scale(1) rotate(0)', opacity: 1 },
+        { transform: `translate(${(toR.left + toR.width/2) - (fromR.left + fromR.width/2)}px, ${(toR.top + toR.height/2) - fromR.top}px) scale(0.1) rotate(1080deg)`, opacity: 0 }
+    ], { duration: 1400, easing: 'cubic-bezier(0.16, 1, 0.3, 1)' });
+    anim.onfinish = () => { f.remove(); toIcon.classList.add('animate-bounce'); setTimeout(() => toIcon.classList.remove('animate-bounce'), 800); updateCartUI(); };
 }
 
-// --- LOGIC ---
+// --- RENDERING ---
 function renderProducts() {
     const list = document.getElementById('product-list');
     list.innerHTML = '';
-    const filtered = PRODUCTS.filter(cat => cat.purposes.includes(currentPurpose));
-    filtered.forEach(cat => {
+    PRODUCTS.filter(c => c.purposes.includes(currentPurpose)).forEach(cat => {
         const div = document.createElement('div');
-        div.innerHTML = `<h3 class="text-3xl font-headline font-bold text-primary mb-8 border-b-2 border-primary/5 pb-4">${cat.title}</h3>
-                         <div class="flex gap-10 overflow-x-auto no-scrollbar pb-8" id="cat-${cat.id}"></div>`;
+        div.className = "mb-16";
+        div.innerHTML = `<h3 class="text-3xl font-headline font-bold text-primary mb-10 border-b border-primary/5 pb-4">${cat.title}</h3>
+                         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8" id="cat-${cat.id}"></div>`;
         list.appendChild(div);
-        const catList = document.getElementById(`cat-${cat.id}`);
         cat.items.forEach(item => {
-            const isSel = currentProduct?.id === item.id;
             const card = document.createElement('div');
-            card.className = `min-w-[340px] bg-white rounded-3xl overflow-hidden shadow-sm hover:shadow-2xl transition-all border-2 ${isSel ? 'border-primary' : 'border-transparent'}`;
-            card.innerHTML = `<div class="aspect-[4/5] overflow-hidden"><img src="${item.img}" class="w-full h-full object-cover"/></div>
-                              <div class="p-8"><h4 class="text-2xl font-bold mb-3">${item.name}</h4><p class="text-3xl font-bold text-primary">¥${item.price.toLocaleString()}</p></div>`;
+            card.className = "bg-white rounded-3xl overflow-hidden shadow-sm hover:shadow-xl transition-all cursor-pointer group";
+            card.innerHTML = `<div class="aspect-[4/5] overflow-hidden"><img src="${item.img}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"/></div>
+                              <div class="p-8"><h4 class="text-2xl font-bold mb-2">${item.name}</h4><p class="text-2xl font-bold font-label text-primary">¥${item.price.toLocaleString()}</p></div>`;
             card.onclick = () => { currentProduct = item; showStep(3); };
-            catList.appendChild(card);
+            document.getElementById(`cat-${cat.id}`).appendChild(card);
         });
     });
 }
@@ -128,56 +121,45 @@ function renderColors() {
     const grid = document.getElementById('color-grid');
     grid.innerHTML = '';
     COLORS.forEach(color => {
-        const isSelected = currentColor?.id === color.id;
+        const isSel = currentColor?.id === color.id;
         const div = document.createElement('div');
-        div.className = `p-6 bg-white rounded-3xl shadow-sm border-2 cursor-pointer ${isSelected ? 'border-primary ring-8 ring-primary/5' : 'border-transparent'}`;
-        div.innerHTML = `<div class="aspect-square rounded-2xl overflow-hidden mb-4"><img src="${color.img}" class="w-full h-full object-cover"/></div><p class="text-center font-bold text-sm">${color.name}</p>`;
+        div.className = `p-6 bg-white rounded-3xl shadow-sm border-2 cursor-pointer transition-all ${isSel ? 'border-primary ring-8 ring-primary/5' : 'border-transparent'}`;
+        div.innerHTML = `<div class="aspect-square rounded-2xl overflow-hidden mb-6"><img src="${color.img}" class="w-full h-full object-cover"/></div>
+                         <h4 class="text-center font-bold text-lg mb-2">${color.name}</h4><p class="text-[10px] opacity-40 text-center uppercase tracking-widest">${color.desc}</p>`;
         div.onclick = () => { currentColor = color; renderColors(); document.getElementById('add-to-cart-container').classList.remove('opacity-0'); };
         grid.appendChild(div);
     });
 }
 
-function addToCart() {
-    cart.push({ id: Date.now(), purpose: currentPurpose, product: { ...currentProduct }, color: { ...currentColor }, quantity: 1 });
-    spawnFairy(); // Start the flying animation
-    currentColor = null;
-    document.getElementById('add-to-cart-container').classList.add('opacity-0');
-}
-
 function updateCartUI() {
     const list = document.getElementById('cart-items-list');
     const badge = document.getElementById('cart-badge-count');
-    const totalDisplay = document.getElementById('cart-total-display');
+    const totalDisp = document.getElementById('cart-total-display');
     list.innerHTML = '';
     let total = 0;
     cart.forEach((item, index) => {
         total += item.product.price * item.quantity;
         const div = document.createElement('div');
-        div.className = "flex items-center gap-8 bg-white p-6 rounded-3xl shadow-sm border border-primary/10";
+        div.className = "flex items-center gap-6 bg-white p-6 rounded-3xl border border-primary/5";
         div.innerHTML = `
-            <div class="flex gap-2 w-28 flex-shrink-0">
-                <img src="${item.product.img}" class="w-14 h-14 rounded-xl object-cover shadow-sm"/>
-                <img src="${item.color.img}" class="w-14 h-14 rounded-xl object-cover shadow-sm border"/>
-            </div>
+            <div class="flex gap-2 w-24 flex-shrink-0"><img src="${item.product.img}" class="w-10 h-10 rounded-lg object-cover shadow-sm"/><img src="${item.color.img}" class="w-10 h-10 rounded-lg object-cover shadow-sm border"/></div>
             <div class="flex-grow">
-                <p class="text-[10px] uppercase font-bold text-primary/40 tracking-widest">${item.purpose === 'offering' ? 'お供え' : 'お祝い'}</p>
-                <h4 class="text-xl font-bold">${item.product.name}</h4>
-                <p class="text-sm opacity-60">${item.color.name}</p>
+                <p class="text-[8px] font-bold text-primary/40 uppercase tracking-[0.2em]">${item.purpose==='offering'?'お供え':'お祝い'}</p>
+                <h4 class="text-lg font-bold leading-tight">${item.product.name}</h4>
+                <p class="text-xs opacity-60">${item.color.name}</p>
             </div>
-            <div class="flex items-center gap-6">
-                <div class="flex items-center bg-surface-container rounded-full p-2 border border-primary/5">
-                    <button class="w-8 h-8 rounded-full font-bold" onclick="changeQty(${index}, -1)">-</button>
-                    <span class="w-10 text-center font-bold">${item.quantity}</span>
-                    <button class="w-8 h-8 rounded-full font-bold" onclick="changeQty(${index}, 1)">+</button>
+            <div class="flex items-center gap-4">
+                <div class="flex items-center bg-surface-container rounded-full p-1 border">
+                    <button class="w-8 h-8 rounded-full hover:bg-white text-sm" onclick="changeQty(${index}, -1)">-</button>
+                    <span class="w-8 text-center font-bold">${item.quantity}</span>
+                    <button class="w-8 h-8 rounded-full hover:bg-white text-sm" onclick="changeQty(${index}, 1)">+</button>
                 </div>
-                <p class="text-xl font-bold w-32 text-right">¥${(item.product.price * item.quantity).toLocaleString()}</p>
-            </div>
-        `;
+                <p class="text-lg font-bold w-24 text-right">¥${(item.product.price * item.quantity).toLocaleString()}</p>
+            </div>`;
         list.appendChild(div);
     });
-    badge.innerText = cart.length;
-    badge.classList.toggle('hidden', cart.length === 0);
-    totalDisplay.innerText = `¥${total.toLocaleString()}`;
+    badge.innerText = cart.length; badge.classList.toggle('hidden', cart.length === 0);
+    totalDisp.innerText = `¥${total.toLocaleString()}`;
 }
 
 window.changeQty = (index, delta) => {
@@ -186,11 +168,16 @@ window.changeQty = (index, delta) => {
     updateCartUI();
 };
 
-function toggleCart(open) {
-    document.getElementById('cart-screen').style.transform = open ? 'translateX(0)' : 'translateX(100%)';
+function addToCart() {
+    if (!currentProduct || !currentColor) return;
+    const exists = cart.find(i => i.product.id === currentProduct.id && i.color.id === currentColor.id && i.purpose === currentPurpose);
+    if (exists) exists.quantity++; else cart.push({id:Date.now(),purpose:currentPurpose,product:{...currentProduct},color:{...currentColor},quantity:1});
+    spawnFairy();
 }
 
-// --- HANDLERS ---
+function toggleCart(open) { document.getElementById('cart-screen').style.transform = open ? 'translateX(0)' : 'translateX(100%)'; }
+
+// --- INIT & HANDLERS ---
 document.getElementById('start-shopping').onclick = () => showStep(1);
 document.getElementById('nav-shop').onclick = (e) => { e.preventDefault(); showStep(1); };
 document.getElementById('nav-home').onclick = (e) => { e.preventDefault(); location.reload(); };
@@ -200,5 +187,4 @@ document.getElementById('cart-icon-btn').onclick = () => toggleCart(true);
 document.getElementById('close-cart').onclick = () => toggleCart(false);
 document.getElementById('checkout-btn').onclick = () => { toggleCart(false); showStep(4); };
 
-updateStepper();
-updateCartUI();
+updateStepper(); updateCartUI();
