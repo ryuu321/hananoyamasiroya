@@ -25,7 +25,7 @@ function updateNavUI(activeId) {
         const el = document.getElementById(id); 
         if (el) {
             el.classList.toggle('is-active', id === activeId);
-            if(id !== activeId) el.classList.add('opacity-50'); else el.classList.remove('opacity-50');
+            if(id !== activeId) el.classList.add('opacity-40'); else el.classList.remove('opacity-40');
         }
     });
 }
@@ -60,15 +60,21 @@ function spawnPetals(selectedTheme) {
     const fromBtn = document.getElementById('add-to-cart-btn'); const toIcon = document.getElementById('cart-icon-btn'); if (!fromBtn || !toIcon || !selectedTheme) return;
     const fromR = fromBtn.getBoundingClientRect(); const toR = toIcon.getBoundingClientRect(); const count = 12;
     for (let i = 0; i < count; i++) {
-        const p = document.createElement('div'); p.className = "fixed pointer-events-none z-[2000] rotate-45 w-5 h-4 rounded-[100%_15%_100%_15%] shadow-sm";
+        const p = document.createElement('div'); p.className = "fixed pointer-events-none z-[2000] rotate-45 w-5 h-4 rounded-[100%_15%_100%_15%] shadow-md";
         p.style.left = `${fromR.left + fromR.width/2}px`; p.style.top = `${fromR.top}px`;
-        p.style.backgroundColor = selectedTheme.colors[i % selectedTheme.colors.length];
+        p.style.backgroundColor = selectedTheme.colors[Math.floor(Math.random() * selectedTheme.colors.length)];
         p.style.opacity = '0.9'; p.style.filter = 'blur(0.5px)';
         document.body.appendChild(p);
         const dx = (toR.left + toR.width/2) - (fromR.left + fromR.width/2); const dy = (toR.top + toR.height/2) - fromR.top;
+        const orbitRadius = 60 + Math.random() * 40;
         const anim = p.animate([
-            { transform: 'translate(0, 0) rotate(0deg) scale(0)', opacity: 0 }, { transform: `translate(${(Math.random()-0.5)*150}px, -80px) rotate(45deg) scale(1.5)`, opacity: 1, offset: 0.1 }, { transform: `translate(${dx/2}px, -180px) rotate(180deg) scale(1.8)`, opacity: 1, offset: 0.5 }, { transform: `translate(${dx}px, ${dy}px) rotate(720deg) scale(0.1)`, opacity: 0 }
-        ], { duration: 2200, delay: i*60, easing: 'cubic-bezier(0.25, 1, 0.5, 1)' });
+            { transform: 'translate(0, 0) rotate(0deg) scale(0)', opacity: 0 },
+            { transform: `translate(${(Math.random()-0.5)*150}px, -100px) rotate(45deg) scale(1.5)`, opacity: 1, offset: 0.1 },
+            { transform: `translate(${dx/2}px, -200px) rotate(180deg) scale(1.8)`, opacity: 1, offset: 0.4 },
+            { transform: `translate(${dx - orbitRadius}px, ${dy - orbitRadius}px) rotate(360deg) scale(1.2)`, opacity: 0.8, offset: 0.7 },
+            { transform: `translate(${dx + orbitRadius}px, ${dy - orbitRadius/2}px) rotate(540deg) scale(1)`, opacity: 0.6, offset: 0.85 },
+            { transform: `translate(${dx}px, ${dy}px) rotate(720deg) scale(0)`, opacity: 0 }
+        ], { duration: 2500, delay: i * 80, easing: 'cubic-bezier(0.25, 1, 0.5, 1)' });
         anim.onfinish = () => { p.remove(); if (i === count - 1) { toIcon.classList.add('animate-bounce'); setTimeout(() => toIcon.classList.remove('animate-bounce'), 800); updateCartUI(); } };
     }
 }
@@ -122,7 +128,9 @@ document.addEventListener('DOMContentLoaded', () => {
         if (!currentProduct || !currentColor) return;
         const e = cart.find(i=>i.product.id===currentProduct.id&&i.color.id===currentColor.id);
         if(e) e.quantity++; else cart.push({id:Date.now(),product:{...currentProduct},color:{...currentColor},quantity:1});
-        spawnPetals(currentColor); document.getElementById('add-to-cart-container').classList.add('opacity-0', 'translate-y-4', 'pointer-events-none'); updateCartUI();
+        spawnPetals(currentColor); 
+        const acc = document.getElementById('add-to-cart-container'); if(acc) acc.classList.add('opacity-0', 'translate-y-4', 'pointer-events-none'); 
+        updateCartUI();
     };
     const cartOpen = document.getElementById('cart-icon-btn'); if(cartOpen) cartOpen.onclick = () => window.toggleCart(true);
     const cartClose = document.getElementById('close-cart'); if(cartClose) cartClose.onclick = () => window.toggleCart(false);
