@@ -11,14 +11,10 @@ const PRODUCTS = [
 ];
 
 const COLORS = [
-  { id: 'c-white', name: '白・緑系', img: '/color_white.png', mode: 'multi', 
-    colors: ['#ffffff', '#2E7D32', '#9ACD32', '#DCEDC8'] }, // 白, 緑, 緑みの黄緑, 薄い黄緑
-  { id: 'c-pink', name: 'ピンク・パステル系', img: '/color_pink.png', mode: 'multi', 
-    colors: ['#F8BBD0', '#B3E5FC', '#C8E6C9', '#FFF9C4'] }, // パステルピンク, パステルブルー, パステルグリーン, パステルイエロー
-  { id: 'c-red', name: '赤・オレンジ系', img: '/color_red.png', mode: 'multi', 
-    colors: ['#D32F2F', '#F57C00', '#FBC02D', '#8E1B1B'] }, // 赤, オレンジ, 黄色, ブラッドレッド
-  { id: 'c-purple', name: '蒼・紫系', img: '/color_purple.png', mode: 'multi', 
-    colors: ['#1976D2', '#1A237E', '#81D4FA', '#7B1FA2'] }  // 青, 藍色, 水色, 紫色
+  { id: 'c-white', name: '白・緑系', img: '/color_white.png', mode: 'multi', colors: ['#ffffff', '#2E7D32', '#9ACD32', '#DCEDC8'] },
+  { id: 'c-pink', name: 'ピンク・パステル系', img: '/color_pink.png', mode: 'multi', colors: ['#F8BBD0', '#B3E5FC', '#C8E6C9', '#FFF9C4'] },
+  { id: 'c-red', name: '赤・オレンジ系', img: '/color_red.png', mode: 'multi', colors: ['#D32F2F', '#F57C00', '#FBC02D', '#8E1B1B'] },
+  { id: 'c-purple', name: '蒼・紫系', img: '/color_purple.png', mode: 'multi', colors: ['#1976D2', '#1A237E', '#81D4FA', '#7B1FA2'] }
 ];
 
 let cart = []; let currentPurpose = 'celebration'; let currentProduct = null; let currentColor = null; let currentStep = 1;
@@ -32,6 +28,9 @@ function updateNavUI(activeId) {
             if(id !== activeId) el.classList.add('opacity-40'); else el.classList.remove('opacity-40');
         }
     });
+    // Global Body Class for Site-Wide Themes
+    if (activeId === 'nav-home') document.body.classList.remove('in-shop');
+    else document.body.classList.add('in-shop');
 }
 function resetAllScreens() { ['landing-screen', 'order-screen', 'history-screen'].forEach(id => { const el = document.getElementById(id); if (el) el.classList.add('layer-hidden'); }); }
 function showLanding() { resetAllScreens(); document.getElementById('landing-screen').classList.remove('layer-hidden'); updateNavUI('nav-home'); window.scrollTo({ top: 0, behavior: 'instant' }); }
@@ -64,7 +63,7 @@ function spawnPetals(selectedTheme) {
     const fromBtn = document.getElementById('add-to-cart-btn'); const toIcon = document.getElementById('cart-icon-btn'); if (!fromBtn || !toIcon || !selectedTheme) return;
     const fromR = fromBtn.getBoundingClientRect(); const toR = toIcon.getBoundingClientRect(); const count = 12;
     for (let i = 0; i < count; i++) {
-        const p = document.createElement('div'); p.className = "fixed pointer-events-none z-[2000] rotate-45 w-5 h-4 rounded-[100%_15%_100%_15%] shadow-md";
+        const p = document.createElement('div'); p.className = "fixed pointer-events-none z-[1000] rotate-45 w-5 h-4 rounded-[100%_15%_100%_15%] shadow-md";
         p.style.left = `${fromR.left + fromR.width/2}px`; p.style.top = `${fromR.top}px`;
         p.style.backgroundColor = selectedTheme.colors[i % 4];
         p.style.opacity = '0.9'; p.style.filter = 'blur(0.5px)';
@@ -89,7 +88,7 @@ function renderProducts() {
         const div = document.createElement('div'); div.className = "mb-16"; div.innerHTML = `<h4 class="text-2xl font-bold text-primary mb-8 border-b-2 border-primary/10 pb-4">${cat.title}</h4><div class="grid grid-cols-1 md:grid-cols-3 gap-10" id="cat-${cat.id}"></div>`;
         list.appendChild(div); cat.items.forEach(item => {
             const card = document.createElement('div'); card.className = "bg-white rounded-[2.5rem] overflow-hidden shadow-sm hover:shadow-2xl transition-all cursor-pointer group border border-primary/5";
-            card.innerHTML = `<div class="aspect-[4/5] overflow-hidden"><img src="${item.img}" class="w-full h-full object-cover group-hover:scale-105 transition-all duration-700"/></div><div class="p-8"><h5 class="text-2xl font-bold mb-2 uppercase">${item.name}</h5><p class="text-xl font-bold font-label text-primary">¥${item.price.toLocaleString()}</p></div>`;
+            card.innerHTML = `<div class="aspect-[4/5] overflow-hidden"><img src="${item.img}" class="w-full h-full object-cover group-hover:scale-105 transition-all duration-700"/></div><div class="p-8"><h5 class="text-2xl font-bold mb-2 uppercase tracking-tight">${item.name}</h5><p class="text-xl font-bold font-label text-primary">¥${item.price.toLocaleString()}</p></div>`;
             card.onclick = (e) => { e.stopPropagation(); currentProduct = item; showStep(3); };
             const container = document.getElementById(`cat-${cat.id}`); if(container) container.appendChild(card);
         });
@@ -102,7 +101,7 @@ function renderColors() {
     COLORS.forEach(color => {
         const card = document.createElement('div'); const isS = currentColor?.id === color.id;
         card.className = `p-6 bg-white rounded-[2.5rem] shadow-sm border-2 cursor-pointer transition-all ${isS ? 'border-primary ring-8 ring-primary/5' : 'border-transparent'}`;
-        card.innerHTML = `<div class="aspect-square rounded-2xl overflow-hidden mb-6"><img src="${color.img}" class="w-full h-full object-cover"/></div><p class="text-center font-bold font-label tracking-tighter">${color.name}</p>`;
+        card.innerHTML = `<div class="aspect-square rounded-2xl overflow-hidden mb-6 shadow-sm"><img src="${color.img}" class="w-full h-full object-cover"/></div><p class="text-center font-bold font-label tracking-tighter">${color.name}</p>`;
         card.onclick = () => { currentColor = color; renderColors(); const acc = document.getElementById('add-to-cart-container'); if(acc) acc.classList.remove('opacity-0', 'translate-y-4', 'pointer-events-none'); };
         grid.appendChild(card);
     });
@@ -111,7 +110,7 @@ function updateCartUI() {
     const list = document.getElementById('cart-items-list'); const badge = document.getElementById('cart-badge-count'); const disp = document.getElementById('cart-total-display'); const headerTot = document.getElementById('header-cart-total'); const headerTotCont = document.getElementById('header-cart-total-container');
     if(!list) return; list.innerHTML = ''; let t = 0;
     cart.forEach((it, idx) => {
-        t += it.product.price * it.quantity; const div = document.createElement('div'); div.className = "flex items-center gap-6 bg-white p-6 rounded-3xl border border-primary/5";
+        t += it.product.price * it.quantity; const div = document.createElement('div'); div.className = "flex items-center gap-6 bg-white p-6 rounded-3xl border border-primary/5 shadow-sm";
         div.innerHTML = `<div class="flex gap-1 w-20 flex-shrink-0"><img src="${it.product.img}" class="w-10 h-10 rounded-lg object-cover"/><img src="${it.color.img}" class="w-10 h-10 rounded-lg object-cover border"/></div><div class="flex-grow"><h5 class="text-lg font-bold leading-tight uppercase text-sm">${it.product.name}</h5><p class="text-xs opacity-60 font-medium">${it.color.name}</p></div><div class="flex items-center gap-4"><div class="flex items-center bg-surface-container rounded-full p-1 border text-xs"><button class="w-8 h-8 flex items-center justify-center font-bold" onclick="changeQty(${idx}, -1)">-</button><span class="w-6 text-center font-bold">${it.quantity}</span><button class="w-8 h-8 flex items-center justify-center font-bold" onclick="changeQty(${idx}, 1)">+</button></div><p class="font-bold w-20 text-right text-sm">¥${(it.product.price*it.quantity).toLocaleString()}</p></div>`;
         list.appendChild(div);
     });
