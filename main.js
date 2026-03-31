@@ -23,7 +23,6 @@ function updateNavUI(activeId) {
         const el = document.getElementById(id); 
         if (el) {
             el.classList.toggle('is-active', id === activeId);
-            // Non-active ones stay elegant but semi-transparent
             if(id !== activeId) el.classList.add('opacity-40'); else el.classList.remove('opacity-40');
         }
     });
@@ -105,8 +104,13 @@ function renderColors() {
     COLORS.forEach(color => {
         const card = document.createElement('div'); const isS = currentColor?.id === color.id;
         card.className = `p-6 bg-white rounded-[2rem] shadow-sm border-2 cursor-pointer transition-all ${isS ? 'border-primary ring-8 ring-primary/5' : 'border-transparent'}`;
-        card.innerHTML = `<div class="aspect-square rounded-2xl overflow-hidden mb-6"><img src="${color.img}" class="w-full h-full object-cover"/></div><p class="text-center font-bold">${color.name}</p>`;
-        card.onclick = () => { currentColor = color; renderColors(); document.getElementById('add-to-cart-container').classList.remove('opacity-0'); };
+        card.innerHTML = `<div class="aspect-square rounded-2xl overflow-hidden mb-6"><img src="${color.img}" class="w-full h-full object-cover"/></div><p class="text-center font-bold font-label">${color.name}</p>`;
+        card.onclick = () => { 
+            currentColor = color; 
+            renderColors(); 
+            const acc = document.getElementById('add-to-cart-container');
+            if(acc) acc.classList.remove('opacity-0', 'translate-y-4', 'pointer-events-none');
+        };
         grid.appendChild(card);
     });
 }
@@ -116,7 +120,7 @@ function updateCartUI() {
     if(!list) return; list.innerHTML = ''; let t = 0;
     cart.forEach((it, idx) => {
         t += it.product.price * it.quantity; const div = document.createElement('div'); div.className = "flex items-center gap-6 bg-white p-6 rounded-3xl border border-primary/5";
-        div.innerHTML = `<div class="flex gap-1 w-20 flex-shrink-0"><img src="${it.product.img}" class="w-10 h-10 rounded-lg object-cover"/><img src="${it.color.img}" class="w-10 h-10 rounded-lg object-cover border"/></div><div class="flex-grow"><h5 class="text-lg font-bold leading-tight">${it.product.name}</h5><p class="text-xs opacity-60">${it.color.name}</p></div><div class="flex items-center gap-4"><div class="flex items-center bg-surface-container rounded-full p-1 border"><button class="w-8 h-8 flex items-center justify-center font-bold" onclick="changeQty(${idx}, -1)">-</button><span class="w-6 text-center font-bold">${it.quantity}</span><button class="w-8 h-8 flex items-center justify-center font-bold" onclick="changeQty(${idx}, 1)">+</button></div><p class="font-bold w-20 text-right text-sm">¥${(it.product.price*it.quantity).toLocaleString()}</p></div>`;
+        div.innerHTML = `<div class="flex gap-1 w-20 flex-shrink-0"><img src="${it.product.img}" class="w-10 h-10 rounded-lg object-cover"/><img src="${it.color.img}" class="w-10 h-10 rounded-lg object-cover border"/></div><div class="flex-grow"><h5 class="text-lg font-bold leading-tight">${it.product.name}</h5><p class="text-xs opacity-60 font-medium">${it.color.name}</p></div><div class="flex items-center gap-4"><div class="flex items-center bg-surface-container rounded-full p-1 border"><button class="w-8 h-8 flex items-center justify-center font-bold" onclick="changeQty(${idx}, -1)">-</button><span class="w-6 text-center font-bold tracking-tighter">${it.quantity}</span><button class="w-8 h-8 flex items-center justify-center font-bold" onclick="changeQty(${idx}, 1)">+</button></div><p class="font-bold w-20 text-right text-sm">¥${(it.product.price*it.quantity).toLocaleString()}</p></div>`;
         list.appendChild(div);
     });
     if(badge){ badge.innerText = cart.length; badge.classList.toggle('hidden', cart.length === 0); }
@@ -136,7 +140,10 @@ document.addEventListener('DOMContentLoaded', () => {
         if (!currentProduct || !currentColor) return;
         const e = cart.find(i=>i.product.id===currentProduct.id&&i.color.id===currentColor.id);
         if(e) e.quantity++; else cart.push({id:Date.now(),product:{...currentProduct},color:{...currentColor},quantity:1});
-        spawnPetals(currentColor); document.getElementById('add-to-cart-container').classList.add('opacity-0'); updateCartUI();
+        spawnPetals(currentColor); 
+        const acc = document.getElementById('add-to-cart-container');
+        if(acc) acc.classList.add('opacity-0', 'translate-y-4', 'pointer-events-none');
+        updateCartUI();
     };
     const cartOpen = document.getElementById('cart-icon-btn'); if(cartOpen) cartOpen.onclick = () => window.toggleCart(true);
     const cartClose = document.getElementById('close-cart'); if(cartClose) cartClose.onclick = () => window.toggleCart(false);
