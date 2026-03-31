@@ -31,8 +31,8 @@
 
     /* PERSISTENT SIDE FLOWERS (Landing Only) */
     .home-side-frame { position: fixed; top: 0; height: 100vh; width: 15vw; z-index: 5; pointer-events: none; opacity: 0; transition: opacity 1.2s ease, transform 1s ease; }
-    .home-side-left { left: 0px; background: url("./watercolor_flower_frame_full_1774948928946.png") left center no-repeat; background-size: cover; transform: scaleX(-1); }
-    .home-side-right { right: 0px; background: url("./watercolor_flower_frame_full_1774948928946.png") right center no-repeat; background-size: cover; }
+    .home-side-left { left: 0px; background: url("/watercolor_flower_frame_full_1774948928946.png") left center no-repeat; background-size: cover; transform: scaleX(-1); }
+    .home-side-right { right: 0px; background: url("/watercolor_flower_frame_full_1774948928946.png") right center no-repeat; background-size: cover; }
     body:not(.in-shop) .home-side-frame { opacity: 0.7; transform: translateX(0); }
     body.in-shop .home-side-frame { opacity: 0; transform: translateX(20px); }
 
@@ -99,9 +99,9 @@
     <div class="home-side-frame home-side-left"></div>
     <div class="home-side-frame home-side-right"></div>
     <section class="relative h-[100vh] w-full flex items-center justify-center overflow-hidden bg-[#fbfaee]">
-      <div id="hero-flower-envelope"><img src="./watercolor_flower_frame_full_1774948928946.png" alt="Flowers blooming"/></div>
+      <div id="hero-flower-envelope"><img src="/watercolor_flower_frame_full_1774948928946.png" alt="Flowers blooming"/></div>
       <div class="relative z-20 text-center px-10 pb-32">
-        <h1 class="font-headline text-5xl md:text-7xl font-bold text-primary mb-10 drop-shadow-md tracking-[0.05em] leading-tight">小樽の想い出に、<br/>色鮮やかなお花を。</h1>
+        <h1 class="font-headline text-5xl md:text-7xl font-bold text-primary mb-10 drop-shadow-md tracking-[0.05em] leading-tight">小樽の想い出に、<br/>色鮮やかなお花を.</h1>
         <p class="text-xl font-headline text-primary/60 mb-12 tracking-[0.3em]">― 百年を歩む、北の街の花屋 ―</p>
         <button id="start-shopping" class="px-20 py-7 bg-primary text-white font-headline text-2xl rounded-full shadow-2xl hover:scale-105 active:scale-95 transition-all ring-8 ring-primary/5">お花を選び、購入する</button>
       </div>
@@ -110,7 +110,7 @@
       <div class="max-w-4xl mx-auto">
         <p class="text-primary/70 font-bold tracking-[0.3em] mb-12 uppercase tracking-widest text-sm">Heritage of Otaru</p>
         <div class="aspect-[21/9] rounded-[3rem] overflow-hidden mb-12 shadow-2xl relative group border-8 border-white">
-          <img src="./watercolor_pink_pastel_1774940682661.png" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-1000"/>
+          <img src="/watercolor_pink_pastel_1774940682661.png" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-1000"/>
           <div class="absolute inset-0 bg-gradient-to-t from-primary/30 to-transparent"></div>
         </div>
         <h2 class="text-3xl md:text-4xl font-headline font-bold text-primary mb-8 leading-relaxed max-w-2xl mx-auto">大正栄華の薫りそのままに。<br/>現代の感性と交わり、<br/>一輪に想いを宿らせる。</h2><div class="w-12 h-px bg-primary/20 mx-auto mt-12"></div>
@@ -121,7 +121,6 @@
   <!-- SHOP -->
   <div id="order-screen" class="layer-screen layer-hidden py-16">
     <div class="max-w-screen-xl mx-auto px-6">
-      <!-- High Fidelity Stepper UI -->
       <div class="mb-16 flex justify-between items-center max-w-4xl mx-auto sticky top-24 z-40 bg-surface/90 backdrop-blur-md p-6 rounded-2xl shadow-sm border border-primary/5">
         <div class="step-node flex flex-col items-center gap-2 cursor-pointer group" data-step="1"><div id="step-c-1" class="w-12 h-12 rounded-full flex items-center justify-center font-bold text-lg transition-all group-hover:scale-110 shadow-lg bg-primary text-white">1</div><span class="text-[10px] font-bold text-primary uppercase tracking-widest">用途</span></div>
         <div class="flex-grow h-px bg-primary/10 mx-4"></div>
@@ -132,12 +131,11 @@
         <div class="step-node flex flex-col items-center gap-2 cursor-pointer group" data-step="4"><div id="step-c-4" class="w-12 h-12 rounded-full flex items-center justify-center font-bold text-lg opacity-30 bg-surface-container transition-all group-hover:scale-110">4</div><span class="text-[10px] font-bold opacity-30 uppercase tracking-widest">詳細</span></div>
       </div>
 
-      <!-- Step 1: Purpose Selection (Restored High Fidelity) -->
       <section id="step-1-area" class="layer-screen pb-40">
         <div class="grid grid-cols-1 md:grid-cols-2 gap-12 max-w-5xl mx-auto px-4">
           <button class="purpose-card p-12 bg-white rounded-[3rem] shadow-sm hover:shadow-2xl transition-all text-center group border-2 border-transparent hover:border-primary/5" data-purpose="celebration">
             <div class="aspect-[4/3] rounded-3xl overflow-hidden mb-10 shadow-inner relative">
-              <img src="./watercolor_handing_flowers_1774938505430.png" class="w-full h-full object-cover group-hover:scale-105 transition-all duration-700"/>
+              <img src="/watercolor_handing_flowers_1774938505430.png" class="w-full h-full object-cover group-hover:scale-105 transition-all duration-700"/>
               <div class="absolute inset-0 bg-primary/0 group-hover:bg-primary/5 transition-colors"></div>
             </div>
             <h3 class="text-3xl font-headline font-bold text-primary mb-4 tracking-tighter">お祝い・ギフト</h3>
@@ -145,7 +143,7 @@
           </button>
           <button class="purpose-card p-12 bg-white rounded-[3rem] shadow-sm hover:shadow-2xl transition-all text-center group border-2 border-transparent hover:border-primary/5" data-purpose="offering">
             <div class="aspect-[4/3] rounded-3xl overflow-hidden mb-10 shadow-inner relative">
-              <img src="./watercolor_color_themes_1774940629846.png" class="w-full h-full object-cover group-hover:scale-105 transition-all duration-700"/>
+              <img src="/watercolor_color_themes_1774940629846.png" class="w-full h-full object-cover group-hover:scale-105 transition-all duration-700"/>
               <div class="absolute inset-0 bg-primary/0 group-hover:bg-primary/5 transition-colors"></div>
             </div>
             <h3 class="text-3xl font-headline font-bold text-primary mb-4 tracking-tighter">法要・お供え</h3>
@@ -154,10 +152,7 @@
         </div>
       </section>
 
-      <!-- Step 2: Product List -->
       <section id="step-2-area" class="layer-screen layer-hidden pb-40"><button class="mb-8 font-bold underline underline-offset-4" onclick="showStep(1)">← 用途を選び直す</button><div id="product-list" class="space-y-32"></div></section>
-
-      <!-- Step 3: Color selection (Fixed UI) -->
       <section id="step-3-area" class="layer-screen layer-hidden pb-40">
           <button class="mb-8 font-bold underline underline-offset-4" onclick="showStep(2)">← お花を選び直す</button>
           <div class="text-center mb-16"><h2 class="text-4xl font-headline font-bold text-primary mb-4 tracking-widest">想いを込めて、色を選ぶ。</h2><p id="selection-summary" class="text-primary/60 font-bold px-6"></p></div>
@@ -170,14 +165,13 @@
           </div>
       </section>
 
-      <!-- Step 4: Checkout details -->
       <section id="step-4-area" class="layer-screen layer-hidden max-w-2xl mx-auto pb-40">
         <button class="mb-8 font-bold underline underline-offset-4" onclick="showStep(3)">← お色味に戻る</button>
         <form class="space-y-12 bg-white p-12 rounded-[3.5rem] shadow-2xl border border-primary/5">
           <h2 class="text-3xl font-headline font-bold text-primary border-b pb-8 text-center tracking-widest">ご注文情報の入力</h2>
           <div class="space-y-10">
             <div><label class="block text-sm font-bold tracking-widest text-primary/70 mb-4 ml-2">お名前（必須）</label><input type="text" class="w-full bg-surface-container border-0 rounded-3xl p-5 h-16 shadow-inner focus:ring-2 ring-primary/10" placeholder="（例）小樽 花子"/></div>
-            <div><label class="block text-sm font-bold tracking-widest text-primary/70 mb-4 ml-2">メッセージ（任意）</label><textarea class="w-full bg-surface-container border-0 rounded-3xl p-6 h-48 shadow-inner focus:ring-2 ring-primary/10" placeholder="心をこめてお届けします。メッセージを添えられます。"></textarea></div>
+            <div><label class="block text-sm font-bold tracking-widest text-primary/70 mb-4 ml-2">メッセージ（任意）</label><textarea class="w-full bg-surface-container border-0 rounded-3xl p-6 h-48 shadow-inner focus:ring-2 ring-primary/10" placeholder="心をこめてお届けします。"></textarea></div>
           </div>
           <button type="submit" class="w-full py-7 bg-primary text-white rounded-full font-bold text-2xl shadow-xl hover:shadow-2xl transition-all scale-100 hover:scale-[1.02]">上記の内容で注文を確定する</button>
         </form>
@@ -185,10 +179,8 @@
     </div>
   </div>
 
-  <!-- HISTORY -->
-  <div id="history-screen" class="layer-screen layer-hidden py-32 bg-[#fbfaee]"><div class="max-w-4xl mx-auto px-8"><div class="text-center mb-24"><p class="text-primary/40 tracking-[0.5em] font-bold mb-6 text-sm uppercase">Legacy Story</p><h2 class="text-5xl font-headline font-bold text-primary">花の山城屋、百年の歩み</h2></div><div class="grid md:grid-cols-2 gap-16 items-center"><img src="./watercolor_otaru_florist_hero_1774945526695.png" class="rounded-[2.5rem] shadow-xl aspect-square object-cover"/><div class="space-y-8 text-lg"><h3 class="text-3xl font-headline font-bold text-primary">小樽・花園の地で</h3><p class="leading-loose opacity-70">大正時代、北のウォール街で産声を上げた山城屋。街の彩りと人々の想いを守り、今日まで歩んでまいりました。</p></div></div><div class="mt-32 text-center"><button onclick="showStep(1)" class="px-16 py-6 border-2 border-primary text-primary rounded-full font-bold hover:bg-primary hover:text-white transition-all">ショップへ行く</button></div></div></div>
+  <div id="history-screen" class="layer-screen layer-hidden py-32 bg-[#fbfaee]"><div class="max-w-4xl mx-auto px-8"><div class="text-center mb-24"><p class="text-primary/40 tracking-[0.5em] font-bold mb-6 text-sm uppercase">Legacy Story</p><h2 class="text-5xl font-headline font-bold text-primary">花の山城屋、百年の歩み</h2></div><div class="grid md:grid-cols-2 gap-16 items-center"><img src="/watercolor_otaru_florist_hero_1774945526695.png" class="rounded-[2.5rem] shadow-xl aspect-square object-cover"/><div class="space-y-8 text-lg"><h3 class="text-3xl font-headline font-bold text-primary">小樽・花園の地で</h3><p class="leading-loose opacity-70">大正時代、北のウォール街で産声を上げた山城屋。街の彩りと人々の想いを守り、今日まで歩んでまいりました。</p></div></div><div class="mt-32 text-center"><button onclick="showStep(1)" class="px-16 py-6 border-2 border-primary text-primary rounded-full font-bold hover:bg-primary hover:text-white transition-all">ショップへ行く</button></div></div></div>
 
-  <!-- CART OVERLAY -->
   <div id="cart-screen" class="fixed inset-0 z-[60] bg-surface/96 backdrop-blur-2xl translate-x-full transition-transform duration-500 overflow-y-auto px-8 py-24">
     <button id="close-cart" class="absolute top-10 right-10 text-primary hover:rotate-90 transition-transform"><span class="material-symbols-outlined text-5xl">close</span></button>
     <div class="max-w-2xl mx-auto w-full">

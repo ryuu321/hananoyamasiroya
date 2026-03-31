@@ -11,10 +11,10 @@ const PRODUCTS = [
 ];
 
 const COLORS = [
-  { id: 'c-white', name: '白・緑系', img: './watercolor_white_green_1774940659125.png', mode: 'multi', colors: ['#ffffff', '#2E7D32', '#9ACD32', '#DCEDC8'] },
-  { id: 'c-pink', name: 'ピンク・パステル系', img: './watercolor_pink_pastel_1774940682661.png', mode: 'multi', colors: ['#F8BBD0', '#B3E5FC', '#C8E6C9', '#FFF9C4'] },
-  { id: 'c-red', name: '赤・オレンジ系', img: './watercolor_red_orange_1774940713121.png', mode: 'multi', colors: ['#D32F2F', '#F57C00', '#FBC02D', '#8E1B1B'] },
-  { id: 'c-purple', name: '蒼・紫系', img: './watercolor_purple_blue_1774940749811.png', mode: 'multi', colors: ['#1976D2', '#1A237E', '#81D4FA', '#7B1FA2'] }
+  { id: 'c-white', name: '白・緑系', img: '/watercolor_white_green_1774940659125.png', mode: 'multi', colors: ['#ffffff', '#2E7D32', '#9ACD32', '#DCEDC8'] },
+  { id: 'c-pink', name: 'ピンク・パステル系', img: '/watercolor_pink_pastel_1774940682661.png', mode: 'multi', colors: ['#F8BBD0', '#B3E5FC', '#C8E6C9', '#FFF9C4'] },
+  { id: 'c-red', name: '赤・オレンジ系', img: '/watercolor_red_orange_1774940713121.png', mode: 'multi', colors: ['#D32F2F', '#F57C00', '#FBC02D', '#8E1B1B'] },
+  { id: 'c-purple', name: '蒼・紫系', img: '/watercolor_purple_blue_1774940749811.png', mode: 'multi', colors: ['#1976D2', '#1A237E', '#81D4FA', '#7B1FA2'] }
 ];
 
 let cart = []; let currentPurpose = 'celebration'; let currentProduct = null; let currentColor = null; let currentStep = 1;
