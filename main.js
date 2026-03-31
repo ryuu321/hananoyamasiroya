@@ -62,7 +62,6 @@ let currentProduct = null;
 let currentColor = null;
 let currentStep = 1;
 
-// --- DYNAMIC NAVIGATION ---
 function updateNavUI() {
     const l = document.getElementById('landing-screen');
     const hN = document.getElementById('nav-home');
@@ -80,7 +79,6 @@ function showStep(step) {
   currentStep = step;
   document.getElementById('landing-screen').classList.add('layer-hidden');
   document.getElementById('order-screen').classList.remove('layer-hidden');
-
   [1, 2, 3, 4].forEach(num => {
     const el = document.getElementById(`step-${num}-area`);
     if (!el) return;
@@ -89,7 +87,6 @@ function showStep(step) {
       el.animate([{ opacity: 0, transform: `translateX(${step > prevStep ? 30 : -30}px)` }, { opacity: 1, transform: 'translateX(0)' }], { duration: 450, easing: 'ease-out' });
     } else el.classList.add('layer-hidden');
   });
-
   if (step === 2) renderProducts();
   if (step === 3) renderColors();
   updateStepper();
@@ -104,9 +101,7 @@ function updateStepper() {
     const n = document.querySelector(`.step-node[data-step="${i}"]`);
     if (!c || !n) continue;
     const label = n.querySelector('span');
-
     n.onclick = () => { if (i < currentStep || (i === 2 && currentPurpose) || (i === 3 && currentProduct)) showStep(i); };
-
     if (i < currentStep) {
       c.innerHTML = '<span class="material-symbols-outlined text-[16px]">check</span>';
       c.className = 'w-10 h-10 rounded-full flex items-center justify-center bg-secondary text-white shadow-sm';
@@ -123,7 +118,6 @@ function updateStepper() {
   }
 }
 
-// --- ADVANCED PETAL FLIGHT ---
 function spawnPetals(selectedTheme) {
     const fromBtn = document.getElementById('add-to-cart-btn');
     const toIcon = document.getElementById('cart-icon-btn');
@@ -131,29 +125,20 @@ function spawnPetals(selectedTheme) {
     const fromR = fromBtn.getBoundingClientRect();
     const toR = toIcon.getBoundingClientRect();
     const count = 12;
-
     for (let i = 0; i < count; i++) {
         const p = document.createElement('div');
         p.className = "fixed pointer-events-none z-[2000] rotate-45";
-        p.style.width = `${Math.random() * 8 + 12}px`;
-        p.style.height = `${Math.random() * 5 + 8}px`;
+        p.style.width = `${Math.random() * 8 + 12}px`; p.style.height = `${Math.random() * 5 + 8}px`;
         p.style.borderRadius = "100% 15% 100% 15%";
-        p.style.left = `${fromR.left + fromR.width / 2}px`;
-        p.style.top = `${fromR.top + fromR.height / 2}px`;
-
-        if (selectedTheme.mode === 'gradient') {
-            p.style.background = `linear-gradient(135deg, ${selectedTheme.colors[0]}, ${selectedTheme.colors[1]})`;
-        } else {
-            p.style.backgroundColor = selectedTheme.colors[i % selectedTheme.colors.length];
-        }
+        p.style.left = `${fromR.left + fromR.width / 2}px`; p.style.top = `${fromR.top + fromR.height / 2}px`;
+        if (selectedTheme.mode === 'gradient') p.style.background = `linear-gradient(135deg, ${selectedTheme.colors[0]}, ${selectedTheme.colors[1]})`;
+        else p.style.backgroundColor = selectedTheme.colors[i % selectedTheme.colors.length];
         p.style.boxShadow = `0 0 10px rgba(255,255,255,0.7), 0 0 2px rgba(0,0,0,0.2)`;
         p.style.border = `1px solid rgba(255,255,255,0.2)`;
         document.body.appendChild(p);
-
         const delay = i * 60;
         const dx = (toR.left + toR.width/2) - (fromR.left + fromR.width/2);
         const dy = (toR.top + toR.height/2) - (fromR.top + fromR.height/2);
-
         const anim = p.animate([
             { transform: 'translate(0, 0) rotate(0deg) scale(0)', opacity: 0 },
             { transform: `translate(${(Math.random()-0.5)*120}px, -80px) rotate(45deg) scale(1.5)`, opacity: 1, offset: 0.1 },
@@ -163,19 +148,10 @@ function spawnPetals(selectedTheme) {
             { transform: `translate(${dx}px, ${dy - 100}px) rotate(630deg) scale(1.2)`, opacity: 1, offset: 0.92 },
             { transform: `translate(${dx}px, ${dy}px) rotate(720deg) scale(0.1)`, opacity: 0, offset: 1 }
         ], { duration: 2200, delay: delay, easing: 'cubic-bezier(0.25, 1, 0.5, 1)' });
-
-        anim.onfinish = () => {
-            p.remove();
-            if (i === count - 1) {
-                toIcon.classList.add('animate-bounce');
-                setTimeout(() => toIcon.classList.remove('animate-bounce'), 800);
-                updateCartUI(); // Update UI after visual flight ends
-            }
-        };
+        anim.onfinish = () => { p.remove(); if (i === count - 1) { toIcon.classList.add('animate-bounce'); setTimeout(() => toIcon.classList.remove('animate-bounce'), 800); updateCartUI(); } };
     }
 }
 
-// --- RENDERERS ---
 function renderProducts() {
     const list = document.getElementById('product-list');
     if(!list) return;
@@ -234,7 +210,6 @@ function updateCartUI() {
 window.changeQty = (idx, d) => { cart[idx].quantity += d; if(cart[idx].quantity <= 0) cart.splice(idx, 1); updateCartUI(); };
 window.toggleCart = (open) => { const cs = document.getElementById('cart-screen'); if(cs) cs.style.transform = open ? 'translateX(0)' : 'translateX(100%)'; };
 
-// --- LISTENERS ---
 document.addEventListener('DOMContentLoaded', () => {
     const startBtn = document.getElementById('start-shopping');
     if(startBtn) startBtn.onclick = () => showStep(1);
@@ -248,10 +223,9 @@ document.addEventListener('DOMContentLoaded', () => {
         const e = cart.find(i=>i.product.id===currentProduct.id&&i.color.id===currentColor.id&&i.purpose===currentPurpose);
         if(e) e.quantity++; else cart.push({id:Date.now(),purpose:currentPurpose,product:{...currentProduct},color:{...currentColor},quantity:1});
         spawnPetals(currentColor);
-        // Do NOT clear currentColor immediately, allow anim to read it. (Cleared at next step/select)
         const acc = document.getElementById('add-to-cart-container');
         if(acc) acc.classList.add('opacity-0');
-        updateCartUI(); // Update count immediately
+        updateCartUI();
     };
 
     const cartOpen = document.getElementById('cart-icon-btn');
@@ -262,12 +236,15 @@ document.addEventListener('DOMContentLoaded', () => {
     if(checkout) checkout.onclick = () => { window.toggleCart(false); showStep(4); };
 
     const navHome = document.getElementById('nav-home');
-    if(navHome) navHome.onclick = (e) => {
+    const logoLink = document.getElementById('logo-link');
+    const goHome = (e) => {
         e.preventDefault();
         document.getElementById('order-screen').classList.add('layer-hidden');
         document.getElementById('landing-screen').classList.remove('layer-hidden');
         updateNavUI();
     };
+    if(navHome) navHome.onclick = goHome;
+    if(logoLink) logoLink.onclick = goHome;
     
     const navShop = document.getElementById('nav-shop');
     if(navShop) navShop.onclick = (e) => { e.preventDefault(); showStep(1); };
