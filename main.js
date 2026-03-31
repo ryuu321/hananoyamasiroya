@@ -11,10 +11,10 @@ const PRODUCTS = [
 ];
 
 const COLORS = [
-  { id: 'c-white', name: '白・グリーン系', img: '/color_white.png', mode: 'multi', colors: ['#ffffff', '#f1f8e9', '#dcedc8', '#81c784'] },
+  { id: 'c-white', name: '白・グリーン系', img: '/color_white.png', mode: 'multi', colors: ['#ffffff', '#f1f8e9', '#dcedc8', '#a5d6a7'] },
   { id: 'c-pink', name: 'ピンク・パステル系', img: '/color_pink.png', mode: 'multi', colors: ['#f8bbd0', '#f48fb1', '#f06292', '#ec407a'] },
-  { id: 'c-red', name: '暖色・オレンジ系', img: '/color_red.png', mode: 'multi', colors: ['#ff8a65', '#ff7043', '#f4511e', '#d84315'] },
-  { id: 'c-purple', name: '紫・ブルー系', img: '/color_purple.png', mode: 'multi', colors: ['#9575cd', '#7986cb', '#5c6bc0', '#3f51b5'] }
+  { id: 'c-red', name: '暖色・オレンジ系', img: '/color_red.png', mode: 'multi', colors: ['#ffcc80', '#ffa726', '#fb8c00', '#ef6c00'] },
+  { id: 'c-purple', name: '紫・ブルー系', img: '/color_purple.png', mode: 'multi', colors: ['#b39ddb', '#9575cd', '#7986cb', '#5c6bc0'] }
 ];
 
 let cart = []; let currentPurpose = 'celebration'; let currentProduct = null; let currentColor = null; let currentStep = 1;
@@ -62,7 +62,7 @@ function spawnPetals(selectedTheme) {
     for (let i = 0; i < count; i++) {
         const p = document.createElement('div'); p.className = "fixed pointer-events-none z-[2000] rotate-45 w-5 h-4 rounded-[100%_15%_100%_15%] shadow-md";
         p.style.left = `${fromR.left + fromR.width/2}px`; p.style.top = `${fromR.top}px`;
-        p.style.backgroundColor = selectedTheme.colors[Math.floor(Math.random() * selectedTheme.colors.length)];
+        p.style.backgroundColor = selectedTheme.colors[i % 4]; // Perfect 4-color cycles
         p.style.opacity = '0.9'; p.style.filter = 'blur(0.5px)';
         document.body.appendChild(p);
         const dx = (toR.left + toR.width/2) - (fromR.left + fromR.width/2); const dy = (toR.top + toR.height/2) - fromR.top;
@@ -83,10 +83,9 @@ function renderProducts() {
     const list = document.getElementById('product-list'); if(!list) return; list.innerHTML = '';
     PRODUCTS.forEach(cat => {
         const div = document.createElement('div'); div.className = "mb-16"; div.innerHTML = `<h4 class="text-2xl font-bold text-primary mb-8 border-b-2 border-primary/10 pb-4">${cat.title}</h4><div class="grid grid-cols-1 md:grid-cols-3 gap-10" id="cat-${cat.id}"></div>`;
-        list.appendChild(div);
-        cat.items.forEach(item => {
+        list.appendChild(div); cat.items.forEach(item => {
             const card = document.createElement('div'); card.className = "bg-white rounded-[2.5rem] overflow-hidden shadow-sm hover:shadow-2xl transition-all cursor-pointer group border border-primary/5";
-            card.innerHTML = `<div class="aspect-[4/5] overflow-hidden"><img src="${item.img}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"/></div><div class="p-8"><h5 class="text-2xl font-bold mb-2">${item.name}</h5><p class="text-xl font-bold font-label text-primary">¥${item.price.toLocaleString()}</p></div>`;
+            card.innerHTML = `<div class="aspect-[4/5] overflow-hidden"><img src="${item.img}" class="w-full h-full object-cover group-hover:scale-105 transition-all duration-700"/></div><div class="p-8"><h5 class="text-2xl font-bold mb-2 uppercase">${item.name}</h5><p class="text-xl font-bold font-label text-primary">¥${item.price.toLocaleString()}</p></div>`;
             card.onclick = (e) => { e.stopPropagation(); currentProduct = item; showStep(3); };
             const container = document.getElementById(`cat-${cat.id}`); if(container) container.appendChild(card);
         });
@@ -99,8 +98,8 @@ function renderColors() {
     COLORS.forEach(color => {
         const card = document.createElement('div'); const isS = currentColor?.id === color.id;
         card.className = `p-6 bg-white rounded-[2.5rem] shadow-sm border-2 cursor-pointer transition-all ${isS ? 'border-primary ring-8 ring-primary/5' : 'border-transparent'}`;
-        card.innerHTML = `<div class="aspect-square rounded-2xl overflow-hidden mb-6"><img src="${color.img}" class="w-full h-full object-cover"/></div><p class="text-center font-bold font-label">${color.name}</p>`;
-        card.onclick = () => { currentColor = color; renderColors(); document.getElementById('add-to-cart-container').classList.remove('opacity-0', 'translate-y-4', 'pointer-events-none'); };
+        card.innerHTML = `<div class="aspect-square rounded-2xl overflow-hidden mb-6"><img src="${color.img}" class="w-full h-full object-cover"/></div><p class="text-center font-bold font-label tracking-tighter">${color.name}</p>`;
+        card.onclick = () => { currentColor = color; renderColors(); const acc = document.getElementById('add-to-cart-container'); if(acc) acc.classList.remove('opacity-0', 'translate-y-4', 'pointer-events-none'); };
         grid.appendChild(card);
     });
 }
@@ -109,7 +108,7 @@ function updateCartUI() {
     if(!list) return; list.innerHTML = ''; let t = 0;
     cart.forEach((it, idx) => {
         t += it.product.price * it.quantity; const div = document.createElement('div'); div.className = "flex items-center gap-6 bg-white p-6 rounded-3xl border border-primary/5";
-        div.innerHTML = `<div class="flex gap-1 w-20 flex-shrink-0"><img src="${it.product.img}" class="w-10 h-10 rounded-lg object-cover"/><img src="${it.color.img}" class="w-10 h-10 rounded-lg object-cover border"/></div><div class="flex-grow"><h5 class="text-lg font-bold leading-tight">${it.product.name}</h5><p class="text-xs opacity-60 font-medium">${it.color.name}</p></div><div class="flex items-center gap-4"><div class="flex items-center bg-surface-container rounded-full p-1 border"><button class="w-8 h-8 flex items-center justify-center font-bold" onclick="changeQty(${idx}, -1)">-</button><span class="w-6 text-center font-bold tracking-tighter">${it.quantity}</span><button class="w-8 h-8 flex items-center justify-center font-bold" onclick="changeQty(${idx}, 1)">+</button></div><p class="font-bold w-20 text-right text-sm">¥${(it.product.price*it.quantity).toLocaleString()}</p></div>`;
+        div.innerHTML = `<div class="flex gap-1 w-20 flex-shrink-0"><img src="${it.product.img}" class="w-10 h-10 rounded-lg object-cover"/><img src="${it.color.img}" class="w-10 h-10 rounded-lg object-cover border"/></div><div class="flex-grow"><h5 class="text-lg font-bold leading-tight uppercase text-sm">${it.product.name}</h5><p class="text-xs opacity-60 font-medium">${it.color.name}</p></div><div class="flex items-center gap-4"><div class="flex items-center bg-surface-container rounded-full p-1 border text-xs"><button class="w-8 h-8 flex items-center justify-center font-bold" onclick="changeQty(${idx}, -1)">-</button><span class="w-6 text-center font-bold">${it.quantity}</span><button class="w-8 h-8 flex items-center justify-center font-bold" onclick="changeQty(${idx}, 1)">+</button></div><p class="font-bold w-20 text-right text-sm">¥${(it.product.price*it.quantity).toLocaleString()}</p></div>`;
         list.appendChild(div);
     });
     if(badge){ badge.innerText = cart.length; badge.classList.toggle('hidden', cart.length === 0); }
@@ -128,9 +127,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (!currentProduct || !currentColor) return;
         const e = cart.find(i=>i.product.id===currentProduct.id&&i.color.id===currentColor.id);
         if(e) e.quantity++; else cart.push({id:Date.now(),product:{...currentProduct},color:{...currentColor},quantity:1});
-        spawnPetals(currentColor); 
-        const acc = document.getElementById('add-to-cart-container'); if(acc) acc.classList.add('opacity-0', 'translate-y-4', 'pointer-events-none'); 
-        updateCartUI();
+        spawnPetals(currentColor); const acc = document.getElementById('add-to-cart-container'); if(acc) acc.classList.add('opacity-0', 'translate-y-4', 'pointer-events-none'); updateCartUI();
     };
     const cartOpen = document.getElementById('cart-icon-btn'); if(cartOpen) cartOpen.onclick = () => window.toggleCart(true);
     const cartClose = document.getElementById('close-cart'); if(cartClose) cartClose.onclick = () => window.toggleCart(false);
