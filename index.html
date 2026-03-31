@@ -97,26 +97,26 @@
   <div id="order-screen" class="layer-screen layer-hidden py-16">
     <div class="max-w-screen-xl mx-auto px-6">
       
-      <!-- Stepper Container -->
-      <div class="mb-16 flex justify-between items-center max-w-4xl mx-auto sticky top-24 z-40 bg-surface/90 backdrop-blur-md p-6 rounded-2xl shadow-sm">
-        <div class="step-node flex flex-col items-center gap-2" data-step="1">
-            <div id="step-c-1" class="w-10 h-10 rounded-full flex items-center justify-center font-bold">1</div>
-            <span class="text-[10px] uppercase font-bold text-primary">Purpose</span>
+      <!-- Stepper Container (Enhanced) -->
+      <div class="mb-16 flex justify-between items-center max-w-4xl mx-auto sticky top-24 z-40 bg-surface/90 backdrop-blur-md p-6 rounded-2xl shadow-sm border border-primary/5">
+        <div class="step-node flex flex-col items-center gap-2 cursor-pointer group" data-step="1">
+            <div id="step-c-1" class="w-10 h-10 rounded-full flex items-center justify-center font-bold transition-all group-hover:scale-110">1</div>
+            <span class="text-[10px] font-bold text-primary tracking-tighter">用途</span>
         </div>
         <div class="flex-grow h-px bg-outline-variant/30 mx-4"></div>
-        <div class="step-node flex flex-col items-center gap-2" data-step="2">
-            <div id="step-c-2" class="w-10 h-10 rounded-full flex items-center justify-center font-bold">2</div>
-            <span class="text-[10px] uppercase opacity-40">Flower</span>
+        <div class="step-node flex flex-col items-center gap-2 cursor-pointer group" data-step="2">
+            <div id="step-c-2" class="w-10 h-10 rounded-full flex items-center justify-center font-bold transition-all group-hover:scale-110">2</div>
+            <span class="text-[10px] font-bold opacity-40 tracking-tighter">商品</span>
         </div>
         <div class="flex-grow h-px bg-outline-variant/30 mx-4"></div>
-        <div class="step-node flex flex-col items-center gap-2" data-step="3">
-            <div id="step-c-3" class="w-10 h-10 rounded-full flex items-center justify-center font-bold">3</div>
-            <span class="text-[10px] uppercase opacity-40">Color</span>
+        <div class="step-node flex flex-col items-center gap-2 cursor-pointer group" data-step="3">
+            <div id="step-c-3" class="w-10 h-10 rounded-full flex items-center justify-center font-bold transition-all group-hover:scale-110">3</div>
+            <span class="text-[10px] font-bold opacity-40 tracking-tighter">色味</span>
         </div>
         <div class="flex-grow h-px bg-outline-variant/30 mx-4"></div>
-        <div class="step-node flex flex-col items-center gap-2" data-step="4">
-            <div id="step-c-4" class="w-10 h-10 rounded-full flex items-center justify-center font-bold">4</div>
-            <span class="text-[10px] uppercase opacity-40">Details</span>
+        <div class="step-node flex flex-col items-center gap-2 cursor-pointer group" data-step="4">
+            <div id="step-c-4" class="w-10 h-10 rounded-full flex items-center justify-center font-bold transition-all group-hover:scale-110">4</div>
+            <span class="text-[10px] font-bold opacity-40 tracking-tighter">詳細</span>
         </div>
       </div>
 
@@ -136,13 +136,21 @@
       </section>
 
       <!-- LAYER 2: PRODUCT -->
-      <section id="step-2-area" class="layer-screen layer-hidden">
+      <section id="step-2-area" class="layer-screen layer-hidden pb-40">
+          <button class="mb-8 flex items-center gap-2 text-primary/60 hover:text-primary transition-colors group" onclick="showStep(1)">
+              <span class="material-symbols-outlined transition-transform group-hover:-translate-x-1">arrow_back</span>
+              <span class="font-bold underline underline-offset-4">用途を選び直す</span>
+          </button>
           <div class="text-center mb-16"><h2 class="text-4xl font-headline font-bold text-primary">お花をお選びください</h2></div>
           <div id="product-list" class="space-y-20"></div>
       </section>
 
       <!-- LAYER 3: COLOR -->
-      <section id="step-3-area" class="layer-screen layer-hidden">
+      <section id="step-3-area" class="layer-screen layer-hidden pb-40">
+          <button class="mb-8 flex items-center gap-2 text-primary/60 hover:text-primary transition-colors group" onclick="showStep(2)">
+              <span class="material-symbols-outlined transition-transform group-hover:-translate-x-1">arrow_back</span>
+              <span class="font-bold underline underline-offset-4">お花を選び直す</span>
+          </button>
           <div class="text-center mb-16">
               <h2 class="text-4xl font-headline font-bold text-primary mb-4">色味をお選びください</h2>
               <p id="selection-summary" class="text-primary/60 font-bold"></p>
@@ -155,14 +163,18 @@
       </section>
 
       <!-- LAYER 4: DETAILS -->
-      <section id="step-4-area" class="layer-screen layer-hidden max-w-2xl mx-auto">
+      <section id="step-4-area" class="layer-screen layer-hidden max-w-2xl mx-auto pb-40">
+          <button class="mb-8 flex items-center gap-2 text-primary/60 hover:text-primary transition-colors group" onclick="showStep(3)">
+              <span class="material-symbols-outlined transition-transform group-hover:-translate-x-1">arrow_back</span>
+              <span class="font-bold underline underline-offset-4">お色味の選択に戻る</span>
+          </button>
           <form class="space-y-12 bg-white p-12 rounded-3xl shadow-xl">
               <h2 class="text-3xl font-headline font-bold text-primary border-b pb-6">お届け情報の入力</h2>
               <div class="space-y-8">
                   <div><label class="block text-xs font-bold uppercase tracking-widest text-primary/50 mb-3">お名前</label><input type="text" class="w-full bg-surface-container border-0 rounded-2xl p-4 h-14" placeholder="山田 太郎"/></div>
                   <div><label class="block text-xs font-bold uppercase tracking-widest text-primary/50 mb-3">想い（メッセージ）</label><textarea class="w-full bg-surface-container border-0 rounded-2xl p-4 h-40" placeholder="心のこもったメッセージを。"></textarea></div>
               </div>
-              <button type="submit" class="w-full py-6 bg-primary text-white rounded-full font-bold text-2xl shadow-xl">注文を確定する</button>
+              <button type="submit" class="w-full py-6 bg-primary text-white rounded-full font-bold text-2xl shadow-xl hover:scale-[1.02] active:scale-95 transition-all">注文を確定する</button>
           </form>
       </section>
 

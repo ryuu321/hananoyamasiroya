@@ -16,7 +16,7 @@ const PRODUCTS = [
       { id: 'YH-F002-4-01', name: 'お祝い用アレンジ (S)', price: 4000, img: 'https://yamashiroya.easy-myshop.jp/item-image/YH-F002-4-01.jpg', desc: '飾りやすいサイズのギフト。' },
       { id: 'YH-F003-11-01', name: 'お祝い用アレンジ (L)', price: 11000, img: 'https://yamashiroya.easy-myshop.jp/item-image/YH-F003-11-01.jpg', desc: '豪華な贈り物として。' },
       { id: 'YH-F004-11-01', name: '開店祝アレンジ', price: 11000, img: 'https://yamashiroya.easy-myshop.jp/item-image/YH-F004-11-01.jpg', desc: '店舗の成功を願って。' },
-      { id: 'YH-F012-7-01', name: 'お供えアレンジ', price: 7000, img: 'https://yamashiroya.easy-myshop.jp/item-image/YH-F012-7-01.jpg', desc: 'しめやかな法要の場に。' }
+      { id: 'YH-F012-7-01', name: 'お供えアレンジ', price: 7000, img: 'https://yamashiroya.easy-myshop.jp/item-image/YH-F012-7-01.jpg', desc: 'しめやかな法要の場に. ' }
     ]
   },
   {
@@ -62,20 +62,15 @@ let currentProduct = null;
 let currentColor = null;
 let currentStep = 1;
 
-// --- NAV NAVIGATION STATE ---
 function updateNavUI() {
-    const isLanding = !document.getElementById('landing-screen').classList.contains('layer-hidden');
-    const homeNav = document.getElementById('nav-home');
-    const shopNav = document.getElementById('nav-shop');
+    const isL = !document.getElementById('landing-screen').classList.contains('layer-hidden');
+    const hN = document.getElementById('nav-home');
+    const sN = document.getElementById('nav-shop');
     const active = "nav-link font-medium tracking-wide text-primary border-b-2 border-primary pb-1";
     const inactive = "nav-link font-medium tracking-wide opacity-60 hover:opacity-100 transition-opacity";
-    if (homeNav && shopNav) {
-        if (isLanding) { homeNav.className = active; shopNav.className = inactive; } 
-        else { homeNav.className = inactive; shopNav.className = active; }
-    }
+    if (hN && sN) { if(isL){ hN.className=active; sN.className=inactive; } else { hN.className=inactive; sN.className=active; } }
 }
 
-// --- STEP CONTROL ---
 function showStep(step) {
   const prevStep = currentStep;
   currentStep = step;
@@ -88,6 +83,7 @@ function showStep(step) {
       el.animate([{ opacity: 0, transform: `translateX(${step > prevStep ? 40 : -40}px)` }, { opacity: 1, transform: 'translateX(0)' }], { duration: 500, easing: 'cubic-bezier(0.22, 1, 0.36, 1)' });
     } else { if(el) el.classList.add('layer-hidden'); }
   });
+  if (step === 1) window.scrollTo({ top: 0, behavior: 'smooth' }); // Return top for purpose
   if (step === 2) renderProducts();
   if (step === 3) renderColors();
   updateStepper();
@@ -99,22 +95,27 @@ function updateStepper() {
   for (let i = 1; i <= 4; i++) {
     const c = document.getElementById(`step-c-${i}`);
     const n = document.querySelector(`.step-node[data-step="${i}"]`);
-    if (!c) continue;
+    const label = n.querySelector('span');
+    if (!c || !label) continue;
+
     n.onclick = () => { if (i < currentStep || (i === 2 && currentPurpose) || (i === 3 && currentProduct)) showStep(i); };
+
     if (i < currentStep) {
       c.innerHTML = '<span class="material-symbols-outlined text-[16px]">check</span>';
       c.className = 'w-10 h-10 rounded-full flex items-center justify-center bg-secondary text-white shadow-sm';
+      label.className = "text-[10px] font-bold text-secondary tracking-tighter opacity-80";
     } else if (i === currentStep) {
       c.innerText = i;
       c.className = 'w-10 h-10 rounded-full flex items-center justify-center bg-primary text-white scale-110 shadow-xl';
+      label.className = "text-[10px] font-bold text-primary tracking-tighter opacity-100";
     } else {
       c.innerText = i;
       c.className = 'w-10 h-10 rounded-full flex items-center justify-center bg-surface-container-high text-on-surface-variant/30 text-sm';
+      label.className = "text-[10px] font-bold opacity-30 tracking-tighter";
     }
   }
 }
 
-// --- MAGICAL CIRCLE FLIGHT ---
 function spawnPetals(selectedTheme) {
     const fromBtn = document.getElementById('add-to-cart-btn');
     const toIcon = document.getElementById('cart-icon-btn');
@@ -151,7 +152,6 @@ function spawnPetals(selectedTheme) {
     }
 }
 
-// --- LOGIC ---
 function renderProducts() {
   const list = document.getElementById('product-list');
   list.innerHTML = '';
@@ -172,6 +172,8 @@ function renderProducts() {
 
 function renderColors() {
   const grid = document.getElementById('color-grid');
+  const summary = document.getElementById('selection-summary');
+  if(summary && currentProduct) summary.innerText = `${currentProduct.name} をお選びいただきました。`;
   grid.innerHTML = '';
   COLORS.forEach(color => {
     const isSel = currentColor?.id === color.id;
@@ -198,21 +200,24 @@ function updateCartUI() {
   const totalDisp = document.getElementById('cart-total-display');
   list.innerHTML = '';
   let total = 0;
-  cart.forEach((item, index) => {
-    total += item.product.price * item.quantity;
-    const div = document.createElement('div');
-    div.className = "flex items-center gap-8 bg-white p-6 rounded-3xl border border-primary/5";
-    div.innerHTML = `<div class="flex gap-2 w-24 flex-shrink-0"><img src="${item.product.img}" class="w-12 h-12 rounded-xl object-cover"/><img src="${item.color.img}" class="w-12 h-12 rounded-xl object-cover border"/></div><div class="flex-grow"><h5 class="text-xl font-bold leading-tight">${item.product.name}</h5><p class="text-sm opacity-60">${item.color.name}</p></div><div class="flex items-center gap-6"><div class="flex items-center bg-surface-container rounded-full p-1 border"><button class="w-8 h-8 flex items-center justify-center font-bold" onclick="changeQty(${index}, -1)">-</button><span class="w-8 text-center font-bold">${item.quantity}</span><button class="w-8 h-8 flex items-center justify-center font-bold" onclick="changeQty(${index}, 1)">+</button></div><p class="text-xl font-bold w-28 text-right">¥${(item.product.price * item.quantity).toLocaleString()}</p></div>`;
-    list.appendChild(div);
-  });
-  badge.innerText = cart.length; badge.classList.toggle('hidden', cart.length === 0);
-  totalDisp.innerText = `¥${total.toLocaleString()}`;
+  if(list) {
+    cart.forEach((item, index) => {
+        total += item.product.price * item.quantity;
+        const div = document.createElement('div');
+        div.className = "flex items-center gap-8 bg-white p-6 rounded-3xl border border-primary/5";
+        div.innerHTML = `<div class="flex gap-2 w-24 flex-shrink-0"><img src="${item.product.img}" class="w-12 h-12 rounded-xl object-cover"/><img src="${item.color.img}" class="w-12 h-12 rounded-xl object-cover border"/></div><div class="flex-grow"><h5 class="text-xl font-bold leading-tight">${item.product.name}</h5><p class="text-sm opacity-60">${item.color.name}</p></div><div class="flex items-center gap-6"><div class="flex items-center bg-surface-container rounded-full p-1 border"><button class="w-8 h-8 flex items-center justify-center font-bold" onclick="changeQty(${index}, -1)">-</button><span class="w-8 text-center font-bold">${item.quantity}</span><button class="w-8 h-8 flex items-center justify-center font-bold" onclick="changeQty(${index}, 1)">+</button></div><p class="text-xl font-bold w-28 text-right">¥${(item.product.price * item.quantity).toLocaleString()}</p></div>`;
+        list.appendChild(div);
+    });
+  }
+  if(badge) {
+    badge.innerText = cart.length; badge.classList.toggle('hidden', cart.length === 0);
+  }
+  if(totalDisp) totalDisp.innerText = `¥${total.toLocaleString()}`;
 }
 
 window.changeQty = (index, delta) => { cart[index].quantity += delta; if (cart[index].quantity <= 0) cart.splice(index, 1); updateCartUI(); };
 function toggleCart(open) { document.getElementById('cart-screen').style.transform = open ? 'translateX(0)' : 'translateX(100%)'; }
 
-// --- INIT & INTRO ---
 function playIntro(callback) {
   const overlay = document.getElementById('intro-overlay');
   if (!overlay) return;
@@ -227,7 +232,6 @@ if (!introPlayed) playIntro(); else updateNavUI();
 document.getElementById('start-shopping').onclick = () => showStep(1);
 document.getElementById('nav-shop').onclick = (e) => { e.preventDefault(); showStep(1); };
 document.getElementById('nav-home').onclick = (e) => { e.preventDefault(); document.getElementById('order-screen').classList.add('layer-hidden'); document.getElementById('landing-screen').classList.remove('layer-hidden'); updateNavUI(); };
-document.querySelectorAll('.purpose-card').forEach(card => card.onclick = () => { currentPurpose = card.dataset.purpose; showStep(2); });
 document.getElementById('add-to-cart-btn').onclick = addToCart;
 document.getElementById('cart-icon-btn').onclick = () => toggleCart(true);
 document.getElementById('close-cart').onclick = () => toggleCart(false);
