@@ -24,7 +24,7 @@
     .nav-link { position: relative; z-index: 10; display: inline-flex; align-items: center; justify-content: center; min-width: 100px; padding: 12px 0; cursor: pointer; transition: opacity 0.4s ease; }
     .soil-base { opacity: 0.35; transition: opacity 0.6s ease, transform 0.6s ease; transform-origin: center; }
     .flower-stem { transform-origin: bottom center; stroke-dasharray: 60; stroke-dashoffset: 60; transition: stroke-dashoffset 0.8s 0.15s cubic-bezier(0.45, 0, 0.55, 1); opacity: 0.6; }
-    .flower-petals { transform-origin: center center; transform: scale(0) rotate(-35deg); opacity: 0; transition: transform 1s 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.8s 0.4s; }
+    .flower-petals { transform-origin: center center; transform: scale(0) rotate(-35deg); opacity: 0; transition: transform 0.9s 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.8s 0.4s; }
     .nav-link.is-active .soil-base { opacity: 0.8; transform: scale(1.08); }
     .nav-link.is-active .flower-stem { stroke-dashoffset: 0; }
     .nav-link.is-active .flower-petals { transform: scale(1.25) rotate(0deg); opacity: 0.9; }
@@ -36,7 +36,7 @@
     body:not(.in-shop) .home-side-frame { opacity: 0.7; transform: translateX(0); }
     body.in-shop .home-side-frame { opacity: 0; transform: translateX(20px); }
 
-    /* HERO FLOWER ENVELOPE (Embracing the center) */
+    /* HERO FLOWER ENVELOPE */
     #hero-flower-envelope { position: absolute; inset: 0; display: flex; align-items: flex-end; justify-content: center; z-index: 10; pointer-events: none; }
     #hero-flower-envelope img { width: 100%; height: 100%; object-fit: contain; object-position: bottom; transform: scale(1.15); filter: drop-shadow(0 20px 40px rgba(0,0,0,0.05)); }
 
@@ -58,18 +58,37 @@
     <a href="#" class="block h-12 hover:opacity-80 transition-opacity" id="logo-link"><img src="https://yamashiroya.easy-myshop.jp/c-fimg?fp=logo" class="h-full w-auto object-contain"/></a>
     <nav class="hidden md:flex items-center space-x-12">
       <a class="nav-link font-bold text-lg" id="nav-home">ホーム
-        <div class="nav-garden"><svg viewBox="0 0 100 100" class="w-full h-full"><g class="soil-base"><path d="M10,85 Q50,80 90,85" stroke="#5D4037" stroke-width="8" fill="none" stroke-linecap="round" opacity="0.4"/><path d="M15,83 Q50,78 85,83" stroke="#3E2723" stroke-width="4" fill="none" stroke-linecap="round" opacity="0.3"/></g><g class="soil-particle"><circle cx="20" cy="88" r="1.5" fill="#3E2723"/><circle cx="45" cy="82" r="1.2" fill="#5D4037"/><circle cx="75" cy="86" r="1.8" fill="#795548"/></g><path class="flower-stem" d="M50,85 Q45,65 50,45" stroke="#4CAF50" stroke-width="3" fill="none"/><g class="flower-petals"><circle cx="50" cy="40" r="24" fill="#f8bbd0" opacity="0.3"/><ellipse cx="65" cy="50" rx="18" ry="14" fill="#f48fb1" opacity="0.4"/><ellipse cx="35" cy="50" rx="18" ry="14" fill="#f48fb1" opacity="0.4"/><circle cx="50" cy="45" r="12" fill="#ec407a" opacity="0.6"/><circle cx="50" cy="45" r="5" fill="#c2185b" opacity="0.8"/></g></svg></div>
+        <div class="nav-garden">
+          <svg viewBox="0 0 100 100" class="w-full h-full">
+            <g class="soil-base"><path d="M10,85 Q50,80 90,85" stroke="#5D4037" stroke-width="8" fill="none" stroke-linecap="round" opacity="0.4"/><path d="M15,83 Q50,78 85,83" stroke="#3E2723" stroke-width="4" fill="none" stroke-linecap="round" opacity="0.3"/></g>
+            <g class="soil-particle"><circle cx="20" cy="88" r="1.5" fill="#3E2723"/><circle cx="45" cy="82" r="1.2" fill="#5D4037"/><circle cx="75" cy="86" r="1.8" fill="#795548"/></g>
+            <path class="flower-stem" d="M50,85 Q45,65 50,45" stroke="#4CAF50" stroke-width="3" fill="none"/><g class="flower-petals"><circle cx="50" cy="40" r="24" fill="#f8bbd0" opacity="0.3"/><ellipse cx="65" cy="50" rx="18" ry="14" fill="#f48fb1" opacity="0.4"/><ellipse cx="35" cy="50" rx="18" ry="14" fill="#f48fb1" opacity="0.4"/><circle cx="50" cy="45" r="12" fill="#ec407a" opacity="0.6"/><circle cx="50" cy="45" r="5" fill="#c2185b" opacity="0.8"/></g>
+          </svg>
+        </div>
       </a>
       <a class="nav-link font-bold text-lg" id="nav-shop">ショップ
-        <div class="nav-garden"><svg viewBox="0 0 100 100" class="w-full h-full"><g class="soil-base"><path d="M10,85 Q50,88 90,85" stroke="#5D4037" stroke-width="8" fill="none" stroke-linecap="round" opacity="0.4"/><path d="M15,87 Q50,90 85,87" stroke="#3E2723" stroke-width="4" fill="none" stroke-linecap="round" opacity="0.2"/></g><path class="flower-stem" d="M50,85 L50,60" stroke="#81C784" stroke-width="3" fill="none"/><g class="flower-petals"><path d="M50,60 L85,35 Q50,45 15,35 Z" fill="#FFD54F" opacity="0.5"/><circle cx="50" cy="55" r="14" fill="#FBC02D" opacity="0.4"/><circle cx="50" cy="55" r="8" fill="#F9A825" opacity="0.6"/><circle cx="50" cy="55" r="3" fill="#FFB300" opacity="0.8"/></g></svg></div>
+        <div class="nav-garden">
+          <svg viewBox="0 0 100 100" class="w-full h-full">
+            <g class="soil-base"><path d="M10,85 Q50,88 90,85" stroke="#5D4037" stroke-width="8" fill="none" stroke-linecap="round" opacity="0.4"/><path d="M15,87 Q50,90 85,87" stroke="#3E2723" stroke-width="4" fill="none" stroke-linecap="round" opacity="0.2"/></g>
+            <path class="flower-stem" d="M50,85 L50,60" stroke="#81C784" stroke-width="3" fill="none"/><g class="flower-petals"><path d="M50,60 L85,35 Q50,45 15,35 Z" fill="#FFD54F" opacity="0.5"/><circle cx="50" cy="55" r="14" fill="#FBC02D" opacity="0.4"/><circle cx="50" cy="55" r="8" fill="#F9A825" opacity="0.6"/><circle cx="50" cy="55" r="3" fill="#FFB300" opacity="0.8"/></g>
+          </svg>
+        </div>
       </a>
       <a class="nav-link font-bold text-lg" id="nav-history">当店のあゆみ
-        <div class="nav-garden"><svg viewBox="0 0 100 100" class="w-full h-full"><g class="soil-base"><path d="M15,85 Q50,82 85,85" stroke="#4E342E" stroke-width="9" fill="none" stroke-linecap="round" opacity="0.4"/><path d="M20,83 Q50,80 80,83" stroke="#263238" stroke-width="3" fill="none" stroke-linecap="round" opacity="0.1"/></g><path class="flower-stem" d="M50,85 C55,70 45,65 50,55" stroke="#2E7D32" stroke-width="3" fill="none"/><g class="flower-petals"><circle cx="40" cy="48" r="18" fill="#9575CD" opacity="0.4"/><circle cx="60" cy="48" r="18" fill="#7986CB" opacity="0.4"/><circle cx="50" cy="60" r="20" fill="#5C6BC0" opacity="0.3"/><circle cx="50" cy="48" r="10" fill="#311B92" opacity="0.6"/><circle cx="50" cy="48" r="4" fill="#1A237E" opacity="0.8"/></g></svg></div>
+        <div class="nav-garden">
+          <svg viewBox="0 0 100 100" class="w-full h-full">
+            <g class="soil-base"><path d="M15,85 Q50,82 85,85" stroke="#4E342E" stroke-width="9" fill="none" stroke-linecap="round" opacity="0.4"/><path d="M20,83 Q50,80 80,83" stroke="#263238" stroke-width="3" fill="none" stroke-linecap="round" opacity="0.1"/></g>
+            <path class="flower-stem" d="M50,85 C55,70 45,65 50,55" stroke="#2E7D32" stroke-width="3" fill="none"/><g class="flower-petals"><circle cx="40" cy="48" r="18" fill="#9575CD" opacity="0.4"/><circle cx="60" cy="48" r="18" fill="#7986CB" opacity="0.4"/><circle cx="50" cy="60" r="20" fill="#5C6BC0" opacity="0.3"/><circle cx="50" cy="48" r="10" fill="#311B92" opacity="0.6"/><circle cx="50" cy="48" r="4" fill="#1A237E" opacity="0.8"/></g>
+          </svg>
+        </div>
       </a>
     </nav>
     <div class="flex items-center gap-6">
-      <div id="header-cart-total-container" class="hidden md:flex flex-col items-end opacity-60"><span id="header-cart-total" class="text-xl font-label font-bold text-primary">¥0</span></div>
-      <button id="cart-icon-btn" class="p-2 text-primary relative group"><span class="material-symbols-outlined text-4xl">local_florist</span><span id="cart-badge-count" class="absolute -top-1 -right-1 bg-primary text-white text-[10px] w-5 h-5 rounded-full flex items-center justify-center border-2 border-surface hidden">0</span></button>
+      <div id="header-cart-total-container" class="hidden md:flex flex-col items-end opacity-60"><span class="text-[10px] uppercase font-bold tracking-widest text-primary/70">合計推定額（税込）</span><span id="header-cart-total" class="text-xl font-label font-bold text-primary">¥0</span></div>
+      <button id="cart-icon-btn" class="p-2 text-primary relative group">
+        <span class="material-symbols-outlined text-4xl transition-transform group-hover:scale-110">local_florist</span>
+        <span id="cart-badge-count" class="absolute -top-1 -right-1 bg-primary text-white text-[10px] w-5 h-5 rounded-full flex items-center justify-center border-2 border-surface hidden">0</span>
+      </button>
     </div>
   </div>
 </header>
@@ -79,7 +98,6 @@
   <div id="landing-screen" class="layer-screen">
     <div class="home-side-frame home-side-left"></div>
     <div class="home-side-frame home-side-right"></div>
-
     <section class="relative h-[100vh] w-full flex items-center justify-center overflow-hidden bg-[#fbfaee]">
       <div id="hero-flower-envelope"><img src="./watercolor_flower_frame_full_1774948928946.png" alt="Flowers blooming"/></div>
       <div class="relative z-20 text-center px-10 pb-32">
@@ -88,29 +106,114 @@
         <button id="start-shopping" class="px-20 py-7 bg-primary text-white font-headline text-2xl rounded-full shadow-2xl hover:scale-105 active:scale-95 transition-all ring-8 ring-primary/5">お花を選び、購入する</button>
       </div>
     </section>
-    
     <section class="py-40 bg-surface text-center px-8 border-b border-primary/5">
       <div class="max-w-4xl mx-auto">
-        <p class="text-primary/70 font-bold tracking-[0.3em] mb-12 uppercase text-sm">Heritage of Otaru</p>
-        <div class="aspect-[21/9] rounded-[3rem] overflow-hidden mb-12 shadow-2xl relative group border-8 border-white"><img src="./watercolor_pink_pastel_1774940682661.png" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-1000"/></div>
-        <h2 class="text-3xl md:text-4xl font-headline font-bold text-primary mb-8 leading-relaxed max-w-2xl mx-auto">大正栄華の薫りそのままに。<br/>現代の感性と交わり、<br/>一輪に想いを宿らせる。</h2>
+        <p class="text-primary/70 font-bold tracking-[0.3em] mb-12 uppercase tracking-widest text-sm">Heritage of Otaru</p>
+        <div class="aspect-[21/9] rounded-[3rem] overflow-hidden mb-12 shadow-2xl relative group border-8 border-white">
+          <img src="./watercolor_pink_pastel_1774940682661.png" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-1000"/>
+          <div class="absolute inset-0 bg-gradient-to-t from-primary/30 to-transparent"></div>
+        </div>
+        <h2 class="text-3xl md:text-4xl font-headline font-bold text-primary mb-8 leading-relaxed max-w-2xl mx-auto">大正栄華の薫りそのままに。<br/>現代の感性と交わり、<br/>一輪に想いを宿らせる。</h2><div class="w-12 h-px bg-primary/20 mx-auto mt-12"></div>
       </div>
     </section>
   </div>
-  <!-- ... Remaining Shop/History screens remain as previously verified ... -->
+
+  <!-- SHOP -->
   <div id="order-screen" class="layer-screen layer-hidden py-16">
     <div class="max-w-screen-xl mx-auto px-6">
-      <div class="mb-16 flex justify-between items-center max-w-4xl mx-auto border p-6 rounded-2xl"><div class="text-sm font-bold">1.用途</div><div class="text-sm">2.商品</div><div class="text-sm">3.色味</div><div class="text-sm">4.詳細</div></div>
-      <section id="step-1-area" class="layer-screen pb-40"><div class="grid md:grid-cols-2 gap-10"><button class="purpose-card p-10 bg-white rounded-3xl" data-purpose="celebration">お祝い</button><button class="purpose-card p-10 bg-white rounded-3xl" data-purpose="offering">お供え</button></div></section>
-      <section id="step-2-area" class="layer-screen layer-hidden"><div id="product-list"></div></section>
-      <section id="step-3-area" class="layer-screen layer-hidden"><div id="color-grid" class="grid grid-cols-4 gap-4"></div><div id="add-to-cart-container" class="opacity-0"><button id="add-to-cart-btn">カートに入れる</button></div></section>
-      <section id="step-4-area" class="layer-screen layer-hidden">ご注文情報を入力</section>
+      <!-- High Fidelity Stepper UI -->
+      <div class="mb-16 flex justify-between items-center max-w-4xl mx-auto sticky top-24 z-40 bg-surface/90 backdrop-blur-md p-6 rounded-2xl shadow-sm border border-primary/5">
+        <div class="step-node flex flex-col items-center gap-2 cursor-pointer group" data-step="1"><div id="step-c-1" class="w-12 h-12 rounded-full flex items-center justify-center font-bold text-lg transition-all group-hover:scale-110 shadow-lg bg-primary text-white">1</div><span class="text-[10px] font-bold text-primary uppercase tracking-widest">用途</span></div>
+        <div class="flex-grow h-px bg-primary/10 mx-4"></div>
+        <div class="step-node flex flex-col items-center gap-2 cursor-pointer group" data-step="2"><div id="step-c-2" class="w-12 h-12 rounded-full flex items-center justify-center font-bold text-lg opacity-30 bg-surface-container transition-all group-hover:scale-110">2</div><span class="text-[10px] font-bold opacity-30 uppercase tracking-widest">商品</span></div>
+        <div class="flex-grow h-px bg-primary/10 mx-4"></div>
+        <div class="step-node flex flex-col items-center gap-2 cursor-pointer group" data-step="3"><div id="step-c-3" class="w-12 h-12 rounded-full flex items-center justify-center font-bold text-lg opacity-30 bg-surface-container transition-all group-hover:scale-110">3</div><span class="text-[10px] font-bold opacity-30 uppercase tracking-widest">色味</span></div>
+        <div class="flex-grow h-px bg-primary/10 mx-4"></div>
+        <div class="step-node flex flex-col items-center gap-2 cursor-pointer group" data-step="4"><div id="step-c-4" class="w-12 h-12 rounded-full flex items-center justify-center font-bold text-lg opacity-30 bg-surface-container transition-all group-hover:scale-110">4</div><span class="text-[10px] font-bold opacity-30 uppercase tracking-widest">詳細</span></div>
+      </div>
+
+      <!-- Step 1: Purpose Selection (Restored High Fidelity) -->
+      <section id="step-1-area" class="layer-screen pb-40">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-12 max-w-5xl mx-auto px-4">
+          <button class="purpose-card p-12 bg-white rounded-[3rem] shadow-sm hover:shadow-2xl transition-all text-center group border-2 border-transparent hover:border-primary/5" data-purpose="celebration">
+            <div class="aspect-[4/3] rounded-3xl overflow-hidden mb-10 shadow-inner relative">
+              <img src="./watercolor_handing_flowers_1774938505430.png" class="w-full h-full object-cover group-hover:scale-105 transition-all duration-700"/>
+              <div class="absolute inset-0 bg-primary/0 group-hover:bg-primary/5 transition-colors"></div>
+            </div>
+            <h3 class="text-3xl font-headline font-bold text-primary mb-4 tracking-tighter">お祝い・ギフト</h3>
+            <p class="opacity-60 text-sm leading-relaxed">門出や記念日。喜びの瞬間に、<br/>鮮やかな彩りを添えるお花を。</p>
+          </button>
+          <button class="purpose-card p-12 bg-white rounded-[3rem] shadow-sm hover:shadow-2xl transition-all text-center group border-2 border-transparent hover:border-primary/5" data-purpose="offering">
+            <div class="aspect-[4/3] rounded-3xl overflow-hidden mb-10 shadow-inner relative">
+              <img src="./watercolor_color_themes_1774940629846.png" class="w-full h-full object-cover group-hover:scale-105 transition-all duration-700"/>
+              <div class="absolute inset-0 bg-primary/0 group-hover:bg-primary/5 transition-colors"></div>
+            </div>
+            <h3 class="text-3xl font-headline font-bold text-primary mb-4 tracking-tighter">法要・お供え</h3>
+            <p class="opacity-60 text-sm leading-relaxed">しめやかな法要や追悼の場に。<br/>心に寄り添う、清らかなお花を。</p>
+          </button>
+        </div>
+      </section>
+
+      <!-- Step 2: Product List -->
+      <section id="step-2-area" class="layer-screen layer-hidden pb-40"><button class="mb-8 font-bold underline underline-offset-4" onclick="showStep(1)">← 用途を選び直す</button><div id="product-list" class="space-y-32"></div></section>
+
+      <!-- Step 3: Color selection (Fixed UI) -->
+      <section id="step-3-area" class="layer-screen layer-hidden pb-40">
+          <button class="mb-8 font-bold underline underline-offset-4" onclick="showStep(2)">← お花を選び直す</button>
+          <div class="text-center mb-16"><h2 class="text-4xl font-headline font-bold text-primary mb-4 tracking-widest">想いを込めて、色を選ぶ。</h2><p id="selection-summary" class="text-primary/60 font-bold px-6"></p></div>
+          <div class="grid grid-cols-2 lg:grid-cols-4 gap-8 max-w-5xl mx-auto px-6" id="color-grid"></div>
+          <div class="mt-20 flex flex-col items-center">
+            <p class="text-primary/80 font-bold flex items-center gap-2 mb-10"><span class="material-symbols-outlined text-primary text-xl">info</span>お選びのお花は、右上の「花かご」に追加されます。</p>
+            <div id="add-to-cart-container" class="opacity-0 translate-y-4 transition-all duration-700 pointer-events-none">
+              <button id="add-to-cart-btn" class="px-24 py-7 bg-primary text-white rounded-full font-headline font-bold text-2xl shadow-2xl hover:scale-105 active:scale-95 transition-all ring-8 ring-primary/5">カートに追加する</button>
+            </div>
+          </div>
+      </section>
+
+      <!-- Step 4: Checkout details -->
+      <section id="step-4-area" class="layer-screen layer-hidden max-w-2xl mx-auto pb-40">
+        <button class="mb-8 font-bold underline underline-offset-4" onclick="showStep(3)">← お色味に戻る</button>
+        <form class="space-y-12 bg-white p-12 rounded-[3.5rem] shadow-2xl border border-primary/5">
+          <h2 class="text-3xl font-headline font-bold text-primary border-b pb-8 text-center tracking-widest">ご注文情報の入力</h2>
+          <div class="space-y-10">
+            <div><label class="block text-sm font-bold tracking-widest text-primary/70 mb-4 ml-2">お名前（必須）</label><input type="text" class="w-full bg-surface-container border-0 rounded-3xl p-5 h-16 shadow-inner focus:ring-2 ring-primary/10" placeholder="（例）小樽 花子"/></div>
+            <div><label class="block text-sm font-bold tracking-widest text-primary/70 mb-4 ml-2">メッセージ（任意）</label><textarea class="w-full bg-surface-container border-0 rounded-3xl p-6 h-48 shadow-inner focus:ring-2 ring-primary/10" placeholder="心をこめてお届けします。メッセージを添えられます。"></textarea></div>
+          </div>
+          <button type="submit" class="w-full py-7 bg-primary text-white rounded-full font-bold text-2xl shadow-xl hover:shadow-2xl transition-all scale-100 hover:scale-[1.02]">上記の内容で注文を確定する</button>
+        </form>
+      </section>
     </div>
   </div>
-  <div id="history-screen" class="layer-screen layer-hidden py-32 bg-[#fbfaee]">当店のあゆみ</div>
-  <div id="cart-screen" class="fixed inset-0 z-[60] bg-surface/95 translate-x-full transition-transform">カート内容</div>
+
+  <!-- HISTORY -->
+  <div id="history-screen" class="layer-screen layer-hidden py-32 bg-[#fbfaee]"><div class="max-w-4xl mx-auto px-8"><div class="text-center mb-24"><p class="text-primary/40 tracking-[0.5em] font-bold mb-6 text-sm uppercase">Legacy Story</p><h2 class="text-5xl font-headline font-bold text-primary">花の山城屋、百年の歩み</h2></div><div class="grid md:grid-cols-2 gap-16 items-center"><img src="./watercolor_otaru_florist_hero_1774945526695.png" class="rounded-[2.5rem] shadow-xl aspect-square object-cover"/><div class="space-y-8 text-lg"><h3 class="text-3xl font-headline font-bold text-primary">小樽・花園の地で</h3><p class="leading-loose opacity-70">大正時代、北のウォール街で産声を上げた山城屋。街の彩りと人々の想いを守り、今日まで歩んでまいりました。</p></div></div><div class="mt-32 text-center"><button onclick="showStep(1)" class="px-16 py-6 border-2 border-primary text-primary rounded-full font-bold hover:bg-primary hover:text-white transition-all">ショップへ行く</button></div></div></div>
+
+  <!-- CART OVERLAY -->
+  <div id="cart-screen" class="fixed inset-0 z-[60] bg-surface/96 backdrop-blur-2xl translate-x-full transition-transform duration-500 overflow-y-auto px-8 py-24">
+    <button id="close-cart" class="absolute top-10 right-10 text-primary hover:rotate-90 transition-transform"><span class="material-symbols-outlined text-5xl">close</span></button>
+    <div class="max-w-2xl mx-auto w-full">
+      <h2 class="text-5xl font-headline font-bold text-primary mb-16 flex items-center gap-6"><span class="material-symbols-outlined text-5xl">local_florist</span>花かごの中</h2>
+      <div id="cart-items-list" class="space-y-12"></div>
+      <div id="cart-footer" class="mt-24 border-t-2 border-primary/5 pt-16">
+        <div class="flex justify-between items-center mb-12">
+          <span class="text-2xl text-primary/50 font-bold">合計金額（税込推定）</span>
+          <span id="cart-total-display" class="text-5xl font-bold text-primary tracking-tighter">¥0</span>
+        </div>
+        <button id="checkout-btn" class="w-full py-8 bg-primary text-white rounded-full font-bold text-3xl shadow-2xl hover:scale-[1.02] active:scale-[0.98] transition-all">詳細情報の入力へ進む</button>
+      </div>
+    </div>
+  </div>
 </main>
-<footer class="bg-surface-container py-24 pb-32 text-center opacity-30">&copy; 2024 Hanano Yamashiroya.</footer>
+
+<footer class="bg-surface-container py-32 mt-20">
+  <div class="max-w-screen-2xl mx-auto px-12 grid grid-cols-1 md:grid-cols-3 gap-24">
+    <div class="space-y-10"><a href="#" id="footer-logo-link" class="block h-12 w-fit"><img src="https://yamashiroya.easy-myshop.jp/c-fimg?fp=logo" class="h-full w-auto object-contain"/></a><p class="text-lg opacity-60 leading-relaxed">小樽・花園に根ざして百年。<br/>想いを一輪にのせ、お届けします。</p></div>
+    <div class="space-y-10"><h3 class="text-2xl font-headline font-bold text-primary">店舗のご案内</h3><ul class="space-y-5 text-lg opacity-80 leading-loose"><li>〒047-0024 北海道小樽市花園4丁目4−2</li><li>TEL: 0134-23-1187</li><li>営業時間: 9:00 〜 18:00</li></ul></div>
+    <div class="space-y-10"><h3 class="text-2xl font-headline font-bold text-primary">メニュー</h3><ul class="space-y-5 text-lg font-bold"><li><a href="#" id="footer-history-link" class="underline decoration-primary/20 underline-offset-4 hover:decoration-primary transition-all">花の山城屋について（歩み）</a></li><li><a href="#" id="footer-shop-link" class="underline decoration-primary/20 underline-offset-4 hover:decoration-primary transition-all">お花を選ぶ（ショップ）</a></li></ul></div>
+  </div>
+  <div class="mt-32 text-center border-t border-primary/5 pt-16 text-xs opacity-30 font-bold uppercase tracking-[0.2em]">&copy; 2024 Hanano Yamashiroya Official.</div>
+</footer>
+
 <script type="module" src="./main.js"></script>
 </body>
 </html>
