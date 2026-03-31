@@ -31,6 +31,24 @@ let currentProduct = null;
 let currentColor = null;
 let currentStep = 1;
 
+// --- NAV NAVIGATION STATE ---
+function updateNavUI() {
+    const isLanding = !document.getElementById('landing-screen').classList.contains('layer-hidden');
+    const homeNav = document.getElementById('nav-home');
+    const shopNav = document.getElementById('nav-shop');
+    
+    const active = "nav-link font-medium tracking-wide text-primary border-b-2 border-primary pb-1";
+    const inactive = "nav-link font-medium tracking-wide opacity-60 hover:opacity-100 transition-opacity";
+
+    if (isLanding) {
+        homeNav.className = active;
+        shopNav.className = inactive;
+    } else {
+        homeNav.className = inactive;
+        shopNav.className = active;
+    }
+}
+
 // --- STEP CONTROL ---
 function showStep(step) {
   const prevStep = currentStep;
@@ -47,6 +65,7 @@ function showStep(step) {
   if (step === 2) renderProducts();
   if (step === 3) renderColors();
   updateStepper();
+  updateNavUI(); // NEW
   window.scrollTo({ top: 0, behavior: 'instant' });
 }
 
@@ -71,59 +90,46 @@ function updateStepper() {
 
 // --- MAGICAL CIRCLE FLIGHT ---
 function spawnPetals(selectedTheme) {
-  const fromBtn = document.getElementById('add-to-cart-btn');
-  const toIcon = document.getElementById('cart-icon-btn');
-  if (!fromBtn || !toIcon || !selectedTheme) return;
-  const fromR = fromBtn.getBoundingClientRect();
-  const toR = toIcon.getBoundingClientRect();
-  const count = 12;
+    const fromBtn = document.getElementById('add-to-cart-btn');
+    const toIcon = document.getElementById('cart-icon-btn');
+    if (!fromBtn || !toIcon || !selectedTheme) return;
+    const fromR = fromBtn.getBoundingClientRect();
+    const toR = toIcon.getBoundingClientRect();
+    const count = 12;
 
-  for (let i = 0; i < count; i++) {
-    const p = document.createElement('div');
-    p.className = "fixed pointer-events-none z-[1000] rotate-45";
-    p.style.width = `${Math.random() * 8 + 12}px`;
-    p.style.height = `${Math.random() * 5 + 8}px`;
-    p.style.borderRadius = "100% 15% 100% 15%";
-    p.style.left = `${fromR.left + fromR.width / 2}px`;
-    p.style.top = `${fromR.top + fromR.height / 2}px`;
-    
-    // Apply specialized color logic
-    if (selectedTheme.mode === 'gradient') {
-        p.style.background = `linear-gradient(135deg, ${selectedTheme.colors[0]}, ${selectedTheme.colors[1]})`;
-    } else {
-        // Multi-color mode (Blue/Purple)
-        p.style.backgroundColor = selectedTheme.colors[i % selectedTheme.colors.length];
+    for (let i = 0; i < count; i++) {
+        const p = document.createElement('div');
+        p.className = "fixed pointer-events-none z-[1000] rotate-45";
+        p.style.width = `${Math.random() * 8 + 12}px`;
+        p.style.height = `${Math.random() * 5 + 8}px`;
+        p.style.borderRadius = "100% 15% 100% 15%";
+        p.style.left = `${fromR.left + fromR.width / 2}px`;
+        p.style.top = `${fromR.top + fromR.height / 2}px`;
+        if (selectedTheme.mode === 'gradient') {
+            p.style.background = `linear-gradient(135deg, ${selectedTheme.colors[0]}, ${selectedTheme.colors[1]})`;
+        } else {
+            p.style.backgroundColor = selectedTheme.colors[i % selectedTheme.colors.length];
+        }
+        p.style.boxShadow = `0 0 10px rgba(255,255,255,0.7), 0 0 2px rgba(0,0,0,0.2)`;
+        p.style.border = `1px solid rgba(255,255,255,0.2)`;
+        document.body.appendChild(p);
+
+        const delay = i * 60;
+        const destX = (toR.left + toR.width/2) - (fromR.left + fromR.width/2);
+        const destY = (toR.top + toR.height/2) - (fromR.top + fromR.height/2);
+
+        const anim = p.animate([
+            { transform: 'translate(0, 0) rotate(0deg) scale(0)', opacity: 0 },
+            { transform: `translate(${(Math.random()-0.5)*100}px, -60px) rotate(45deg) scale(1.5)`, opacity: 1, offset: 0.1 },
+            { transform: `translate(${destX / 2}px, -150px) rotate(180deg) scale(1.8)`, opacity: 1, offset: 0.4 },
+            { transform: `translate(${destX - 40}px, ${destY - 20}px) rotate(360deg) scale(1.5)`, opacity: 1, offset: 0.7 },
+            { transform: `translate(${destX + 40}px, ${destY - 40}px) rotate(540deg) scale(1.5)`, opacity: 1, offset: 0.85 },
+            { transform: `translate(${destX}px, ${destY - 80}px) rotate(630deg) scale(1.2)`, opacity: 1, offset: 0.92 },
+            { transform: `translate(${destX}px, ${destY}px) rotate(720deg) scale(0.1)`, opacity: 0, offset: 1 }
+        ], { duration: 2200, delay: delay, easing: 'cubic-bezier(0.25, 1, 0.5, 1)' });
+
+        anim.onfinish = () => { p.remove(); if (i === count - 1) { toIcon.classList.add('animate-bounce'); setTimeout(() => toIcon.classList.remove('animate-bounce'), 800); updateCartUI(); } };
     }
-    p.style.boxShadow = `0 0 10px rgba(255,255,255,0.7), 0 0 2px rgba(0,0,0,0.2)`;
-    p.style.border = `1px solid rgba(255,255,255,0.2)`;
-    document.body.appendChild(p);
-
-    const delay = i * 60;
-    const destX = (toR.left + toR.width/2) - (fromR.left + fromR.width/2);
-    const destY = (toR.top + toR.height/2) - (fromR.top + fromR.height/2);
-
-    // Multi-stage animation: Explode -> Flight -> Orbit -> Dive
-    const anim = p.animate([
-      { transform: 'translate(0, 0) rotate(0deg) scale(0)', opacity: 0 },
-      { transform: `translate(${(Math.random()-0.5)*100}px, -60px) rotate(45deg) scale(1.5)`, opacity: 1, offset: 0.1 },
-      { transform: `translate(${destX / 2}px, -150px) rotate(180deg) scale(1.8)`, opacity: 1, offset: 0.4 },
-      // Orbiting part (approx position near target)
-      { transform: `translate(${destX - 40}px, ${destY - 20}px) rotate(360deg) scale(1.5)`, opacity: 1, offset: 0.7 },
-      { transform: `translate(${destX + 40}px, ${destY - 40}px) rotate(540deg) scale(1.5)`, opacity: 1, offset: 0.85 },
-      // Final Dive from above
-      { transform: `translate(${destX}px, ${destY - 80}px) rotate(630deg) scale(1.2)`, opacity: 1, offset: 0.92 },
-      { transform: `translate(${destX}px, ${destY}px) rotate(720deg) scale(0.1)`, opacity: 0, offset: 1 }
-    ], { duration: 2200, delay: delay, easing: 'cubic-bezier(0.25, 1, 0.5, 1)' });
-
-    anim.onfinish = () => {
-      p.remove();
-      if (i === count - 1) {
-        toIcon.classList.add('animate-bounce');
-        setTimeout(() => toIcon.classList.remove('animate-bounce'), 800);
-        updateCartUI();
-      }
-    };
-  }
 }
 
 // --- LOGIC ---
@@ -133,14 +139,12 @@ function renderProducts() {
   PRODUCTS.filter(c => c.purposes.includes(currentPurpose)).forEach(cat => {
     const div = document.createElement('div');
     div.className = "mb-16";
-    div.innerHTML = `<h4 class="text-2xl font-headline font-bold text-primary mb-8 border-b-2 border-primary/10 pb-4">${cat.title}</h4>
-                     <div class="grid grid-cols-1 md:grid-cols-3 gap-10" id="cat-${cat.id}"></div>`;
+    div.innerHTML = `<h4 class="text-2xl font-headline font-bold text-primary mb-8 border-b-2 border-primary/10 pb-4">${cat.title}</h4><div class="grid grid-cols-1 md:grid-cols-3 gap-10" id="cat-${cat.id}"></div>`;
     list.appendChild(div);
     cat.items.forEach(item => {
         const card = document.createElement('div');
         card.className = "bg-white rounded-3xl overflow-hidden shadow-sm hover:shadow-2xl transition-all cursor-pointer group border border-primary/5";
-        card.innerHTML = `<div class="aspect-[4/5] overflow-hidden"><img src="${item.img}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"/></div>
-                          <div class="p-8"><h5 class="text-2xl font-bold mb-2">${item.name}</h5><p class="text-2xl font-bold font-label text-primary">¥${item.price.toLocaleString()}</p></div>`;
+        card.innerHTML = `<div class="aspect-[4/5] overflow-hidden"><img src="${item.img}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"/></div><div class="p-8"><h5 class="text-2xl font-bold mb-2">${item.name}</h5><p class="text-2xl font-bold font-label text-primary">¥${item.price.toLocaleString()}</p></div>`;
         card.onclick = () => { currentProduct = item; showStep(3); };
         document.getElementById(`cat-${cat.id}`).appendChild(card);
     });
@@ -179,9 +183,7 @@ function updateCartUI() {
     total += item.product.price * item.quantity;
     const div = document.createElement('div');
     div.className = "flex items-center gap-8 bg-white p-6 rounded-3xl border border-primary/5";
-    div.innerHTML = `<div class="flex gap-2 w-24 flex-shrink-0"><img src="${item.product.img}" class="w-12 h-12 rounded-xl object-cover"/><img src="${item.color.img}" class="w-12 h-12 rounded-xl object-cover border"/></div>
-                    <div class="flex-grow"><h5 class="text-xl font-bold leading-tight">${item.product.name}</h5><p class="text-sm opacity-60">${item.color.name}</p></div>
-                    <div class="flex items-center gap-6"><div class="flex items-center bg-surface-container rounded-full p-1 border"><button class="w-8 h-8 flex items-center justify-center font-bold" onclick="changeQty(${index}, -1)">-</button><span class="w-8 text-center font-bold">${item.quantity}</span><button class="w-8 h-8 flex items-center justify-center font-bold" onclick="changeQty(${index}, 1)">+</button></div><p class="text-xl font-bold w-28 text-right">¥${(item.product.price * item.quantity).toLocaleString()}</p></div>`;
+    div.innerHTML = `<div class="flex gap-2 w-24 flex-shrink-0"><img src="${item.product.img}" class="w-12 h-12 rounded-xl object-cover"/><img src="${item.color.img}" class="w-12 h-12 rounded-xl object-cover border"/></div><div class="flex-grow"><h5 class="text-xl font-bold leading-tight">${item.product.name}</h5><p class="text-sm opacity-60">${item.color.name}</p></div><div class="flex items-center gap-6"><div class="flex items-center bg-surface-container rounded-full p-1 border"><button class="w-8 h-8 flex items-center justify-center font-bold" onclick="changeQty(${index}, -1)">-</button><span class="w-8 text-center font-bold">${item.quantity}</span><button class="w-8 h-8 flex items-center justify-center font-bold" onclick="changeQty(${index}, 1)">+</button></div><p class="text-xl font-bold w-28 text-right">¥${(item.product.price * item.quantity).toLocaleString()}</p></div>`;
     list.appendChild(div);
   });
   badge.innerText = cart.length; badge.classList.toggle('hidden', cart.length === 0);
@@ -198,14 +200,14 @@ function playIntro(callback) {
   sessionStorage.setItem('yamashiroya_intro_played', 'true');
   overlay.classList.remove('hidden');
   setTimeout(() => { overlay.style.opacity = '1'; document.getElementById('intro-image-container').style.opacity = '1'; document.getElementById('intro-image-container').style.transform = 'scale(1.1)'; document.getElementById('intro-text').style.opacity = '1'; document.getElementById('intro-text').style.transform = 'translateY(0)'; }, 100);
-  setTimeout(() => { overlay.style.opacity = '0'; setTimeout(() => { overlay.classList.add('hidden'); if (callback) callback(); }, 1000); }, 4500);
+  setTimeout(() => { overlay.style.opacity = '0'; setTimeout(() => { overlay.classList.add('hidden'); if (callback) callback(); updateNavUI(); }, 1000); }, 4500);
 }
 const introPlayed = sessionStorage.getItem('yamashiroya_intro_played');
-if (!introPlayed) playIntro();
+if (!introPlayed) playIntro(); else updateNavUI();
 
 document.getElementById('start-shopping').onclick = () => showStep(1);
 document.getElementById('nav-shop').onclick = (e) => { e.preventDefault(); showStep(1); };
-document.getElementById('nav-home').onclick = (e) => { e.preventDefault(); location.reload(); };
+document.getElementById('nav-home').onclick = (e) => { e.preventDefault(); document.getElementById('order-screen').classList.add('layer-hidden'); document.getElementById('landing-screen').classList.remove('layer-hidden'); updateNavUI(); };
 document.querySelectorAll('.purpose-card').forEach(card => card.onclick = () => { currentPurpose = card.dataset.purpose; showStep(2); });
 document.getElementById('add-to-cart-btn').onclick = addToCart;
 document.getElementById('cart-icon-btn').onclick = () => toggleCart(true);
