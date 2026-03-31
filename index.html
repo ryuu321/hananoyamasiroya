@@ -20,17 +20,20 @@
     .layer-screen { transition: all 0.8s cubic-bezier(0.22, 1, 0.36, 1); min-height: 100vh; }
     .layer-hidden { opacity: 0; pointer-events: none; transform: translateY(20px); position: absolute; width: 100%; top: 0; }
     
-    /* ORGANIC BLOOM NAV: SOIL IS PERMANENT */
-    .nav-garden { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -46%); width: 140px; height: 140px; pointer-events: none; z-index: -1; filter: blur(0.8px); }
+    /* ORGANIC BLOOM NAV: ENHANCED SOIL TEXTURE */
+    .nav-garden { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -46%); width: 140px; height: 140px; pointer-events: none; z-index: -1; filter: blur(0.6px); }
     .nav-link { position: relative; z-index: 10; display: inline-flex; align-items: center; justify-content: center; min-width: 100px; padding: 12px 0; cursor: pointer; transition: opacity 0.4s ease; }
     
-    .soil-stroke { opacity: 0.3; transition: opacity 0.6s ease, transform 0.6s ease; transform-origin: center; stroke: #795548; stroke-width: 5; }
-    .flower-stem { transform-origin: bottom center; stroke-dasharray: 60; stroke-dashoffset: 60; transition: stroke-dashoffset 0.8s 0.1s cubic-bezier(0.45, 0, 0.55, 1); opacity: 0.6; }
-    .flower-petals { transform-origin: center center; transform: scale(0) rotate(-30deg); opacity: 0; transition: transform 0.9s 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.8s 0.4s; }
+    .soil-base { opacity: 0.4; transition: opacity 0.6s ease; transform-origin: center; }
+    .soil-particle { opacity: 0.3; transition: transform 0.8s ease; }
+    
+    .flower-stem { transform-origin: bottom center; stroke-dasharray: 60; stroke-dashoffset: 60; transition: stroke-dashoffset 0.8s 0.15s cubic-bezier(0.45, 0, 0.55, 1); opacity: 0.6; }
+    .flower-petals { transform-origin: center center; transform: scale(0) rotate(-35deg); opacity: 0; transition: transform 1s 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.8s 0.4s; }
 
-    .nav-link.is-active .soil-stroke { opacity: 0.7; transform: scale(1.05); }
+    .nav-link.is-active .soil-base { opacity: 0.8; transform: scale(1.08); }
+    .nav-link.is-active .soil-particle { transform: translateY(-2px) scale(1.2); opacity: 0.6; }
     .nav-link.is-active .flower-stem { stroke-dashoffset: 0; }
-    .nav-link.is-active .flower-petals { transform: scale(1.2) rotate(0deg); opacity: 0.9; }
+    .nav-link.is-active .flower-petals { transform: scale(1.25) rotate(0deg); opacity: 0.9; }
 
     #intro-overlay { backdrop-filter: blur(20px); transition: opacity 1s ease; }
     body.is-loading { overflow: hidden; }
@@ -49,14 +52,60 @@
   <div class="flex justify-between items-center px-8 py-4 max-w-screen-2xl mx-auto">
     <a href="#" class="block h-12 hover:opacity-80 transition-opacity" id="logo-link"><img src="https://yamashiroya.easy-myshop.jp/c-fimg?fp=logo" class="h-full w-auto object-contain"/></a>
     <nav class="hidden md:flex items-center space-x-12">
+      <!-- HOME NAV -->
       <a class="nav-link font-bold text-lg" id="nav-home">ホーム
-        <div class="nav-garden"><svg viewBox="0 0 100 100" class="w-full h-full"><path class="soil-stroke" d="M15,85 Q50,80 85,85" fill="none" stroke-linecap="round"/><path class="flower-stem" d="M50,85 Q45,65 50,45" stroke="#4CAF50" stroke-width="3" fill="none"/><g class="flower-petals"><circle cx="50" cy="40" r="24" fill="#f8bbd0" opacity="0.3"/><ellipse cx="65" cy="50" rx="18" ry="14" fill="#f48fb1" opacity="0.4"/><ellipse cx="35" cy="50" rx="18" ry="14" fill="#f48fb1" opacity="0.4"/><circle cx="50" cy="45" r="12" fill="#ec407a" opacity="0.6"/><circle cx="50" cy="45" r="5" fill="#c2185b" opacity="0.8"/></g></svg></div>
+        <div class="nav-garden">
+          <svg viewBox="0 0 100 100" class="w-full h-full">
+            <!-- Soil: Multi-layered Earth -->
+            <g class="soil-base">
+              <path d="M10,85 Q50,80 90,85" stroke="#5D4037" stroke-width="8" fill="none" stroke-linecap="round" opacity="0.4"/>
+              <path d="M15,83 Q50,78 85,83" stroke="#3E2723" stroke-width="4" fill="none" stroke-linecap="round" opacity="0.3"/>
+            </g>
+            <g class="soil-particle">
+              <circle cx="20" cy="88" r="1.5" fill="#3E2723"/><circle cx="45" cy="82" r="1.2" fill="#5D4037"/><circle cx="75" cy="86" r="1.8" fill="#795548"/>
+            </g>
+            <path class="flower-stem" d="M50,85 Q45,65 50,45" stroke="#4CAF50" stroke-width="3" fill="none"/>
+            <g class="flower-petals">
+              <circle cx="50" cy="40" r="24" fill="#f8bbd0" opacity="0.3"/><ellipse cx="65" cy="50" rx="18" ry="14" fill="#f48fb1" opacity="0.4"/><ellipse cx="35" cy="50" rx="18" ry="14" fill="#f48fb1" opacity="0.4"/><circle cx="50" cy="45" r="12" fill="#ec407a" opacity="0.6"/><circle cx="50" cy="45" r="5" fill="#c2185b" opacity="0.8"/>
+            </g>
+          </svg>
+        </div>
       </a>
+      <!-- SHOP NAV -->
       <a class="nav-link font-bold text-lg" id="nav-shop">ショップ
-        <div class="nav-garden"><svg viewBox="0 0 100 100" class="w-full h-full"><path class="soil-stroke" d="M15,85 Q50,88 85,85" fill="none" stroke-linecap="round"/><path class="flower-stem" d="M50,85 L50,60" stroke="#81C784" stroke-width="3" fill="none"/><g class="flower-petals"><path d="M50,60 L85,35 Q50,45 15,35 Z" fill="#FFD54F" opacity="0.5"/><circle cx="50" cy="55" r="14" fill="#FBC02D" opacity="0.4"/><circle cx="50" cy="55" r="8" fill="#F9A825" opacity="0.6"/><circle cx="50" cy="55" r="3" fill="#FFB300" opacity="0.8"/></g></svg></div>
+        <div class="nav-garden">
+          <svg viewBox="0 0 100 100" class="w-full h-full">
+            <g class="soil-base">
+              <path d="M10,85 Q50,88 90,85" stroke="#5D4037" stroke-width="8" fill="none" stroke-linecap="round" opacity="0.4"/>
+              <path d="M15,87 Q50,90 85,87" stroke="#3E2723" stroke-width="4" fill="none" stroke-linecap="round" opacity="0.2"/>
+            </g>
+            <g class="soil-particle">
+              <circle cx="30" cy="90" r="1.5" fill="#3D2B1F"/><circle cx="60" cy="88" r="1.2" fill="#5D4037"/><circle cx="85" cy="85" r="1.4" fill="#8D6E63"/>
+            </g>
+            <path class="flower-stem" d="M50,85 L50,60" stroke="#81C784" stroke-width="3" fill="none"/>
+            <g class="flower-petals">
+              <path d="M50,60 L85,35 Q50,45 15,35 Z" fill="#FFD54F" opacity="0.5"/><circle cx="50" cy="55" r="14" fill="#FBC02D" opacity="0.4"/><circle cx="50" cy="55" r="8" fill="#F9A825" opacity="0.6"/><circle cx="50" cy="55" r="3" fill="#FFB300" opacity="0.8"/>
+            </g>
+          </svg>
+        </div>
       </a>
+      <!-- HISTORY NAV -->
       <a class="nav-link font-bold text-lg" id="nav-history">当店のあゆみ
-        <div class="nav-garden"><svg viewBox="0 0 100 100" class="w-full h-full"><path class="soil-stroke" d="M20,85 Q50,82 80,85" fill="none" stroke-linecap="round"/><path class="flower-stem" d="M50,85 C55,70 45,65 50,55" stroke="#2E7D32" stroke-width="3" fill="none"/><g class="flower-petals"><circle cx="40" cy="48" r="18" fill="#9575CD" opacity="0.4"/><circle cx="60" cy="48" r="18" fill="#7986CB" opacity="0.4"/><circle cx="50" cy="60" r="20" fill="#5C6BC0" opacity="0.3"/><circle cx="50" cy="48" r="10" fill="#311B92" opacity="0.6"/><circle cx="50" cy="48" r="4" fill="#1A237E" opacity="0.8"/></g></svg></div>
+        <div class="nav-garden">
+          <svg viewBox="0 0 100 100" class="w-full h-full">
+            <g class="soil-base">
+              <path d="M15,85 Q50,82 85,85" stroke="#4E342E" stroke-width="9" fill="none" stroke-linecap="round" opacity="0.4"/>
+              <path d="M20,83 Q50,80 80,83" stroke="#263238" stroke-width="3" fill="none" stroke-linecap="round" opacity="0.1"/>
+            </g>
+            <g class="soil-particle">
+              <circle cx="25" cy="84" r="1.5" fill="#3E2723"/><circle cx="50" cy="81" r="1.2" fill="#4E342E"/><circle cx="75" cy="83" r="1.6" fill="#5D4037"/>
+            </g>
+            <path class="flower-stem" d="M50,85 C55,70 45,65 50,55" stroke="#2E7D32" stroke-width="3" fill="none"/>
+            <g class="flower-petals">
+              <circle cx="40" cy="48" r="18" fill="#9575CD" opacity="0.4"/><circle cx="60" cy="48" r="18" fill="#7986CB" opacity="0.4"/><circle cx="50" cy="60" r="20" fill="#5C6BC0" opacity="0.3"/><circle cx="50" cy="48" r="10" fill="#311B92" opacity="0.6"/><circle cx="50" cy="48" r="4" fill="#1A237E" opacity="0.8"/>
+            </g>
+          </svg>
+        </div>
       </a>
     </nav>
     <div class="flex items-center gap-6">
@@ -69,7 +118,7 @@
 <main id="main-content">
   <div id="landing-screen" class="layer-screen">
     <section class="relative h-[90vh] w-full flex items-center justify-center overflow-hidden"><div class="absolute inset-0 bg-hero-pattern"></div><div class="relative z-10 text-center px-6"><h1 class="font-headline text-5xl md:text-7xl font-bold text-primary mb-12 drop-shadow-sm tracking-[0.05em] leading-tight">小樽の想い出に、<br/>色鮮やかなお花を。</h1><button id="start-shopping" class="px-16 py-6 bg-primary text-white font-headline text-2xl rounded-full shadow-2xl hover:scale-105 active:scale-95 transition-all">お花を選び、購入する</button></div></section>
-    <section class="py-32 bg-surface text-center px-8 border-b border-primary/5"><div class="max-w-4xl mx-auto"><p class="text-primary/70 font-bold tracking-[0.3em] mb-12 uppercase">Heritage of Otaru</p><div class="aspect-[21/9] rounded-[3rem] overflow-hidden mb-12 shadow-2xl relative group"><img src="/watercolor_pink_pastel_1774940682661.png" class="w-full h-full object-cover transition-transform duration-[20s] ease-linear group-hover:scale-110"/><div class="absolute inset-0 bg-gradient-to-t from-primary/30 to-transparent"></div></div><h2 class="text-3xl md:text-4xl font-headline font-bold text-primary mb-8 leading-relaxed">大正栄華の薫りそのままに。<br/>現代の感性と交わり、<br/>一輪に想いを宿らせる。</h2><div class="w-12 h-px bg-primary/20 mx-auto"></div></div></section>
+    <section class="py-32 bg-surface text-center px-8 border-b border-primary/5"><div class="max-w-4xl mx-auto"><p class="text-primary/70 font-bold tracking-[0.3em] mb-12 uppercase tracking-widest">Heritage of Otaru</p><div class="aspect-[21/9] rounded-[3rem] overflow-hidden mb-12 shadow-2xl relative group"><img src="/watercolor_pink_pastel_1774940682661.png" class="w-full h-full object-cover transition-transform duration-[20s] ease-linear group-hover:scale-110"/><div class="absolute inset-0 bg-gradient-to-t from-primary/30 to-transparent"></div></div><h2 class="text-3xl md:text-4xl font-headline font-bold text-primary mb-8 leading-relaxed text-center">大正栄華の薫りそのままに。<br/>現代の感性と交わり、<br/>一輪に想いを宿らせる。</h2><div class="w-12 h-px bg-primary/20 mx-auto"></div></div></section>
   </div>
 
   <div id="order-screen" class="layer-screen layer-hidden py-16">
@@ -87,7 +136,7 @@
     </div>
   </div>
 
-  <div id="history-screen" class="layer-screen layer-hidden py-32 bg-[#fbfaee]"><div class="max-w-4xl mx-auto px-8"><div class="text-center mb-24"><p class="text-primary/40 tracking-[0.5em] font-bold mb-6 text-sm uppercase">Legacy Story</p><h2 class="text-5xl font-headline font-bold text-primary">花の山城屋、百年の歩み</h2></div><div class="grid md:grid-cols-2 gap-16 items-center"><img src="/watercolor_otaru_florist_hero_1774945526695.png" class="rounded-[2.5rem] shadow-xl aspect-square object-cover"/><div class="space-y-8 text-lg"><h3 class="text-3xl font-headline font-bold text-primary">小樽・花園の地で</h3><p class="leading-loose opacity-70">大正時代、北のウォール街で産声を上げた山城屋。街の彩りと人々の想いを守り、今日まで歩んでまいりました。</p></div></div><div class="mt-32 text-center"><button onclick="showStep(1)" class="px-16 py-6 border-2 border-primary text-primary rounded-full font-bold hover:bg-primary hover:text-white transition-all">ショップへ行く</button></div></div></div>
+  <div id="history-screen" class="layer-screen layer-hidden py-32 bg-[#fbfaee]"><div class="max-w-4xl mx-auto px-8"><div class="text-center mb-24"><p class="text-primary/40 tracking-[0.5em] font-bold mb-6 text-sm uppercase tracking-widest">Legacy Story</p><h2 class="text-5xl font-headline font-bold text-primary">花の山城屋、百年の歩み</h2></div><div class="grid md:grid-cols-2 gap-16 items-center"><img src="/watercolor_otaru_florist_hero_1774945526695.png" class="rounded-[2.5rem] shadow-xl aspect-square object-cover"/><div class="space-y-8 text-lg"><h3 class="text-3xl font-headline font-bold text-primary">小樽・花園の地で</h3><p class="leading-loose opacity-70">大正時代、北のウォール街で産声を上げた山城屋。街の彩りと人々の想いを守り、今日まで歩んでまいりました。</p></div></div><div class="mt-32 text-center text-center"><button onclick="showStep(1)" class="px-16 py-6 border-2 border-primary text-primary rounded-full font-bold hover:bg-primary hover:text-white transition-all">ショップへ行く</button></div></div></div>
 
   <div id="cart-screen" class="fixed inset-0 z-[60] bg-surface/95 backdrop-blur-2xl translate-x-full transition-transform duration-500 overflow-y-auto px-8 py-24"><button id="close-cart" class="absolute top-10 right-10 text-primary"><span class="material-symbols-outlined text-4xl">close</span></button><div class="max-w-2xl mx-auto w-full"><h2 class="text-4xl font-headline font-bold text-primary mb-12 flex items-center gap-4"><span class="material-symbols-outlined text-4xl">local_florist</span>花かごの中</h2><div id="cart-items-list" class="space-y-10"></div><div id="cart-footer" class="mt-20 border-t pt-12"><div class="flex justify-between items-center mb-10"><span class="text-xl text-primary/60">合計金額</span><span id="cart-total-display" class="text-4xl font-bold text-primary">¥0</span></div><button id="checkout-btn" class="w-full py-6 bg-primary text-white rounded-full font-bold text-2xl shadow-2xl">詳細情報の入力へ進む</button></div></div></div>
 </main>

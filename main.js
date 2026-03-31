@@ -11,10 +11,14 @@ const PRODUCTS = [
 ];
 
 const COLORS = [
-  { id: 'c-white', name: '白・グリーン系', img: '/color_white.png', mode: 'multi', colors: ['#ffffff', '#f1f8e9', '#dcedc8', '#a5d6a7'] },
-  { id: 'c-pink', name: 'ピンク・パステル系', img: '/color_pink.png', mode: 'multi', colors: ['#f8bbd0', '#f48fb1', '#f06292', '#ec407a'] },
-  { id: 'c-red', name: '暖色・オレンジ系', img: '/color_red.png', mode: 'multi', colors: ['#ffcc80', '#ffa726', '#fb8c00', '#ef6c00'] },
-  { id: 'c-purple', name: '紫・ブルー系', img: '/color_purple.png', mode: 'multi', colors: ['#b39ddb', '#9575cd', '#7986cb', '#5c6bc0'] }
+  { id: 'c-white', name: '白・緑系', img: '/color_white.png', mode: 'multi', 
+    colors: ['#ffffff', '#2E7D32', '#9ACD32', '#DCEDC8'] }, // 白, 緑, 緑みの黄緑, 薄い黄緑
+  { id: 'c-pink', name: 'ピンク・パステル系', img: '/color_pink.png', mode: 'multi', 
+    colors: ['#F8BBD0', '#B3E5FC', '#C8E6C9', '#FFF9C4'] }, // パステルピンク, パステルブルー, パステルグリーン, パステルイエロー
+  { id: 'c-red', name: '赤・オレンジ系', img: '/color_red.png', mode: 'multi', 
+    colors: ['#D32F2F', '#F57C00', '#FBC02D', '#8E1B1B'] }, // 赤, オレンジ, 黄色, ブラッドレッド
+  { id: 'c-purple', name: '蒼・紫系', img: '/color_purple.png', mode: 'multi', 
+    colors: ['#1976D2', '#1A237E', '#81D4FA', '#7B1FA2'] }  // 青, 藍色, 水色, 紫色
 ];
 
 let cart = []; let currentPurpose = 'celebration'; let currentProduct = null; let currentColor = null; let currentStep = 1;
@@ -62,7 +66,7 @@ function spawnPetals(selectedTheme) {
     for (let i = 0; i < count; i++) {
         const p = document.createElement('div'); p.className = "fixed pointer-events-none z-[2000] rotate-45 w-5 h-4 rounded-[100%_15%_100%_15%] shadow-md";
         p.style.left = `${fromR.left + fromR.width/2}px`; p.style.top = `${fromR.top}px`;
-        p.style.backgroundColor = selectedTheme.colors[i % 4]; // Perfect 4-color cycles
+        p.style.backgroundColor = selectedTheme.colors[i % 4];
         p.style.opacity = '0.9'; p.style.filter = 'blur(0.5px)';
         document.body.appendChild(p);
         const dx = (toR.left + toR.width/2) - (fromR.left + fromR.width/2); const dy = (toR.top + toR.height/2) - fromR.top;
