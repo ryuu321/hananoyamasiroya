@@ -200,46 +200,58 @@ function playIntro(callback) {
   const container = document.getElementById('intro-image-container');
   const text = document.getElementById('intro-text');
   
-  // Show overlay
+  // Mark as played for this session
+  sessionStorage.setItem('yamashiroya_intro_played', 'true');
+  
   overlay.classList.remove('hidden');
   document.body.style.overflow = 'hidden';
   
-  // Trigger animations
   setTimeout(() => {
     overlay.style.opacity = '1';
     container.style.opacity = '1';
-    container.style.transform = 'scale(1.1)'; // Passing forward effect
+    container.style.transform = 'scale(1.1)';
     text.style.opacity = '1';
     text.style.transform = 'translateY(0)';
   }, 100);
 
-  // Complete and transition out
   setTimeout(() => {
     overlay.style.opacity = '0';
     setTimeout(() => {
       overlay.classList.add('hidden');
       document.body.style.overflow = '';
-      // Reset for next time
-      container.style.opacity = '0';
-      container.style.transform = 'scale(0.9)';
-      text.style.opacity = '0';
-      text.style.transform = 'translateY(1rem)';
       if (callback) callback();
     }, 1000);
-  }, 5000); // Animation duration
+  }, 5000);
 }
 
-// Event Listeners for Intro
+// Event Listeners for Intro & Navigation
 document.querySelectorAll('a[href="#"], .text-2xl.font-bold').forEach(el => {
   el.addEventListener('click', (e) => {
     e.preventDefault();
-    playIntro(() => {
-        currentStep = 1;
-        updateStepUI();
-    });
+    // Immediate return to home for clicks (No re-play intro)
+    currentStep = 1;
+    selectedProduct = null;
+    updateStepUI();
+    renderProducts();
   });
 });
 
-// Initial state
-updateStepUI();
+// Initial Flow logic
+function initApp() {
+  const introPlayed = sessionStorage.getItem('yamashiroya_intro_played');
+  
+  if (!introPlayed) {
+    // First time visit in this session
+    playIntro(() => {
+      currentStep = 1;
+      updateStepUI();
+    });
+  } else {
+    // Return visit
+    currentStep = 1;
+    updateStepUI();
+  }
+}
+
+initApp();
 renderProducts();
