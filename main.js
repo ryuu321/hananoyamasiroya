@@ -125,7 +125,7 @@ window.changeQty = (idx, d) => { cart[idx].quantity += d; if(cart[idx].quantity 
 window.toggleCart = (open) => { const cs = document.getElementById('cart-screen'); if(cs) cs.style.transform = open ? 'translateX(0)' : 'translateX(100%)'; };
 
 document.addEventListener('DOMContentLoaded', () => {
-    const map = { 'nav-home': showLanding, 'logo-link': showLanding, 'footer-logo-link': showLanding, 'nav-shop': () => showStep(1), 'start-shopping': () => showStep(1), 'footer-shop-link': () => showStep(1), 'nav-history': showHistory, 'footer-history-link': showHistory };
+    const map = { 'nav-home': showLanding, 'logo-link': showLanding, 'footer-logo-link': showLanding, 'nav-shop': () => showStep(1), 'start-shopping-hero': () => showStep(1), 'footer-shop-link': () => showStep(1), 'nav-history': showHistory, 'footer-history-link': showHistory };
     Object.keys(map).forEach(id => { const el = document.getElementById(id); if (el) el.onclick = (e) => { e.preventDefault(); map[id](); }; });
     document.querySelectorAll('.purpose-card').forEach(card => card.onclick = () => { currentPurpose = card.dataset.purpose; showStep(2); });
     const addBtn = document.getElementById('add-to-cart-btn'); if(addBtn) addBtn.onclick = () => {
