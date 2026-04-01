@@ -101,10 +101,23 @@ function renderColors() {
     if(summ && currentProduct) summ.innerHTML = `<span class="bg-primary/5 px-6 py-2 rounded-full inline-block">現在「${currentProduct.name}」を選択しています。</span>`;
     grid.innerHTML = '';
     COLORS.forEach(color => {
-        const card = document.createElement('div'); const isS = currentColor?.id === color.id;
-        card.className = `p-8 bg-white rounded-[3rem] shadow-sm border-2 cursor-pointer transition-all ${isS ? 'border-primary ring-8 ring-primary/5' : 'border-transparent hover:border-primary/20'}`;
-        card.innerHTML = `<div class="aspect-square rounded-3xl overflow-hidden mb-8 shadow-inner"><img src="${color.img}" class="w-full h-full object-cover"/></div><p class="text-center font-bold font-label text-lg tracking-tighter">${color.name}</p>`;
-        card.onclick = (e) => { e.stopPropagation(); currentColor = color; renderColors(); updateAddToCartButtonVisibility(); };
+        const card = document.createElement('div');
+        const updateStyle = () => {
+          const isS = currentColor?.id === color.id;
+          card.className = `p-8 bg-white rounded-[3rem] shadow-sm border-2 cursor-pointer transition-all ${isS ? 'border-primary ring-8 ring-primary/5' : 'border-transparent hover:border-primary/20'}`;
+        };
+        updateStyle();
+        card.dataset.colorId = color.id;
+        card.innerHTML = `<div class="aspect-square rounded-3xl overflow-hidden mb-8 shadow-inner pointer-events-none"><img src="${color.img}" class="w-full h-full object-cover"/></div><p class="text-center font-bold font-label text-lg tracking-tighter pointer-events-none">${color.name}</p>`;
+        card.onclick = (e) => {
+            e.preventDefault(); e.stopPropagation();
+            currentColor = color;
+            document.querySelectorAll('#color-grid > div').forEach(c => {
+                const isThis = c.dataset.colorId === color.id;
+                c.className = `p-8 bg-white rounded-[3rem] shadow-sm border-2 cursor-pointer transition-all ${isThis ? 'border-primary ring-8 ring-primary/5 font-bold' : 'border-transparent hover:border-primary/20'}`;
+            });
+            updateAddToCartButtonVisibility();
+        };
         grid.appendChild(card);
     });
 }
